@@ -8,31 +8,38 @@ import './App.css';
 interface AppState {
   results: Character[];
   searchTerm: string;
+  lastRequestedTerm: string;
 }
 
 class App extends Component<object, AppState> {
   state: AppState = {
     results: [],
     searchTerm: '',
+    lastRequestedTerm: '',
   };
 
   componentDidMount(): void {
     const savedSearch = localStorage.getItem('searchTerm') || '';
 
+    const trimmed = savedSearch.trim();
+
     this.setState(
       {
-        searchTerm: savedSearch,
+        searchTerm: trimmed,
+        lastRequestedTerm: trimmed,
       },
       () => {
-        this.fetchData(savedSearch);
+        this.fetchData(trimmed);
       }
     );
   }
 
   fetchData = async (searchTerm: string): Promise<void> => {
-    const url = searchTerm
-      ? `https://swapi.py4e.com/api/people/?search=${searchTerm}`
-      : `https://swapi.py4e.com/api/people/`;
+    const trimmed = searchTerm.trim();
+
+    const url = trimmed
+      ? `https://swapi.py4e.com/api/people/?search=${trimmed}&page=1`
+      : `https://swapi.py4e.com/api/people/?page=1`;
 
     try {
       const response = await fetch(url);
@@ -47,13 +54,20 @@ class App extends Component<object, AppState> {
   };
 
   handleSearch = (searchTerm: string): void => {
-    localStorage.setItem('searchTerm', searchTerm);
+    const trimmed = searchTerm.trim();
+
+    if (trimmed === this.state.lastRequestedTerm) {
+      return;
+    }
+
+    localStorage.setItem('searchTerm', trimmed);
 
     this.setState({
-      searchTerm,
+      searchTerm: trimmed,
+      lastRequestedTerm: trimmed,
     });
 
-    this.fetchData(searchTerm);
+    this.fetchData(trimmed);
   };
 
   render() {

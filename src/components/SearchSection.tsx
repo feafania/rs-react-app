@@ -49,7 +49,13 @@ export class SearchSection extends Component<
   };
 
   handleSearch = (): void => {
-    this.props.onSearch(this.state.searchTerm);
+    const trimmed = this.state.searchTerm.trim();
+    this.setState({
+      searchTerm: trimmed,
+    });
+
+    localStorage.setItem('searchTerm', trimmed);
+    this.props.onSearch(trimmed);
   };
 
   render() {
