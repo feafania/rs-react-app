@@ -1,14 +1,18 @@
-import React from 'react';
+import { Component } from 'react';
+import type { Character } from '../types/types.ts';
+import { ResultList } from './ResultList';
 
-export class ResultsSection extends React.Component {
+interface ResultsSectionProps {
+  results: Character[];
+}
+
+export class ResultsSection extends Component<ResultsSectionProps> {
   render() {
     return (
       <section className="results-section">
         <h2>Results</h2>
 
-        <div className="results-placeholder">
-          Search results will appear here
-        </div>
+        <ResultList results={this.props.results} />
       </section>
     );
   }

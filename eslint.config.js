@@ -25,7 +25,7 @@ export default defineConfig([
     },
     settings: {
       react: {
-        version: "detect",
+        version: 'detect',
       },
     },
   },

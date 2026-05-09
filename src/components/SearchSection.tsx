@@ -1,12 +1,20 @@
 import { type ChangeEvent, Component } from 'react';
+
 import { SearchInput } from './SearchInput';
 import { SearchButton } from './SearchButton';
+
+interface SearchSectionProps {
+  onSearch: (searchTerm: string) => void;
+}
 
 interface SearchSectionState {
   searchTerm: string;
 }
 
-export class SearchSection extends Component<object, SearchSectionState> {
+export class SearchSection extends Component<
+  SearchSectionProps,
+  SearchSectionState
+> {
   state: SearchSectionState = {
     searchTerm: '',
   };
@@ -31,6 +39,10 @@ export class SearchSection extends Component<object, SearchSectionState> {
     localStorage.setItem('searchTerm', value);
   };
 
+  handleSearch = (): void => {
+    this.props.onSearch(this.state.searchTerm);
+  };
+
   render() {
     return (
       <section className="search-section">
@@ -38,9 +50,9 @@ export class SearchSection extends Component<object, SearchSectionState> {
           <SearchInput
             value={this.state.searchTerm}
             onChange={this.handleChange}
+            onEnter={this.handleSearch}
           />
-
-          <SearchButton />
+          <SearchButton onClick={this.handleSearch} />{' '}
         </div>
       </section>
     );
