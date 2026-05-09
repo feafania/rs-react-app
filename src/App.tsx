@@ -4,6 +4,7 @@ import { ResultsSection } from './components/ResultsSection';
 import type { Character } from './types/types.ts';
 
 import './App.css';
+import { normalizeSearchTerm } from './utils/normalizeSearchTerm.ts';
 
 interface AppState {
   results: Character[];
@@ -21,7 +22,7 @@ class App extends Component<object, AppState> {
   componentDidMount(): void {
     const savedSearch = localStorage.getItem('searchTerm') || '';
 
-    const trimmed = savedSearch.trim();
+    const trimmed = normalizeSearchTerm(savedSearch);
 
     this.setState(
       {
@@ -35,7 +36,7 @@ class App extends Component<object, AppState> {
   }
 
   fetchData = async (searchTerm: string): Promise<void> => {
-    const trimmed = searchTerm.trim();
+    const trimmed = normalizeSearchTerm(searchTerm);
 
     const url = trimmed
       ? `https://swapi.py4e.com/api/people/?search=${trimmed}&page=1`
@@ -54,7 +55,7 @@ class App extends Component<object, AppState> {
   };
 
   handleSearch = (searchTerm: string): void => {
-    const trimmed = searchTerm.trim();
+    const trimmed = normalizeSearchTerm(searchTerm);
 
     if (trimmed === this.state.lastRequestedTerm) {
       return;

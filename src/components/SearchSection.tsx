@@ -2,6 +2,7 @@ import { type ChangeEvent, Component } from 'react';
 
 import { SearchInput } from './SearchInput';
 import { SearchButton } from './SearchButton';
+import { normalizeSearchTerm } from '../utils/normalizeSearchTerm.ts';
 
 interface SearchSectionProps {
   onSearch: (searchTerm: string) => void;
@@ -49,7 +50,7 @@ export class SearchSection extends Component<
   };
 
   handleSearch = (): void => {
-    const trimmed = this.state.searchTerm.trim();
+    const trimmed = normalizeSearchTerm(this.state.searchTerm);
     this.setState({
       searchTerm: trimmed,
     });
