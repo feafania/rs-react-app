@@ -1,5 +1,6 @@
-import { SearchSection } from "./components/SearchSection";
-import { ResultsSection } from "./components/ResultsSection";
+import './App.css';
+import { SearchSection } from './components/SearchSection';
+import { ResultsSection } from './components/ResultsSection';
 
 function App() {
   return (

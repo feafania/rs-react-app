@@ -1,9 +1,15 @@
-export function ResultsSection() {
-  return (
-    <section className="results-section">
-      <h2>Results</h2>
+import React from 'react';
 
-      <p>Search results will appear here.</p>
-    </section>
-  );
+export class ResultsSection extends React.Component {
+  render() {
+    return (
+      <section className="results-section">
+        <h2>Results</h2>
+
+        <div className="results-placeholder">
+          Search results will appear here
+        </div>
+      </section>
+    );
+  }
 }
