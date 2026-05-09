@@ -5,6 +5,7 @@ import { SearchButton } from './SearchButton';
 
 interface SearchSectionProps {
   onSearch: (searchTerm: string) => void;
+  initialValue: string;
 }
 
 interface SearchSectionState {
@@ -16,7 +17,7 @@ export class SearchSection extends Component<
   SearchSectionState
 > {
   state: SearchSectionState = {
-    searchTerm: '',
+    searchTerm: this.props.initialValue || '',
   };
 
   componentDidMount(): void {
@@ -25,6 +26,14 @@ export class SearchSection extends Component<
     if (savedSearch) {
       this.setState({
         searchTerm: savedSearch,
+      });
+    }
+  }
+
+  componentDidUpdate(prevProps: SearchSectionProps): void {
+    if (prevProps.initialValue !== this.props.initialValue) {
+      this.setState({
+        searchTerm: this.props.initialValue,
       });
     }
   }
