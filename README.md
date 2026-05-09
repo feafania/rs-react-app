@@ -25,7 +25,7 @@ A React application built with **class components** that allows users to search 
 - [React](https://react.dev/) — class components only (no hooks)
 - [TypeScript](https://www.typescriptlang.org/)
 - [Vite](https://vitejs.dev/)
-- RESTful API — [PokéAPI](https://pokeapi.co/) *(or your chosen API)*
+- RESTful API — [PokéAPI](https://pokeapi.co/) _(or your chosen API)_
 
 ---
 
@@ -102,6 +102,7 @@ src/
 This project uses **[PokéAPI](https://pokeapi.co/)** (or another RESTful API supporting search and pagination).
 
 Example request:
+
 ```
 GET https://pokeapi.co/api/v2/pokemon?limit=20&offset=0
 GET https://pokeapi.co/api/v2/pokemon?limit=20&offset=0&search=bulba
@@ -156,15 +157,15 @@ export default defineConfig([
       // other options...
     },
   },
-])
+]);
 ```
 
 You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
 
 ```js
 // eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+import reactX from 'eslint-plugin-react-x';
+import reactDom from 'eslint-plugin-react-dom';
 
 export default defineConfig([
   globalIgnores(['dist']),
@@ -185,5 +186,5 @@ export default defineConfig([
       // other options...
     },
   },
-])
+]);
 ```
