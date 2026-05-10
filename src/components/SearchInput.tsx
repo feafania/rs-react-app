@@ -14,6 +14,7 @@ export class SearchInput extends React.Component<SearchInputProps> {
         className="search-input"
         type="text"
         placeholder="Search..."
+        aria-label="Search characters"
         value={value}
         onChange={onChange}
       />

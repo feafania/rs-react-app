@@ -78,6 +78,7 @@ class App extends Component<object, AppState> {
 
   handleSearch = (searchTerm: string): void => {
     const trimmed = searchTerm.trim();
+    const shouldFetch = trimmed !== this.state.lastRequestedTerm;
 
     this.setState({
       searchTerm: trimmed,
@@ -86,7 +87,7 @@ class App extends Component<object, AppState> {
 
     localStorage.setItem('searchTerm', trimmed);
 
-    if (trimmed === this.state.lastRequestedTerm) {
+    if (!shouldFetch) {
       return;
     }
 
