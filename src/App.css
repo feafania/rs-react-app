@@ -85,7 +85,8 @@
   color: #555;
 }
 
-.results-placeholder {
+.loading-state,
+.empty-state {
   margin-top: 20px;
 
   min-height: 300px;

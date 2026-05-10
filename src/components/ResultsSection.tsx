@@ -4,6 +4,7 @@ import { ResultList } from './ResultList';
 
 interface ResultsSectionProps {
   results: Character[];
+  isLoading: boolean;
 }
 
 export class ResultsSection extends Component<ResultsSectionProps> {
@@ -12,7 +13,10 @@ export class ResultsSection extends Component<ResultsSectionProps> {
       <section className="results-section">
         <h2>Results</h2>
 
-        <ResultList results={this.props.results} />
+        <ResultList
+          results={this.props.results}
+          isLoading={this.props.isLoading}
+        />
       </section>
     );
   }
