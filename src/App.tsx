@@ -4,6 +4,7 @@ import { ResultsSection } from './components/ResultsSection';
 import type { Character } from './types/types.ts';
 
 import './App.css';
+import { TriggerErrorButton } from './components/TriggerErrorButton.tsx';
 
 interface AppState {
   results: Character[];
@@ -11,6 +12,7 @@ interface AppState {
   lastRequestedTerm: string;
   isLoading: boolean;
   error: string;
+  shouldThrow: boolean;
 }
 
 class App extends Component<object, AppState> {
@@ -20,6 +22,7 @@ class App extends Component<object, AppState> {
     lastRequestedTerm: '',
     isLoading: false,
     error: '',
+    shouldThrow: false,
   };
 
   componentDidMount(): void {
@@ -96,7 +99,14 @@ class App extends Component<object, AppState> {
     });
   };
 
+  triggerError = (): void => {
+    this.setState({ shouldThrow: true });
+  };
+
   render() {
+    if (this.state.shouldThrow) {
+      throw new Error('Test error triggered!');
+    }
     return (
       <main className="layout">
         <SearchSection
@@ -110,6 +120,8 @@ class App extends Component<object, AppState> {
           isLoading={this.state.isLoading}
           error={this.state.error}
         />
+
+        <TriggerErrorButton onClick={this.triggerError} />
       </main>
     );
   }
