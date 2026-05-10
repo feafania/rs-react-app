@@ -1,13 +1,8 @@
 import { Component } from 'react';
-import type { Character } from '../types/types.ts';
+import type { ResultsDataProps } from '../types/types.ts';
 import { ResultList } from './ResultList';
 
-interface ResultsSectionProps {
-  results: Character[];
-  isLoading: boolean;
-}
-
-export class ResultsSection extends Component<ResultsSectionProps> {
+export class ResultsSection extends Component<ResultsDataProps> {
   render() {
     return (
       <section className="results-section">
@@ -16,6 +11,7 @@ export class ResultsSection extends Component<ResultsSectionProps> {
         <ResultList
           results={this.props.results}
           isLoading={this.props.isLoading}
+          error={this.props.error}
         />
       </section>
     );

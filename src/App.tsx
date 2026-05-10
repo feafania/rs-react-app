@@ -4,13 +4,13 @@ import { ResultsSection } from './components/ResultsSection';
 import type { Character } from './types/types.ts';
 
 import './App.css';
-import { normalizeSearchTerm } from './utils/normalizeSearchTerm.ts';
 
 interface AppState {
   results: Character[];
   searchTerm: string;
   lastRequestedTerm: string;
   isLoading: boolean;
+  error: string;
 }
 
 class App extends Component<object, AppState> {
@@ -19,65 +19,81 @@ class App extends Component<object, AppState> {
     searchTerm: '',
     lastRequestedTerm: '',
     isLoading: false,
+    error: '',
   };
 
   componentDidMount(): void {
     const savedSearch = localStorage.getItem('searchTerm') || '';
 
-    const trimmed = normalizeSearchTerm(savedSearch);
-
     this.setState(
       {
-        searchTerm: trimmed,
-        lastRequestedTerm: trimmed,
+        searchTerm: savedSearch,
+        lastRequestedTerm: savedSearch,
       },
       () => {
-        this.fetchData(trimmed);
+        this.fetchData(savedSearch);
       }
     );
   }
 
   fetchData = async (searchTerm: string): Promise<void> => {
-    const trimmed = normalizeSearchTerm(searchTerm);
+    this.setState({
+      isLoading: true,
+      error: '',
+    });
 
-    this.setState({ isLoading: true });
-    const url = trimmed
-      ? `https://swapi.py4e.com/api/people/?search=${trimmed}&page=1`
+    const url = searchTerm
+      ? `https://swapi.py4e.com/api/people/?search=${searchTerm}&page=1`
       : `https://swapi.py4e.com/api/people/?page=1`;
 
     try {
       const response = await fetch(url);
-      const data = await response.json();
 
-      // await new Promise((r) => setTimeout(r, 300));
+      if (!response.ok) {
+        throw new Error(
+          response.status >= 500
+            ? 'Server error. Please try again later.'
+            : 'Unable to fetch data.'
+        );
+      }
+
+      const data = await response.json();
 
       this.setState({
         results: data.results,
         isLoading: false,
+        error: '',
       });
-    } catch (error) {
-      console.error('Fetch error:', error);
+    } catch {
       this.setState({
+        results: [],
         isLoading: false,
+        error: 'Something went wrong. Please try again.',
       });
     }
   };
 
   handleSearch = (searchTerm: string): void => {
-    const trimmed = normalizeSearchTerm(searchTerm);
-
-    if (trimmed === this.state.lastRequestedTerm) {
-      return;
-    }
-
-    localStorage.setItem('searchTerm', trimmed);
+    const trimmed = searchTerm.trim();
 
     this.setState({
       searchTerm: trimmed,
       lastRequestedTerm: trimmed,
     });
 
+    localStorage.setItem('searchTerm', trimmed);
+
+    if (trimmed === this.state.lastRequestedTerm) {
+      return;
+    }
+
     this.fetchData(trimmed);
+  };
+
+  handleInputChange = (value: string): void => {
+    this.setState({
+      searchTerm: value,
+    });
   };
 
   render() {
@@ -85,12 +101,14 @@ class App extends Component<object, AppState> {
       <main className="layout">
         <SearchSection
           onSearch={this.handleSearch}
+          onSearchInputChange={this.handleInputChange}
           initialValue={this.state.searchTerm}
         />
 
         <ResultsSection
           results={this.state.results}
           isLoading={this.state.isLoading}
+          error={this.state.error}
         />
       </main>
     );

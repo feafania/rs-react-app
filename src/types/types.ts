@@ -4,3 +4,9 @@ export interface Character {
   height: string;
   birth_year: string;
 }
+
+export interface ResultsDataProps {
+  results: Character[];
+  isLoading: boolean;
+  error: string;
+}

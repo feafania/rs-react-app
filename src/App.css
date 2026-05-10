@@ -101,6 +101,24 @@
   color: #777;
 }
 
+.error-state {
+  margin-top: 20px;
+
+  min-height: 300px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 1px dashed #ffb4b4;
+  border-radius: 8px;
+
+  background: #fff3f3;
+  color: #c62828;
+
+  font-weight: 600;
+}
+
 /*RESPONSIVE*/
 
 @media (max-width: 768px) {

@@ -1,18 +1,17 @@
 import { Component } from 'react';
-import type { Character } from '../types/types.ts';
+import type { ResultsDataProps } from '../types/types.ts';
 import { ResultRow } from './ResultRow';
 
-interface ResultListProps {
-  results: Character[];
-  isLoading: boolean;
-}
-
-export class ResultList extends Component<ResultListProps> {
+export class ResultList extends Component<ResultsDataProps> {
   render() {
-    const { results, isLoading } = this.props;
+    const { results, isLoading, error } = this.props;
 
     if (isLoading) {
       return <div className="loading-state">Loading...</div>;
+    }
+
+    if (error) {
+      return <div className="error-state">{error}</div>;
     }
 
     if (results.length === 0) {

@@ -1,76 +1,36 @@
-import { type ChangeEvent, Component } from 'react';
+import React, { type ChangeEvent, Component } from 'react';
 
 import { SearchInput } from './SearchInput';
 import { SearchButton } from './SearchButton';
-import { normalizeSearchTerm } from '../utils/normalizeSearchTerm.ts';
 
 interface SearchSectionProps {
   onSearch: (searchTerm: string) => void;
+  onSearchInputChange: (value: string) => void;
   initialValue: string;
 }
 
-interface SearchSectionState {
-  searchTerm: string;
-}
-
-export class SearchSection extends Component<
-  SearchSectionProps,
-  SearchSectionState
-> {
-  state: SearchSectionState = {
-    searchTerm: this.props.initialValue || '',
-  };
-
-  componentDidMount(): void {
-    const savedSearch = localStorage.getItem('searchTerm');
-
-    if (savedSearch) {
-      this.setState({
-        searchTerm: savedSearch,
-      });
-    }
-  }
-
-  componentDidUpdate(prevProps: SearchSectionProps): void {
-    if (prevProps.initialValue !== this.props.initialValue) {
-      this.setState({
-        searchTerm: this.props.initialValue,
-      });
-    }
-  }
-
+export class SearchSection extends Component<SearchSectionProps> {
   handleChange = (event: ChangeEvent<HTMLInputElement>): void => {
-    const value = event.target.value;
-
-    this.setState({
-      searchTerm: value,
-    });
-
-    localStorage.setItem('searchTerm', value);
+    this.props.onSearchInputChange(event.target.value);
   };
 
-  handleSearch = (): void => {
-    const trimmed = normalizeSearchTerm(this.state.searchTerm);
-    this.setState({
-      searchTerm: trimmed,
-    });
-
-    localStorage.setItem('searchTerm', trimmed);
-    this.props.onSearch(trimmed);
+  handleSubmit = (event: React.SyntheticEvent<HTMLFormElement>): void => {
+    event.preventDefault();
+    this.props.onSearch(this.props.initialValue);
   };
 
   render() {
     return (
-      <section className="search-section">
+      <form className="search-section" onSubmit={this.handleSubmit}>
         <div className="top-controls">
           <SearchInput
-            value={this.state.searchTerm}
+            value={this.props.initialValue}
             onChange={this.handleChange}
-            onEnter={this.handleSearch}
           />
-          <SearchButton onClick={this.handleSearch} />{' '}
+
+          <SearchButton />
         </div>
-      </section>
+      </form>
     );
   }
 }
