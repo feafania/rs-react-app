@@ -1,31 +1,47 @@
-# React Class Components & Error Boundary
+# React Class Components & Unit Testing
 
-> RS School React Course — Task 1 | Branch: `class-components`
+> RS School React Course — Task 2 | Branch: `unit-testing`
 
 ## Description
 
-A React application built with **class components** that allows users to search items via a RESTful API, displays results, persists search terms, and handles errors gracefully with an Error Boundary.
+A React application built with **class components** that allows users to search Star Wars characters via the [SWAPI](https://swapi.py4e.com/) API, displays results, persists search terms with localStorage, and handles errors gracefully with an Error Boundary.
+
+This branch adds comprehensive **unit tests** using Vitest and React Testing Library.
+
+---
+
+## Live Demo
+
+🔗 [https://feafania.github.io/rs-react-app/](https://feafania.github.io/rs-react-app/)
+
+---
+
+## Repository
+
+🐙 [https://github.com/feafania/rs-react-app/tree/unit-testing](https://github.com/feafania/rs-react-app/tree/unit-testing)
 
 ---
 
 ## Features
 
-- 🔍 **Search** — search for items using a RESTful API with trimmed input and no duplicate requests
+- 🔍 **Search** — search for Star Wars characters with trimmed input and no duplicate requests
 - 💾 **Local Storage** — saves and restores the last search term between sessions
-- 📋 **Results Display** — shows item name and description for each result
-- ⏳ **Loading State** — spinner/loader visible during API requests
-- ⚠️ **Error Handling** — human-readable error messages for 4xx/5xx responses
-- 🛡️ **Error Boundary** — catches render errors, logs them, and displays fallback UI
+- 📋 **Results Display** — shows character name and description (gender, height, birth year)
+- ⏳ **Loading State** — loader visible during API requests
+- ⚠️ **Error Handling** — human-readable error messages for 4xx/5xx responses and network failures
+- 🛡️ **Error Boundary** — catches render errors, logs them, and displays fallback UI with "Try again" button
 - 🔴 **Error Simulation Button** — triggers a test error to verify Error Boundary behavior
 
 ---
 
 ## Tech Stack
 
-- [React](https://react.dev/) — class components only (no hooks)
+- [React 19](https://react.dev/) — class components only (no hooks)
 - [TypeScript](https://www.typescriptlang.org/)
 - [Vite](https://vitejs.dev/)
-- RESTful API — [PokéAPI](https://pokeapi.co/) _(or your chosen API)_
+- [Vitest](https://vitest.dev/) — test runner
+- [React Testing Library](https://testing-library.com/docs/react-testing-library/intro/) — component testing
+- [SWAPI](https://swapi.py4e.com/) — Star Wars REST API
 
 ---
 
@@ -34,14 +50,14 @@ A React application built with **class components** that allows users to search 
 ### Prerequisites
 
 - Node.js `>= 18`
-- npm or yarn
+- npm
 
 ### Installation
 
 ```bash
-git clone https://github.com/<your-username>/<repo-name>.git
-cd <repo-name>
-git checkout class-components
+git clone https://github.com/feafania/rs-react-app.git
+cd rs-react-app
+git checkout unit-testing
 npm install
 ```
 
@@ -51,13 +67,50 @@ npm install
 npm run dev
 ```
 
-Open [http://localhost:5173](http://localhost:5173) in your browser.
+Open [http://localhost:5173/rs-react-app/](http://localhost:5173/rs-react-app/) in your browser.
 
 ### Building for production
 
 ```bash
 npm run build
 ```
+
+### Deploy to GitHub Pages
+
+```bash
+npm run deploy
+```
+
+---
+
+## Testing
+
+### Run tests in watch mode
+
+```bash
+npm run test
+```
+
+### Run tests once
+
+```bash
+npm run test:run
+```
+
+### Run tests with coverage report
+
+```bash
+npm run coverage
+```
+
+Coverage thresholds configured:
+
+| Metric     | Threshold |
+| ---------- | --------- |
+| Statements | ≥ 80%     |
+| Branches   | ≥ 50%     |
+| Functions  | ≥ 50%     |
+| Lines      | ≥ 50%     |
 
 ---
 
@@ -66,13 +119,44 @@ npm run build
 ```
 src/
 ├── components/
-│   ├── Header/
-│   ├── Search/
-│   ├── CardList/
-│   ├── Card/
-│   ├── ErrorBoundary/
-│   └── Spinner/
+│   ├── ErrorBoundary.tsx
+│   ├── ResultList.tsx
+│   ├── ResultRow.tsx
+│   ├── ResultsSection.tsx
+│   ├── SearchButton.tsx
+│   ├── SearchInput.tsx
+│   ├── SearchSection.tsx
+│   └── TriggerErrorButton.tsx
+├── test/
+│   ├── __tests__/
+│   │   ├── app/
+│   │   │   ├── App.edgeCases.test.tsx
+│   │   │   ├── App.error.test.tsx
+│   │   │   ├── App.loading.test.tsx
+│   │   │   ├── App.localStorage.test.tsx
+│   │   │   ├── App.render.test.tsx
+│   │   │   └── App.search.test.tsx
+│   │   ├── ResultList.test.tsx
+│   │   ├── ResultRow.test.tsx
+│   │   ├── ResultsSection.test.tsx
+│   │   ├── SearchButton.test.tsx
+│   │   ├── SearchInput.test.tsx
+│   │   ├── SearchSection.test.tsx
+│   │   ├── TriggerErrorButton.test.tsx
+│   │   ├── ErrorBoundary.test.tsx
+│   │   └── getCharacterDescription.test.ts
+│   ├── mocks/
+│   │   ├── characters.ts
+│   │   ├── fetch.ts
+│   │   └── localStorage.ts
+│   └── setup.ts
+├── types/
+│   └── types.ts
+├── util/
+│   └── getCharacterDescription.ts
+├── App.css
 ├── App.tsx
+├── index.css
 └── main.tsx
 ```
 
@@ -82,16 +166,16 @@ src/
 
 ```
 +-------------------------------------------------------+
-|  +------------------ Top controls ----------------+   |
+|  +---------------- Search Section ----------------+   |
 |  | [Search Input Field]        | [Search Button]  |   |
 |  +--------------------------------------------------+  |
 |                                                       |
-|  +-------------------- Results -----------------+    |
-|  | Item Name  | Item Description                |    |
-|  | [Item 1]   | [Description 1]                 |    |
-|  | [Item 2]   | [Description 2]                 |    |
+|  +---------------- Results Section ---------------+  |
+|  | Character Name  | Description                  |  |
+|  | Luke Skywalker  | Gender: male | Height: 172.. |  |
+|  | Leia Organa     | Gender: female | Height: 150 |  |
 |  +--------------------------------------------------+  |
-|                                      [Error Button]   |
+|                              [Trigger Error Button]   |
 +-------------------------------------------------------+
 ```
 
@@ -99,92 +183,22 @@ src/
 
 ## API
 
-This project uses **[PokéAPI](https://pokeapi.co/)** (or another RESTful API supporting search and pagination).
+This project uses **[SWAPI (Star Wars API)](https://swapi.py4e.com/)**.
 
-Example request:
+Example requests:
 
 ```
-GET https://pokeapi.co/api/v2/pokemon?limit=20&offset=0
-GET https://pokeapi.co/api/v2/pokemon?limit=20&offset=0&search=bulba
+GET https://swapi.py4e.com/api/people/?page=1
+GET https://swapi.py4e.com/api/people/?search=luke&page=1
 ```
 
 ---
 
 ## Notes
 
-- Class components are used throughout — hooks are not permitted for this task
+- Class components are used throughout — hooks are not used
 - Search input is trimmed before sending requests
 - No duplicate API requests are made if the search term hasn't changed
-- Error Boundary wraps the main content area and displays fallback UI on failure# React + TypeScript + Vite
-
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
-
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
-
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-]);
-```
-
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x';
-import reactDom from 'eslint-plugin-react-dom';
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-]);
-```
+- Error Boundary wraps the main app and displays fallback UI on failure
+- All API calls are mocked in tests — no real network requests during testing
+- Husky runs tests automatically on `pre-push`
