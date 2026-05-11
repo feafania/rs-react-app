@@ -7,15 +7,27 @@ export class ResultList extends Component<ResultsDataProps> {
     const { results, isLoading, error } = this.props;
 
     if (isLoading) {
-      return <div className="loading-state">Loading...</div>;
+      return (
+        <div className="loading-state" role="status">
+          Loading...
+        </div>
+      );
     }
 
     if (error) {
-      return <div className="error-state">{error}</div>;
+      return (
+        <div className="error-state" role="alert">
+          {error}
+        </div>
+      );
     }
 
     if (results.length === 0) {
-      return <div className="empty-state">No results found</div>;
+      return (
+        <div className="empty-state" role="status">
+          No results found
+        </div>
+      );
     }
 
     return (

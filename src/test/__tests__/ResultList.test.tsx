@@ -1,27 +1,27 @@
 import { render, screen } from '@testing-library/react';
 
-import { ResultList } from '../components/ResultList';
-import { leiaCharacter, lukeCharacter } from '../test/mocks/characters.ts';
+import { ResultList } from '../../components/ResultList.tsx';
+import { leiaCharacter, lukeCharacter } from '../mocks/characters.ts';
 
 describe('ResultList', () => {
-  it('renders loading state', () => {
+  it('renders loading state with accessibility role', () => {
     render(<ResultList results={[]} isLoading={true} error="" />);
 
-    expect(screen.getByText('Loading...')).toBeInTheDocument();
+    expect(screen.getByRole('status')).toHaveTextContent('Loading...');
   });
 
-  it('renders error message', () => {
+  it('renders error message with alert role', () => {
     render(
       <ResultList results={[]} isLoading={false} error="Something went wrong" />
     );
 
-    expect(screen.getByText('Something went wrong')).toBeInTheDocument();
+    expect(screen.getByRole('alert')).toHaveTextContent('Something went wrong');
   });
 
   it('renders empty state when no results found', () => {
     render(<ResultList results={[]} isLoading={false} error="" />);
 
-    expect(screen.getByText('No results found')).toBeInTheDocument();
+    expect(screen.getByRole('status')).toHaveTextContent('No results found');
   });
 
   it('renders results correctly', () => {
@@ -34,7 +34,6 @@ describe('ResultList', () => {
     );
 
     expect(screen.getByText('Luke Skywalker')).toBeInTheDocument();
-
     expect(screen.getByText('Leia Organa')).toBeInTheDocument();
   });
 });
