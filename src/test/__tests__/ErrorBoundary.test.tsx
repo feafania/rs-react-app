@@ -1,6 +1,8 @@
 import { render, screen } from '@testing-library/react';
 import { vi } from 'vitest';
 import { ErrorBoundary } from '../../components/ErrorBoundary';
+import App from '../../App.tsx';
+import userEvent from '@testing-library/user-event';
 
 const ProblemChild = () => {
   throw new Error('Test error');
@@ -68,6 +70,27 @@ describe('ErrorBoundary', () => {
     );
 
     expect(screen.getByText('Recovered')).toBeInTheDocument();
+
+    spy.mockRestore();
+  });
+
+  it('handles triggerError and shows ErrorBoundary fallback', async () => {
+    const spy = vi.spyOn(console, 'error').mockImplementation(() => {});
+    const user = userEvent.setup();
+
+    render(
+      <ErrorBoundary>
+        <App />
+      </ErrorBoundary>
+    );
+
+    const triggerButton = screen.getByRole('button', {
+      name: /trigger error/i,
+    });
+
+    await user.click(triggerButton);
+
+    await screen.findByText(/something went wrong/i);
 
     spy.mockRestore();
   });

@@ -60,4 +60,14 @@ describe('SearchInput', () => {
 
     expect(screen.getByRole('textbox')).toHaveValue('');
   });
+
+  it('updates input when value changes from empty to filled', () => {
+    const { rerender } = render(<SearchInput value="" onChange={vi.fn()} />);
+
+    expect(screen.getByRole('textbox')).toHaveValue('');
+
+    rerender(<SearchInput value="Luke" onChange={vi.fn()} />);
+
+    expect(screen.getByRole('textbox')).toHaveValue('Luke');
+  });
 });

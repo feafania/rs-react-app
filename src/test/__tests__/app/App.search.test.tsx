@@ -46,6 +46,10 @@ describe('App - search flow', () => {
   it('shows empty state after searching with no results', async () => {
     const user = userEvent.setup();
 
+    mockFetch.mockReset();
+
+    mockFetch.mockResolvedValueOnce(createMockResponse(mockCharacters));
+
     mockFetch.mockResolvedValueOnce(createMockResponse([]));
 
     render(<App />);
@@ -56,8 +60,6 @@ describe('App - search flow', () => {
     await user.type(input, 'unknown-character');
     await user.click(button);
 
-    await waitFor(() => {
-      expect(screen.getByText(/no results found/i)).toBeInTheDocument();
-    });
+    expect(await screen.findByText(/no results found/i)).toBeInTheDocument();
   });
 });
