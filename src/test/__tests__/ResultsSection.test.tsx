@@ -1,0 +1,25 @@
+import { render, screen } from '@testing-library/react';
+import { ResultsSection } from '../../components/ResultsSection';
+import type { Character } from '../../types/types';
+
+describe('ResultsSection', () => {
+  const props = {
+    results: [] as Character[],
+    isLoading: false,
+    error: '',
+  };
+
+  it('renders section title', () => {
+    render(<ResultsSection {...props} />);
+
+    expect(
+      screen.getByRole('heading', { name: /results/i })
+    ).toBeInTheDocument();
+  });
+
+  it('renders ResultList component', () => {
+    render(<ResultsSection {...props} />);
+
+    expect(screen.getByText(/no results found/i)).toBeInTheDocument();
+  });
+});

@@ -9,6 +9,9 @@
     "lint": "eslint .",
     "format:fix": "prettier --write .",
     "preview": "vite preview",
+    "test": "vitest",
+    "test:run": "vitest run",
+    "coverage": "vitest run --coverage",
     "prepare": "husky",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist"
@@ -26,6 +29,7 @@
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^6.0.1",
+    "@vitest/coverage-v8": "^4.1.5",
     "eslint": "^9.39.4",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.5",
@@ -45,7 +49,8 @@
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
-      "eslint --fix"
+      "eslint --fix",
+      "prettier --write"
     ]
   }
 }
