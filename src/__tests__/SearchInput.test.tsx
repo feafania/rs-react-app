@@ -1,0 +1,46 @@
+import { fireEvent, render, screen } from '@testing-library/react';
+import { vi } from 'vitest';
+
+import { SearchInput } from '../components/SearchInput';
+
+describe('SearchInput', () => {
+  it('renders input element', () => {
+    render(<SearchInput value="" onChange={vi.fn()} />);
+
+    expect(screen.getByRole('textbox')).toBeInTheDocument();
+  });
+
+  it('displays passed value', () => {
+    render(<SearchInput value="Luke" onChange={vi.fn()} />);
+
+    expect(screen.getByDisplayValue('Luke')).toBeInTheDocument();
+  });
+
+  it('calls onChange when user types', () => {
+    const handleChange = vi.fn();
+
+    render(<SearchInput value="" onChange={handleChange} />);
+
+    const input = screen.getByRole('textbox');
+
+    fireEvent.change(input, {
+      target: {
+        value: 'Leia',
+      },
+    });
+
+    expect(handleChange).toHaveBeenCalledTimes(1);
+  });
+
+  it('renders placeholder text', () => {
+    render(<SearchInput value="" onChange={vi.fn()} />);
+
+    expect(screen.getByPlaceholderText('Search...')).toBeInTheDocument();
+  });
+
+  it('renders aria-label', () => {
+    render(<SearchInput value="" onChange={vi.fn()} />);
+
+    expect(screen.getByLabelText('Search characters')).toBeInTheDocument();
+  });
+});
