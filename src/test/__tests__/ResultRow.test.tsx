@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 
-import { ResultRow } from '../components/ResultRow';
-import { emptyCharacter, lukeCharacter } from '../test/mocks/characters.ts';
+import { ResultRow } from '../../components/ResultRow.tsx';
+import { emptyCharacter, lukeCharacter } from '../mocks/characters.ts';
 
 describe('ResultRow', () => {
   it('renders Сharacter data correctly', () => {

@@ -1,5 +1,5 @@
-import { getCharacterDescription } from '../util/getCharacterDescription';
-import { lukeCharacter } from '../test/mocks/characters.ts';
+import { getCharacterDescription } from '../../util/getCharacterDescription.ts';
+import { lukeCharacter } from '../mocks/characters.ts';
 
 describe('getCharacterDescription', () => {
   it('returns formatted character description', () => {

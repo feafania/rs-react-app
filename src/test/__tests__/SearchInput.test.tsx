@@ -1,7 +1,7 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import { vi } from 'vitest';
 
-import { SearchInput } from '../components/SearchInput';
+import { SearchInput } from '../../components/SearchInput.tsx';
 
 describe('SearchInput', () => {
   it('renders input element', () => {
@@ -42,5 +42,22 @@ describe('SearchInput', () => {
     render(<SearchInput value="" onChange={vi.fn()} />);
 
     expect(screen.getByLabelText('Search characters')).toBeInTheDocument();
+  });
+  it('updates when value changes externally (rerender)', () => {
+    const { rerender } = render(
+      <SearchInput value="Luke" onChange={vi.fn()} />
+    );
+
+    expect(screen.getByDisplayValue('Luke')).toBeInTheDocument();
+
+    rerender(<SearchInput value="" onChange={vi.fn()} />);
+
+    expect(screen.getByDisplayValue('')).toBeInTheDocument();
+  });
+
+  it('handles empty value correctly (controlled reset)', () => {
+    render(<SearchInput value="" onChange={vi.fn()} />);
+
+    expect(screen.getByRole('textbox')).toHaveValue('');
   });
 });
