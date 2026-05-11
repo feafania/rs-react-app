@@ -2,7 +2,7 @@ import { render, screen, waitFor } from '@testing-library/react';
 import App from '../../../App.tsx';
 import { mockCharacters } from '../../mocks/characters.ts';
 import { createMockResponse, mockFetch } from '../../mocks/fetch.ts';
-import { userEvent } from '@testing-library/user-event/dist/cjs/setup/index.js';
+import userEvent from '@testing-library/user-event';
 
 describe('App - localStorage', () => {
   it('reads search term from localStorage on mount', async () => {
@@ -43,11 +43,11 @@ describe('App - localStorage', () => {
   it('handles empty localStorage on mount', async () => {
     localStorage.clear();
 
-    mockFetch.mockResolvedValueOnce(createMockResponse(mockCharacters));
+    mockFetch.mockResolvedValueOnce(createMockResponse([]));
 
     render(<App />);
 
-    expect(await screen.findByText('Luke Skywalker')).toBeInTheDocument();
+    await screen.findByText(/no results found/i);
 
     expect(localStorage.getItem('searchTerm')).toBeNull();
   });

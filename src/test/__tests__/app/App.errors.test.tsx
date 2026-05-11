@@ -3,7 +3,7 @@ import App from '../../../App.tsx';
 import { mockFetch } from '../../mocks/fetch.ts';
 
 describe('App - error handling', () => {
-  it('network error triggers catch branch', async () => {
+  it('shows fallback UI on network failure', async () => {
     mockFetch.mockRejectedValueOnce(new Error('Network error'));
 
     render(<App />);
@@ -13,7 +13,7 @@ describe('App - error handling', () => {
     ).toBeInTheDocument();
   });
 
-  it('server error (500+) branch', async () => {
+  it('handles 500+ server response', async () => {
     mockFetch.mockResolvedValueOnce({
       ok: false,
       status: 500,
@@ -26,7 +26,7 @@ describe('App - error handling', () => {
     ).toBeInTheDocument();
   });
 
-  it('client error (<500) branch', async () => {
+  it('handles 404 client response', async () => {
     mockFetch.mockResolvedValueOnce({
       ok: false,
       status: 404,
