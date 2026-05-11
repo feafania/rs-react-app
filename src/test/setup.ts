@@ -12,7 +12,6 @@ beforeEach(() => {
 
 afterEach(() => {
   cleanup();
-  vi.clearAllMocks();
 });
 
 vi.stubGlobal('fetch', mockFetch);
