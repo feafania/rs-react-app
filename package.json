@@ -9,11 +9,9 @@
     "lint": "eslint .",
     "format:fix": "prettier --write .",
     "preview": "vite preview",
-
     "test": "vitest",
     "test:run": "vitest run",
     "coverage": "vitest run --coverage",
-
     "prepare": "husky",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist"

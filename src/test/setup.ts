@@ -1,5 +1,12 @@
 import '@testing-library/jest-dom';
-import { vi } from 'vitest';
+
+import { afterEach, vi } from 'vitest';
+import { cleanup } from '@testing-library/react';
+
+afterEach(() => {
+  cleanup();
+  vi.clearAllMocks();
+});
 
 vi.stubGlobal('fetch', vi.fn());
 
@@ -8,12 +15,15 @@ const localStorageMock = (() => {
 
   return {
     getItem: (key: string) => store[key] || null,
+
     setItem: (key: string, value: string) => {
       store[key] = value;
     },
+
     clear: () => {
       store = {};
     },
+
     removeItem: (key: string) => {
       delete store[key];
     },
