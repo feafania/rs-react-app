@@ -20,3 +20,5 @@ export const emptyCharacter: Character = {
   height: '',
   birth_year: '',
 };
+
+export const mockCharacters = [lukeCharacter];
