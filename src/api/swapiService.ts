@@ -1,24 +1,38 @@
 import type { Character } from '../types/types.ts';
+import { API_URL } from '../constants';
 
 interface SwapiResponse {
+  count: number;
   results: Character[];
 }
 
-export async function fetchCharacters(term: string): Promise<Character[]> {
-  const url = term
-    ? `https://swapi.py4e.com/api/people/?search=${term}&page=1`
-    : `https://swapi.py4e.com/api/people/?page=1`;
+interface FetchCharactersResponse {
+  results: Character[];
+  totalCount: number;
+}
 
-  const response = await fetch(url);
+export async function fetchCharacters(
+  search: string,
+  page: number
+): Promise<FetchCharactersResponse> {
+  const params = new URLSearchParams();
+
+  if (search.trim()) {
+    params.set('search', search);
+  }
+
+  params.set('page', String(page));
+
+  const response = await fetch(`${API_URL}/people/?${params.toString()}`);
 
   if (!response.ok) {
-    throw new Error(
-      response.status >= 500
-        ? 'Server error. Please try again later.'
-        : 'Unable to fetch data.'
-    );
+    throw new Error('Failed to fetch characters');
   }
 
   const data: SwapiResponse = await response.json();
-  return data.results;
+
+  return {
+    results: data.results,
+    totalCount: data.count,
+  };
 }

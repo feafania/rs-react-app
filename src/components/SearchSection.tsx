@@ -20,14 +20,13 @@ export function SearchSection({
 
   const handleSubmit = (event: SyntheticEvent<HTMLFormElement>): void => {
     event.preventDefault();
-    onSearch(initialValue);
+    onSearch(initialValue.trim());
   };
 
   return (
     <form className="search-section" onSubmit={handleSubmit}>
       <div className="top-controls">
         <SearchInput value={initialValue} onChange={handleChange} />
-
         <SearchButton />
       </div>
     </form>
