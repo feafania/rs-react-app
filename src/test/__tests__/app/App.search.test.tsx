@@ -1,6 +1,6 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import App from '../../../App.tsx';
+import MainPage from '../../../routes/main-page/MainPage.tsx';
 import { createMockResponse, mockFetch } from '../../mocks/fetch.ts';
 import { mockCharacters } from '../../mocks/characters.ts';
 
@@ -12,7 +12,7 @@ describe('App - search flow', () => {
   it('handles search input and submit correctly', async () => {
     const user = userEvent.setup();
 
-    render(<App />);
+    render(<MainPage />);
 
     const input = screen.getByRole('textbox');
     const button = screen.getByRole('button', { name: /search/i });
@@ -30,7 +30,7 @@ describe('App - search flow', () => {
   it('does not fetch again for same search term', async () => {
     const user = userEvent.setup();
 
-    render(<App />);
+    render(<MainPage />);
 
     const input = screen.getByRole('textbox');
     const button = screen.getByRole('button', { name: /search/i });
@@ -52,7 +52,7 @@ describe('App - search flow', () => {
 
     mockFetch.mockResolvedValueOnce(createMockResponse([]));
 
-    render(<App />);
+    render(<MainPage />);
 
     const input = screen.getByRole('textbox');
     const button = screen.getByRole('button', { name: /search/i });

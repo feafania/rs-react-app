@@ -1,5 +1,5 @@
 import { render, screen, waitFor } from '@testing-library/react';
-import App from '../../../App.tsx';
+import MainPage from '../../../routes/main-page/MainPage.tsx';
 import { mockCharacters } from '../../mocks/characters.ts';
 import { createMockResponse, mockFetch } from '../../mocks/fetch.ts';
 import userEvent from '@testing-library/user-event';
@@ -10,7 +10,7 @@ describe('App - localStorage', () => {
 
     mockFetch.mockResolvedValueOnce(createMockResponse(mockCharacters));
 
-    render(<App />);
+    render(<MainPage />);
 
     await waitFor(() => {
       expect(mockFetch).toHaveBeenCalledWith(
@@ -26,7 +26,7 @@ describe('App - localStorage', () => {
 
     mockFetch.mockResolvedValueOnce(createMockResponse(mockCharacters));
 
-    render(<App />);
+    render(<MainPage />);
 
     const input = screen.getByRole('textbox');
     const button = screen.getByRole('button', { name: /search/i });
@@ -45,7 +45,7 @@ describe('App - localStorage', () => {
 
     mockFetch.mockResolvedValueOnce(createMockResponse([]));
 
-    render(<App />);
+    render(<MainPage />);
 
     await screen.findByText(/no results found/i);
 
@@ -57,7 +57,7 @@ describe('App - localStorage', () => {
 
     mockFetch.mockResolvedValue(createMockResponse(mockCharacters));
 
-    const { unmount } = render(<App />);
+    const { unmount } = render(<MainPage />);
 
     const input = screen.getByRole('textbox');
     const button = screen.getByRole('button', { name: /search/i });
@@ -71,7 +71,7 @@ describe('App - localStorage', () => {
 
     unmount();
 
-    render(<App />);
+    render(<MainPage />);
 
     await waitFor(() => {
       expect(mockFetch).toHaveBeenCalledWith(

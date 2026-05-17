@@ -5,17 +5,13 @@ import react from '@vitejs/plugin-react';
 export default defineConfig({
   base: '/rs-react-app/',
   plugins: [react()],
-
   test: {
     environment: 'jsdom',
     globals: true,
     setupFiles: './src/test/setup.ts',
-
     coverage: {
       provider: 'v8',
-
       reporter: ['text', 'html'],
-
       include: ['src/**/*.{ts,tsx}'],
       exclude: [
         'src/**/*.test.{ts,tsx}',
@@ -25,7 +21,6 @@ export default defineConfig({
         'src/**/*.d.ts',
         'src/main.tsx',
       ],
-
       thresholds: {
         statements: 80,
         branches: 50,

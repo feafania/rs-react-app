@@ -1,12 +1,12 @@
 import { render, screen } from '@testing-library/react';
-import App from '../../../App.tsx';
+import MainPage from '../../../routes/main-page/MainPage.tsx';
 import { mockFetch } from '../../mocks/fetch.ts';
 
 describe('App - error handling', () => {
   it('shows fallback UI on network failure', async () => {
     mockFetch.mockRejectedValueOnce(new Error('Network error'));
 
-    render(<App />);
+    render(<MainPage />);
 
     expect(
       await screen.findByText(/something went wrong/i)
@@ -19,7 +19,7 @@ describe('App - error handling', () => {
       status: 500,
     });
 
-    render(<App />);
+    render(<MainPage />);
 
     expect(
       await screen.findByText(/something went wrong/i)
@@ -32,7 +32,7 @@ describe('App - error handling', () => {
       status: 404,
     });
 
-    render(<App />);
+    render(<MainPage />);
 
     expect(
       await screen.findByText(/something went wrong/i)

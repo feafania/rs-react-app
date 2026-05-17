@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { vi } from 'vitest';
 import { ErrorBoundary } from '../../components/ErrorBoundary';
-import App from '../../App.tsx';
+import MainPage from '../../routes/main-page/MainPage.tsx';
 import userEvent from '@testing-library/user-event';
 
 const ProblemChild = () => {
@@ -80,7 +80,7 @@ describe('ErrorBoundary', () => {
 
     render(
       <ErrorBoundary>
-        <App />
+        <MainPage />
       </ErrorBoundary>
     );
 

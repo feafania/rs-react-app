@@ -1,5 +1,5 @@
 import { render, screen, waitFor } from '@testing-library/react';
-import App from '../../../App.tsx';
+import MainPage from '../../../routes/main-page/MainPage.tsx';
 import { mockCharacters } from '../../mocks/characters.ts';
 import { createMockResponse, mockFetch } from '../../mocks/fetch.ts';
 
@@ -7,7 +7,7 @@ describe('App - render & initial load', () => {
   it('fetches data on mount and renders results', async () => {
     mockFetch.mockResolvedValueOnce(createMockResponse(mockCharacters));
 
-    render(<App />);
+    render(<MainPage />);
 
     expect(screen.getByText(/loading/i)).toBeInTheDocument();
 
@@ -21,7 +21,7 @@ describe('App - render & initial load', () => {
   it('fetches all characters when no search term exists', async () => {
     mockFetch.mockResolvedValueOnce(createMockResponse(mockCharacters));
 
-    render(<App />);
+    render(<MainPage />);
 
     await waitFor(() => {
       expect(mockFetch).toHaveBeenCalledWith(
@@ -33,7 +33,7 @@ describe('App - render & initial load', () => {
   it('shows empty state when no data exists on initial load', async () => {
     mockFetch.mockResolvedValueOnce(createMockResponse([]));
 
-    render(<App />);
+    render(<MainPage />);
 
     await waitFor(() => {
       expect(screen.getByText(/no results found/i)).toBeInTheDocument();
