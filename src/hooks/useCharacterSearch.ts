@@ -8,6 +8,7 @@ interface UseCharacterSearchReturn {
   results: Character[];
   totalCount: number;
   searchTerm: string;
+  setSearchTerm: (value: string) => void;
   isLoading: boolean;
   error: string;
   handleSearch: (term: string, page: number) => void;
@@ -16,7 +17,6 @@ interface UseCharacterSearchReturn {
 export function useCharacterSearch(): UseCharacterSearchReturn {
   const [searchTerm, setSearchTerm] = useLocalStorage('searchTerm', '');
 
-  // useRef замест useState — не выклікае рэрэндэр і не мяняе handleSearch
   const lastFetchedTerm = useRef(searchTerm);
   const lastFetchedPage = useRef(0);
 
@@ -64,6 +64,7 @@ export function useCharacterSearch(): UseCharacterSearchReturn {
     results,
     totalCount,
     searchTerm,
+    setSearchTerm,
     isLoading,
     error,
     handleSearch,

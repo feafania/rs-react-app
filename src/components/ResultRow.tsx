@@ -12,11 +12,13 @@ export function ResultRow({ character }: ResultRowProps) {
   const [searchParams] = useSearchParams();
 
   const id = character.url.match(/people\/(\d+)\//)?.[1];
+  if (!id) return null;
 
   return (
     <Link
       to={`/details/${id}?${searchParams.toString()}`}
       className="result-row"
+      onClick={(event) => event.stopPropagation()}
     >
       <span className="result-name">{name}</span>
       <span className="result-description">{description}</span>

@@ -12,7 +12,7 @@ export function Pagination({
   if (totalPages <= 1) return null;
 
   return (
-    <div className="pagination">
+    <div className="pagination" onClick={(event) => event.stopPropagation()}>
       <button
         type="button"
         disabled={currentPage <= 1}

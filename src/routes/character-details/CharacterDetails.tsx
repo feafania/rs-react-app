@@ -18,7 +18,10 @@ export function CharacterDetails() {
   };
 
   return (
-    <aside className="details-panel">
+    <aside
+      className="details-panel"
+      onClick={(event) => event.stopPropagation()}
+    >
       <button className="close-button" onClick={handleClose}>
         ×
       </button>

@@ -24,7 +24,11 @@ export function SearchSection({
   };
 
   return (
-    <form className="search-section" onSubmit={handleSubmit}>
+    <form
+      className="search-section"
+      onSubmit={handleSubmit}
+      onClick={(event) => event.stopPropagation()}
+    >
       <div className="top-controls">
         <SearchInput value={initialValue} onChange={handleChange} />
         <SearchButton />

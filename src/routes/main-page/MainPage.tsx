@@ -17,8 +17,15 @@ import './main-page.css';
 import './pagination.css';
 
 function MainPage() {
-  const { results, totalCount, searchTerm, isLoading, error, handleSearch } =
-    useCharacterSearch();
+  const {
+    results,
+    totalCount,
+    searchTerm,
+    setSearchTerm,
+    isLoading,
+    error,
+    handleSearch,
+  } = useCharacterSearch();
 
   const [searchParams, setSearchParams] = useSearchParams();
   const [shouldThrow, setShouldThrow] = useState(false);
@@ -78,28 +85,39 @@ function MainPage() {
 
   const handleSearchSubmit = (term: string): void => {
     const trimmed = term.trim();
+
     setInputValue(trimmed);
 
     if (trimmed === searchTerm.trim()) return;
 
+    setSearchTerm(trimmed);
+
     navigate('/?page=1', { replace: true });
-    handleSearch(trimmed, 1);
   };
 
   return (
-    <main className={`layout ${isDetailsOpen ? 'layout-split' : ''}`}>
+    <main
+      className={`layout ${isDetailsOpen ? 'layout-split' : ''}`}
+      onClick={() => {
+        if (isDetailsOpen) {
+          navigate(`/?${searchParams.toString()}`);
+        }
+      }}
+    >
       <div className="main-panel">
         <SearchSection
           onSearch={handleSearchSubmit}
           onSearchInputChange={setInputValue}
           initialValue={inputValue}
         />
+
         <ResultsSection
           results={results}
           isLoading={isLoading}
           error={error}
           hasSearched={hasSearched}
         />
+
         {!isLoading && results.length > 0 && (
           <Pagination
             currentPage={currentPage}
@@ -107,8 +125,10 @@ function MainPage() {
             onPageChange={handlePageChange}
           />
         )}
+
         <TriggerErrorButton onClick={() => setShouldThrow(true)} />
       </div>
+
       <Outlet />
     </main>
   );
