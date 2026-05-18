@@ -5,6 +5,7 @@ export const lukeCharacter: Character = {
   gender: 'male',
   height: '172',
   birth_year: '19BBY',
+  url: 'https://swapi.dev/api/people/1/',
 };
 
 export const leiaCharacter: Character = {
@@ -12,6 +13,7 @@ export const leiaCharacter: Character = {
   gender: 'female',
   height: '150',
   birth_year: '19BBY',
+  url: 'https://swapi.dev/api/people/5/',
 };
 
 export const emptyCharacter: Character = {
@@ -19,6 +21,7 @@ export const emptyCharacter: Character = {
   gender: '',
   height: '',
   birth_year: '',
+  url: 'https://swapi.dev/api/people/999/',
 };
 
 export const mockCharacters = [lukeCharacter];

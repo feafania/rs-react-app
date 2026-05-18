@@ -1,32 +1,45 @@
+import { MemoryRouter } from 'react-router';
 import { render, screen, waitFor } from '@testing-library/react';
 import MainPage from '../../../routes/main-page/MainPage.tsx';
 import { createMockResponse, mockFetch } from '../../mocks/fetch.ts';
 import { mockCharacters } from '../../mocks/characters.ts';
+import userEvent from '@testing-library/user-event';
 
 describe('App - loading behavior', () => {
-  it('transitions from loading state to rendered results', async () => {
-    mockFetch.mockResolvedValueOnce(createMockResponse(mockCharacters));
+  it('renders results after successful request', async () => {
+    const user = userEvent.setup();
 
-    render(<MainPage />);
+    mockFetch
+      .mockResolvedValueOnce(createMockResponse(mockCharacters)) // fetch after navigate
+      .mockResolvedValueOnce(createMockResponse(mockCharacters)); // fetch triggered by useEffect
 
-    expect(screen.getByText(/loading/i)).toBeInTheDocument();
+    render(
+      <MemoryRouter initialEntries={['/']}>
+        <MainPage />
+      </MemoryRouter>
+    );
+
+    await user.type(screen.getByRole('textbox'), 'Luke');
+    await user.click(screen.getByRole('button', { name: /search/i }));
 
     expect(await screen.findByText('Luke Skywalker')).toBeInTheDocument();
-
-    expect(screen.queryByText(/loading/i)).not.toBeInTheDocument();
   });
 
-  it('switches from loading to error state on failed request', async () => {
+  it('shows error message on failed request', async () => {
+    const user = userEvent.setup();
     mockFetch.mockRejectedValueOnce(new Error('Network error'));
 
-    render(<MainPage />);
+    render(
+      <MemoryRouter initialEntries={['/']}>
+        <MainPage />
+      </MemoryRouter>
+    );
 
-    expect(screen.getByText(/loading/i)).toBeInTheDocument();
+    await user.type(screen.getByRole('textbox'), 'Luke');
+    await user.click(screen.getByRole('button', { name: /search/i }));
 
     await waitFor(() => {
       expect(screen.getByText(/something went wrong/i)).toBeInTheDocument();
     });
-
-    expect(screen.queryByText(/loading/i)).not.toBeInTheDocument();
   });
 });

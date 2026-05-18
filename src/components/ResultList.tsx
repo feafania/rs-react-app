@@ -26,7 +26,7 @@ export function ResultList({
     <div className="results-wrapper">
       {isLoading && (
         <div className="loading-overlay">
-          <div className="loader" />
+          <div className="loader" aria-label="loading" />
         </div>
       )}
 

@@ -3,6 +3,7 @@ import { vi } from 'vitest';
 import { ErrorBoundary } from '../../components/ErrorBoundary';
 import MainPage from '../../routes/main-page/MainPage.tsx';
 import userEvent from '@testing-library/user-event';
+import { MemoryRouter } from 'react-router';
 
 const ProblemChild = () => {
   throw new Error('Test error');
@@ -79,9 +80,11 @@ describe('ErrorBoundary', () => {
     const user = userEvent.setup();
 
     render(
-      <ErrorBoundary>
-        <MainPage />
-      </ErrorBoundary>
+      <MemoryRouter initialEntries={['/']}>
+        <ErrorBoundary>
+          <MainPage />
+        </ErrorBoundary>
+      </MemoryRouter>
     );
 
     const triggerButton = screen.getByRole('button', {

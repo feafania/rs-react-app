@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { Outlet, useNavigate, useSearchParams } from 'react-router';
+import { useLocation } from 'react-router';
 
 import { SearchSection } from '../../components/SearchSection.tsx';
 import { ResultsSection } from '../../components/ResultsSection.tsx';
@@ -34,7 +35,8 @@ function MainPage() {
   const correctedPageRef = useRef<number | null>(null);
 
   const searchTermRef = useRef(searchTerm);
-  const isDetailsOpen = location.pathname.includes('/details/');
+  const { pathname } = useLocation();
+  const isDetailsOpen = pathname.includes('/details/');
 
   useEffect(() => {
     searchTermRef.current = searchTerm;
@@ -78,7 +80,7 @@ function MainPage() {
 
   return (
     <main
-      className={`layout ${location.pathname.includes('/details/') ? 'layout-split' : ''}`}
+      className={`layout ${pathname.includes('/details/') ? 'layout-split' : ''}`}
     >
       <div className="main-panel">
         <SearchSection

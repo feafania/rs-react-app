@@ -7,6 +7,7 @@ export const createMockResponse = (data: Character[] = []) =>
   Promise.resolve({
     ok: true,
     json: async () => ({
+      count: data.length,
       results: data,
     }),
   });

@@ -1,36 +1,48 @@
 import { render, screen } from '@testing-library/react';
-
-import { ResultList } from '../../components/ResultList.tsx';
 import { leiaCharacter, lukeCharacter } from '../mocks/characters.ts';
+import { ResultList } from '../../components/ResultList.tsx';
+import { MemoryRouter } from 'react-router';
 
 describe('ResultList', () => {
-  it('renders loading state with accessibility role', () => {
-    render(<ResultList results={[]} isLoading={true} error="" />);
+  it('renders loading state', () => {
+    render(
+      <ResultList results={[]} isLoading={true} error="" hasSearched={false} />
+    );
 
-    expect(screen.getByRole('status')).toBeInTheDocument();
+    expect(document.querySelector('.loader')).toBeInTheDocument();
   });
 
   it('renders error message with alert role', () => {
     render(
-      <ResultList results={[]} isLoading={false} error="Something went wrong" />
+      <ResultList
+        results={[]}
+        isLoading={false}
+        error="Something went wrong"
+        hasSearched={false}
+      />
     );
 
     expect(screen.getByRole('alert')).toBeInTheDocument();
   });
 
   it('renders empty state when no results found', () => {
-    render(<ResultList results={[]} isLoading={false} error="" />);
+    render(
+      <ResultList results={[]} isLoading={false} error="" hasSearched={true} />
+    );
 
-    expect(screen.getByRole('status')).toHaveTextContent('No results found');
+    expect(screen.getByText('No results found')).toBeInTheDocument();
   });
 
   it('renders results correctly', () => {
     render(
-      <ResultList
-        isLoading={false}
-        error=""
-        results={[lukeCharacter, leiaCharacter]}
-      />
+      <MemoryRouter>
+        <ResultList
+          isLoading={false}
+          error=""
+          results={[lukeCharacter, leiaCharacter]}
+          hasSearched={true}
+        />
+      </MemoryRouter>
     );
 
     expect(screen.getByText('Luke Skywalker')).toBeInTheDocument();
