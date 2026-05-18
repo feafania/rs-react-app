@@ -1,4 +1,4 @@
-import { useState, useCallback, useRef } from 'react';
+import { useState, useCallback } from 'react';
 
 import { useLocalStorage } from './useLocalStorage.ts';
 import { fetchCharacters } from '../api/swapiService.ts';
@@ -16,9 +16,6 @@ interface UseCharacterSearchReturn {
 
 export function useCharacterSearch(): UseCharacterSearchReturn {
   const [searchTerm, setSearchTerm] = useLocalStorage('searchTerm', '');
-
-  const lastFetchedTerm = useRef(searchTerm);
-  const lastFetchedPage = useRef(0);
 
   const [results, setResults] = useState<Character[]>([]);
   const [totalCount, setTotalCount] = useState(0);
@@ -46,18 +43,9 @@ export function useCharacterSearch(): UseCharacterSearchReturn {
 
   const handleSearch = useCallback(
     (term: string, page: number) => {
-      const trimmed = term.trim();
-      if (
-        trimmed === lastFetchedTerm.current &&
-        page === lastFetchedPage.current
-      )
-        return;
-      lastFetchedTerm.current = trimmed;
-      lastFetchedPage.current = page;
-      setSearchTerm(trimmed);
-      fetchData(trimmed, page);
+      fetchData(term.trim(), page);
     },
-    [fetchData, setSearchTerm]
+    [fetchData]
   );
 
   return {

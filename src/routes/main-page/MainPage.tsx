@@ -1,10 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import {
-  Outlet,
-  useLocation,
-  useNavigate,
-  useSearchParams,
-} from 'react-router';
+import { Outlet, useNavigate, useSearchParams } from 'react-router';
 
 import { SearchSection } from '../../components/SearchSection.tsx';
 import { ResultsSection } from '../../components/ResultsSection.tsx';
@@ -30,9 +25,6 @@ function MainPage() {
   const [searchParams, setSearchParams] = useSearchParams();
   const [shouldThrow, setShouldThrow] = useState(false);
   const [inputValue, setInputValue] = useState(searchTerm);
-  const location = useLocation();
-
-  const isDetailsOpen = location.pathname.includes('/details/');
 
   const hasSearched = searchTerm.trim().length > 0;
   const rawPage = Number(searchParams.get('page'));
@@ -42,29 +34,18 @@ function MainPage() {
   const correctedPageRef = useRef<number | null>(null);
 
   const searchTermRef = useRef(searchTerm);
+  const isDetailsOpen = location.pathname.includes('/details/');
 
   useEffect(() => {
     searchTermRef.current = searchTerm;
   }, [searchTerm]);
 
   useEffect(() => {
-    const pageParam = searchParams.get('page');
-    const parsed = Number(pageParam);
-    const isValidPage = Number.isFinite(parsed) && parsed > 0;
+    const page = currentPage;
+    const term = searchParams.get('search')?.trim() || searchTerm.trim();
 
-    if (!isValidPage) {
-      setSearchParams({ page: '1' }, { replace: true });
-      handleSearch(searchTermRef.current, 1);
-      return;
-    }
-
-    if (correctedPageRef.current === parsed) {
-      correctedPageRef.current = null;
-      return;
-    }
-
-    handleSearch(searchTermRef.current, parsed);
-  }, [searchParams, handleSearch, setSearchParams]);
+    handleSearch(term, page);
+  }, [searchParams, currentPage, handleSearch]);
 
   useEffect(() => {
     if (totalPages > 0 && currentPage > totalPages) {
@@ -92,17 +73,12 @@ function MainPage() {
 
     setSearchTerm(trimmed);
 
-    navigate('/?page=1', { replace: true });
+    navigate(`/?search=${trimmed}&page=1`);
   };
 
   return (
     <main
-      className={`layout ${isDetailsOpen ? 'layout-split' : ''}`}
-      onClick={() => {
-        if (isDetailsOpen) {
-          navigate(`/?${searchParams.toString()}`);
-        }
-      }}
+      className={`layout ${location.pathname.includes('/details/') ? 'layout-split' : ''}`}
     >
       <div className="main-panel">
         <SearchSection
@@ -128,6 +104,9 @@ function MainPage() {
 
         <TriggerErrorButton onClick={() => setShouldThrow(true)} />
       </div>
+      {isDetailsOpen && (
+        <div className="details-overlay" onClick={() => navigate(-1)} />
+      )}
 
       <Outlet />
     </main>
