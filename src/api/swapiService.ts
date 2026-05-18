@@ -1,4 +1,4 @@
-import type { Character } from '../types/types.ts';
+import type { Character, CharacterDetailsData } from '../types/types.ts';
 import { API_URL } from '../constants';
 
 interface SwapiResponse {
@@ -35,4 +35,16 @@ export async function fetchCharacters(
     results: data.results,
     totalCount: data.count,
   };
+}
+
+export async function fetchCharacterDetails(
+  id: string
+): Promise<CharacterDetailsData> {
+  const response = await fetch(`${API_URL}/people/${id}/`);
+
+  if (!response.ok) {
+    throw new Error('Failed to fetch character details');
+  }
+
+  return response.json();
 }

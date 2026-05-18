@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { Outlet, useSearchParams } from 'react-router';
+import { Outlet, useLocation, useSearchParams } from 'react-router';
 
 import { SearchSection } from '../../components/SearchSection.tsx';
 import { ResultsSection } from '../../components/ResultsSection.tsx';
@@ -18,6 +18,9 @@ function MainPage() {
   const [searchParams, setSearchParams] = useSearchParams();
   const [shouldThrow, setShouldThrow] = useState(false);
   const [inputValue, setInputValue] = useState(searchTerm);
+  const location = useLocation();
+
+  const isDetailsOpen = location.pathname.includes('/details/');
 
   const hasSearched = searchTerm.trim().length > 0;
   const rawPage = Number(searchParams.get('page'));
@@ -77,7 +80,7 @@ function MainPage() {
   };
 
   return (
-    <main className="layout">
+    <main className={`layout ${isDetailsOpen ? 'layout-split' : ''}`}>
       <div className="main-panel">
         <SearchSection
           onSearch={handleSearchSubmit}

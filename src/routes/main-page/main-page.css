@@ -1,14 +1,23 @@
 .layout {
   max-width: 1280px;
+
   margin: 0 auto;
+  padding: 24px;
 
   min-height: 100vh;
 
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
+  display: block;
+}
 
-  padding: 24px;
+.layout-split {
+  display: flex;
+  gap: 24px;
+  align-items: flex-start;
+}
+
+.main-panel {
+  flex: 1;
+  min-width: 0;
 }
 
 .search-section,
@@ -37,52 +46,92 @@
 
 .results-table {
   margin-top: 20px;
-
-  border: 1px solid #dcdcdc;
-  border-radius: 8px;
-
-  overflow: hidden;
 }
 
 .results-header {
   display: grid;
   grid-template-columns: 220px 1fr;
 
-  background: #f3f3f3;
+  padding: 0 8px 12px;
 
-  font-weight: bold;
-
-  padding: 16px;
-
-  border-bottom: 1px solid #dcdcdc;
+  color: #666;
+  font-size: 14px;
+  font-weight: 700;
 }
 
 .results-body {
   display: flex;
   flex-direction: column;
+  gap: 12px;
 }
+
+/* CARD ROW */
 
 .result-row {
   display: grid;
   grid-template-columns: 220px 1fr;
-
-  padding: 16px;
-
-  border-bottom: 1px solid #ececec;
+  gap: 16px;
 
   align-items: center;
+
+  padding: 18px 20px;
+
+  background: white;
+
+  border: 1px solid #e7e7e7;
+  border-radius: 14px;
+
+  text-decoration: none;
+  color: inherit;
+
+  cursor: pointer;
+
+  will-change: transform;
+
+  transition:
+    transform 0.18s ease,
+    box-shadow 0.18s ease,
+    border-color 0.18s ease,
+    background 0.18s ease;
 }
 
-.result-row:last-child {
-  border-bottom: none;
+.result-row:hover {
+  transform: translateY(-2px);
+
+  border-color: #cfcfcf;
+
+  box-shadow:
+    0 10px 24px rgba(0, 0, 0, 0.08),
+    0 2px 6px rgba(0, 0, 0, 0.04);
+
+  background: #fcfcfc;
 }
+
+.result-row:active {
+  transform: scale(0.995);
+}
+
+.result-row:visited {
+  color: inherit;
+}
+
+.result-row:focus-visible {
+  outline: 3px solid #111;
+  outline-offset: 2px;
+}
+
+/* TEXT */
 
 .result-name {
-  font-weight: 600;
+  font-size: 16px;
+  font-weight: 700;
+
+  color: #111;
 }
 
 .result-description {
   color: #555;
+  line-height: 1.5;
 }
 
 .loading-state,
@@ -234,18 +283,22 @@
   .results-header,
   .result-row {
     grid-template-columns: 1fr;
-    gap: 8px;
+  }
+
+  .result-row {
+    gap: 10px;
+    padding: 16px;
   }
 
   .results-header {
     display: none;
   }
 
-  .result-row {
-    padding: 14px;
-  }
-
   .result-description {
     font-size: 14px;
+  }
+
+  .layout-split {
+    flex-direction: column;
   }
 }
