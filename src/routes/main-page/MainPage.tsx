@@ -1,5 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
-import { Outlet, useLocation, useSearchParams } from 'react-router';
+import {
+  Outlet,
+  useLocation,
+  useNavigate,
+  useSearchParams,
+} from 'react-router';
 
 import { SearchSection } from '../../components/SearchSection.tsx';
 import { ResultsSection } from '../../components/ResultsSection.tsx';
@@ -65,8 +70,10 @@ function MainPage() {
     throw new Error('Test error triggered!');
   }
 
+  const navigate = useNavigate();
+
   const handlePageChange = (page: number): void => {
-    setSearchParams({ page: String(page) });
+    navigate(`/?page=${page}`);
   };
 
   const handleSearchSubmit = (term: string): void => {
@@ -75,7 +82,7 @@ function MainPage() {
 
     if (trimmed === searchTerm.trim()) return;
 
-    setSearchParams({ page: '1' }, { replace: true });
+    navigate('/?page=1', { replace: true });
     handleSearch(trimmed, 1);
   };
 
