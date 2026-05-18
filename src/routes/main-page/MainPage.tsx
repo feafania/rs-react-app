@@ -1,62 +1,79 @@
-import { useEffect, useState } from 'react';
-
+import { useEffect, useRef, useState } from 'react';
 import { Outlet, useSearchParams } from 'react-router';
 
 import { SearchSection } from '../../components/SearchSection.tsx';
 import { ResultsSection } from '../../components/ResultsSection.tsx';
-import { TriggerErrorButton } from '../../components/TriggerErrorButton.tsx';
 import { Pagination } from '../../components/Pagination.tsx';
-
+import { TriggerErrorButton } from '../../components/TriggerErrorButton.tsx';
 import { useCharacterSearch } from '../../hooks/useCharacterSearch.ts';
+import { ITEMS_PER_PAGE } from '../../constants';
 
 import './main-page.css';
 import './pagination.css';
-import { ITEMS_PER_PAGE } from '../../constants';
 
 function MainPage() {
   const { results, totalCount, searchTerm, isLoading, error, handleSearch } =
     useCharacterSearch();
 
   const [searchParams, setSearchParams] = useSearchParams();
-
   const [shouldThrow, setShouldThrow] = useState(false);
   const [inputValue, setInputValue] = useState(searchTerm);
-  const [hasSearched, setHasSearched] = useState(false);
 
-  const currentPage = Number(searchParams.get('page') || '1');
+  const hasSearched = searchTerm.trim().length > 0;
+  const rawPage = Number(searchParams.get('page'));
+  const currentPage = Number.isFinite(rawPage) && rawPage > 0 ? rawPage : 1;
+  const totalPages = Math.ceil(totalCount / ITEMS_PER_PAGE);
+
+  const correctedPageRef = useRef<number | null>(null);
+
+  const searchTermRef = useRef(searchTerm);
 
   useEffect(() => {
-    if (!searchParams.get('page')) {
+    searchTermRef.current = searchTerm;
+  }, [searchTerm]);
+
+  useEffect(() => {
+    const pageParam = searchParams.get('page');
+    const parsed = Number(pageParam);
+    const isValidPage = Number.isFinite(parsed) && parsed > 0;
+
+    if (!isValidPage) {
       setSearchParams({ page: '1' }, { replace: true });
+      handleSearch(searchTermRef.current, 1);
+      return;
     }
-  }, [searchParams, setSearchParams]);
+
+    if (correctedPageRef.current === parsed) {
+      correctedPageRef.current = null;
+      return;
+    }
+
+    handleSearch(searchTermRef.current, parsed);
+  }, [searchParams, handleSearch, setSearchParams]);
+
+  useEffect(() => {
+    if (totalPages > 0 && currentPage > totalPages) {
+      correctedPageRef.current = totalPages;
+      setSearchParams({ page: String(totalPages) }, { replace: true });
+    }
+  }, [currentPage, totalPages, setSearchParams]);
 
   if (shouldThrow) {
     throw new Error('Test error triggered!');
   }
 
-  const totalPages = Math.ceil(totalCount / ITEMS_PER_PAGE);
-
-  useEffect(() => {
-    if (totalPages > 0 && currentPage > totalPages) {
-      setSearchParams({ page: String(totalPages) });
-    }
-  }, [currentPage, totalPages, setSearchParams]);
-
   const handlePageChange = (page: number): void => {
     setSearchParams({ page: String(page) });
-
-    handleSearch(searchTerm, page);
   };
 
   const handleSearchSubmit = (term: string): void => {
-    setSearchParams({ page: '1' });
+    const trimmed = term.trim();
+    setInputValue(trimmed);
 
-    handleSearch(term, 1);
+    if (trimmed === searchTerm.trim()) return;
 
-    setInputValue(term);
-
-    setHasSearched(true);
+    setSearchParams({ page: '1' }, { replace: true });
+    handleSearch(trimmed, 1);
   };
 
   return (
@@ -67,7 +84,6 @@ function MainPage() {
           onSearchInputChange={setInputValue}
           initialValue={inputValue}
         />
-
         <ResultsSection
           results={results}
           isLoading={isLoading}
@@ -81,10 +97,8 @@ function MainPage() {
             onPageChange={handlePageChange}
           />
         )}
-
         <TriggerErrorButton onClick={() => setShouldThrow(true)} />
       </div>
-
       <Outlet />
     </main>
   );
