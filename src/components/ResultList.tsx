@@ -1,12 +1,7 @@
 import type { ResultsDataProps } from '../types/types.ts';
 import { ResultRow } from './ResultRow';
 
-export function ResultList({
-  results,
-  isLoading,
-  error,
-  hasSearched,
-}: ResultsDataProps) {
+export function ResultList({ results, isLoading, error }: ResultsDataProps) {
   if (error) {
     return (
       <div className="error-state" role="alert">
@@ -15,11 +10,7 @@ export function ResultList({
     );
   }
 
-  if (!hasSearched && !isLoading) {
-    return <div className="empty-state">Start typing and press search</div>;
-  }
-
-  if (hasSearched && !isLoading && results.length === 0) {
+  if (!isLoading && results.length === 0) {
     return <div className="empty-state">No results found</div>;
   }
   return (

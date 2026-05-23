@@ -11,71 +11,92 @@ import { ITEMS_PER_PAGE } from '../../constants';
 
 import './main-page.css';
 import './pagination.css';
+import { updateSearchParams } from '../../util/updateSearchParams.ts';
+import { useLocalStorage } from '../../hooks/useLocalStorage.ts';
 
 function MainPage() {
-  const {
-    results,
-    totalCount,
-    searchTerm,
-    setSearchTerm,
-    isLoading,
-    error,
-    handleSearch,
-  } = useCharacterSearch();
+  const { results, totalCount, isLoading, error, handleSearch } =
+    useCharacterSearch();
 
   const [searchParams, setSearchParams] = useSearchParams();
-  const [shouldThrow, setShouldThrow] = useState(false);
-  const [inputValue, setInputValue] = useState(searchTerm);
 
-  const hasSearched = searchTerm.trim().length > 0;
+  const urlSearch = searchParams.get('search')?.trim() || '';
+  const [storedSearch] = useLocalStorage('searchTerm');
+
+  const [shouldThrow, setShouldThrow] = useState(false);
+
+  const [inputValue, setInputValue] = useState(() => urlSearch || storedSearch);
+
   const rawPage = Number(searchParams.get('page'));
   const currentPage = Number.isFinite(rawPage) && rawPage > 0 ? rawPage : 1;
   const totalPages = Math.ceil(totalCount / ITEMS_PER_PAGE);
 
-  const correctedPageRef = useRef<number | null>(null);
-
-  const searchTermRef = useRef(searchTerm);
   const { pathname } = useLocation();
   const isDetailsOpen = pathname.includes('/details/');
 
-  useEffect(() => {
-    searchTermRef.current = searchTerm;
-  }, [searchTerm]);
+  const hasBootstrapped = useRef(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const page = currentPage;
-    const term = searchParams.get('search')?.trim() || searchTerm.trim();
+    if (hasBootstrapped.current) return;
+    hasBootstrapped.current = true;
 
-    handleSearch(term, page);
-  }, [searchParams, currentPage, handleSearch]);
+    const urlHasSearch = searchParams.get('search');
+    const stored = storedSearch;
+
+    if (!urlHasSearch && stored) {
+      setSearchParams(
+        updateSearchParams(searchParams, {
+          search: stored,
+          page: '1',
+        }),
+        { replace: true }
+      );
+    }
+  }, []);
+
+  useEffect(() => {
+    const search = searchParams.get('search')?.trim() || '';
+    handleSearch(search, currentPage);
+  }, [searchParams.get('search'), currentPage, handleSearch]);
 
   useEffect(() => {
     if (totalPages > 0 && currentPage > totalPages) {
-      correctedPageRef.current = totalPages;
-      setSearchParams({ page: String(totalPages) }, { replace: true });
+      setSearchParams(
+        updateSearchParams(searchParams, {
+          page: String(totalPages),
+        }),
+        { replace: true }
+      );
     }
-  }, [currentPage, totalPages, setSearchParams]);
+  }, [currentPage, totalPages, searchParams, setSearchParams]);
 
   if (shouldThrow) {
     throw new Error('Test error triggered!');
   }
 
-  const navigate = useNavigate();
-
   const handlePageChange = (page: number): void => {
-    navigate(`/?page=${page}`);
+    setSearchParams(
+      updateSearchParams(searchParams, {
+        page: String(page),
+      })
+    );
   };
 
-  const handleSearchSubmit = (term: string): void => {
+  const [, setStoredSearch] = useLocalStorage('searchTerm');
+
+  const handleSearchSubmit = (term: string) => {
     const trimmed = term.trim();
 
     setInputValue(trimmed);
+    setStoredSearch(trimmed);
 
-    if (trimmed === searchTerm.trim()) return;
-
-    setSearchTerm(trimmed);
-
-    navigate(`/?search=${trimmed}&page=1`);
+    setSearchParams(
+      updateSearchParams(searchParams, {
+        search: trimmed,
+        page: '1',
+      })
+    );
   };
 
   return (
@@ -89,12 +110,7 @@ function MainPage() {
           initialValue={inputValue}
         />
 
-        <ResultsSection
-          results={results}
-          isLoading={isLoading}
-          error={error}
-          hasSearched={hasSearched}
-        />
+        <ResultsSection results={results} isLoading={isLoading} error={error} />
 
         {!isLoading && results.length > 0 && (
           <Pagination

@@ -5,18 +5,12 @@ export function ResultsSection({
   results,
   isLoading,
   error,
-  hasSearched,
 }: ResultsDataProps) {
   return (
     <section className="results-section">
       <h2>Results</h2>
 
-      <ResultList
-        results={results}
-        isLoading={isLoading}
-        error={error}
-        hasSearched={hasSearched}
-      />
+      <ResultList results={results} isLoading={isLoading} error={error} />
     </section>
   );
 }

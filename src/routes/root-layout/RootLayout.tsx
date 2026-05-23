@@ -1,8 +1,11 @@
-import { Outlet, NavLink } from 'react-router';
+import { Outlet, NavLink, useLocation } from 'react-router';
 import { ErrorBoundary } from '../../components/ErrorBoundary.tsx';
 import './root-layout.css';
 
 export function RootLayout() {
+  const { pathname } = useLocation();
+  const isHomeActive = pathname === '/' || pathname.startsWith('/details/');
+
   return (
     <ErrorBoundary>
       <div className="app-shell">
@@ -13,9 +16,7 @@ export function RootLayout() {
             <nav className="main-nav">
               <NavLink
                 to="/"
-                className={({ isActive }) =>
-                  isActive ? 'nav-link active' : 'nav-link'
-                }
+                className={isHomeActive ? 'nav-link active' : 'nav-link'}
               >
                 Home
               </NavLink>

@@ -60,9 +60,7 @@ describe('App - localStorage', () => {
 
     renderWithRouter('/');
 
-    expect(
-      await screen.findByText(/start typing and press search/i)
-    ).toBeInTheDocument();
+    expect(await screen.findByText(/no results found/i)).toBeInTheDocument();
 
     expect(localStorage.getItem('searchTerm')).toBeNull();
   });

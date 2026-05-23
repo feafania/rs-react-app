@@ -1,13 +1,15 @@
 import type { Character, CharacterDetailsData } from '../types/types.ts';
 import { API_URL } from '../constants';
 
-interface SwapiResponse {
-  count: number;
+interface CharacterResults {
   results: Character[];
 }
 
-interface FetchCharactersResponse {
-  results: Character[];
+interface SwapiResponse extends CharacterResults {
+  count: number;
+}
+
+interface FetchCharactersResponse extends CharacterResults {
   totalCount: number;
 }
 

@@ -21,5 +21,4 @@ export interface ResultsDataProps {
   results: Character[];
   isLoading: boolean;
   error: string;
-  hasSearched: boolean;
 }

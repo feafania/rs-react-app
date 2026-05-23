@@ -19,8 +19,8 @@ describe('ResultsSection', () => {
   });
 
   it('renders ResultList component', () => {
-    render(<ResultsSection {...props} hasSearched={false} />);
+    render(<ResultsSection {...props} />);
 
-    expect(screen.getByText(/start typing/i)).toBeInTheDocument();
+    expect(screen.getByText(/no results/i)).toBeInTheDocument();
   });
 });

@@ -5,30 +5,21 @@ import { MemoryRouter } from 'react-router';
 
 describe('ResultList', () => {
   it('renders loading state', () => {
-    render(
-      <ResultList results={[]} isLoading={true} error="" hasSearched={false} />
-    );
+    render(<ResultList results={[]} isLoading={true} error="" />);
 
     expect(document.querySelector('.loader')).toBeInTheDocument();
   });
 
   it('renders error message with alert role', () => {
     render(
-      <ResultList
-        results={[]}
-        isLoading={false}
-        error="Something went wrong"
-        hasSearched={false}
-      />
+      <ResultList results={[]} isLoading={false} error="Something went wrong" />
     );
 
     expect(screen.getByRole('alert')).toBeInTheDocument();
   });
 
   it('renders empty state when no results found', () => {
-    render(
-      <ResultList results={[]} isLoading={false} error="" hasSearched={true} />
-    );
+    render(<ResultList results={[]} isLoading={false} error="" />);
 
     expect(screen.getByText('No results found')).toBeInTheDocument();
   });
@@ -40,7 +31,6 @@ describe('ResultList', () => {
           isLoading={false}
           error=""
           results={[lukeCharacter, leiaCharacter]}
-          hasSearched={true}
         />
       </MemoryRouter>
     );
