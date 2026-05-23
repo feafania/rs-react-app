@@ -1,0 +1,61 @@
+.not-found-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  min-height: 70vh;
+  padding: 20px;
+
+  background: radial-gradient(circle at center, #111 0%, #000 100%);
+  color: #f5f5f5;
+}
+
+.not-found-card {
+  text-align: center;
+
+  padding: 32px;
+
+  border: 1px solid #333;
+  border-radius: 12px;
+
+  background: rgba(20, 20, 20, 0.85);
+}
+
+.not-found-card h1 {
+  font-size: 72px;
+  margin-bottom: 10px;
+  color: #ffe81f; /* Star Wars yellow */
+}
+
+.quote {
+  margin: 20px 0;
+
+  font-style: italic;
+  color: #ccc;
+}
+
+.home-link {
+  display: inline-block;
+
+  padding: 10px 16px;
+
+  border-radius: 8px;
+
+  background: #ffe81f;
+  color: #111;
+
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.home-link:hover {
+  background: #fff04a;
+}
+
+.quote::before {
+  content: '“';
+}
+
+.quote::after {
+  content: '”';
+}

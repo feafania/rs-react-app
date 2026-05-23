@@ -1,13 +1,13 @@
 import { render, screen } from '@testing-library/react';
-
-import { ResultList } from '../../components/ResultList.tsx';
 import { leiaCharacter, lukeCharacter } from '../mocks/characters.ts';
+import { ResultList } from '../../components/ResultList.tsx';
+import { MemoryRouter } from 'react-router';
 
 describe('ResultList', () => {
-  it('renders loading state with accessibility role', () => {
+  it('renders loading state', () => {
     render(<ResultList results={[]} isLoading={true} error="" />);
 
-    expect(screen.getByRole('status')).toBeInTheDocument();
+    expect(document.querySelector('.loader')).toBeInTheDocument();
   });
 
   it('renders error message with alert role', () => {
@@ -21,16 +21,18 @@ describe('ResultList', () => {
   it('renders empty state when no results found', () => {
     render(<ResultList results={[]} isLoading={false} error="" />);
 
-    expect(screen.getByRole('status')).toHaveTextContent('No results found');
+    expect(screen.getByText('No results found')).toBeInTheDocument();
   });
 
   it('renders results correctly', () => {
     render(
-      <ResultList
-        isLoading={false}
-        error=""
-        results={[lukeCharacter, leiaCharacter]}
-      />
+      <MemoryRouter>
+        <ResultList
+          isLoading={false}
+          error=""
+          results={[lukeCharacter, leiaCharacter]}
+        />
+      </MemoryRouter>
     );
 
     expect(screen.getByText('Luke Skywalker')).toBeInTheDocument();

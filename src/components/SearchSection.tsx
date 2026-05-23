@@ -1,4 +1,4 @@
-import React, { type ChangeEvent, Component } from 'react';
+import { type ChangeEvent, type SyntheticEvent } from 'react';
 
 import { SearchInput } from './SearchInput';
 import { SearchButton } from './SearchButton';
@@ -9,28 +9,30 @@ interface SearchSectionProps {
   initialValue: string;
 }
 
-export class SearchSection extends Component<SearchSectionProps> {
-  handleChange = (event: ChangeEvent<HTMLInputElement>): void => {
-    this.props.onSearchInputChange(event.target.value);
+export function SearchSection({
+  onSearch,
+  onSearchInputChange,
+  initialValue,
+}: SearchSectionProps) {
+  const handleChange = (event: ChangeEvent<HTMLInputElement>): void => {
+    onSearchInputChange(event.target.value);
   };
 
-  handleSubmit = (event: React.SyntheticEvent<HTMLFormElement>): void => {
+  const handleSubmit = (event: SyntheticEvent<HTMLFormElement>): void => {
     event.preventDefault();
-    this.props.onSearch(this.props.initialValue);
+    onSearch(initialValue.trim());
   };
 
-  render() {
-    return (
-      <form className="search-section" onSubmit={this.handleSubmit}>
-        <div className="top-controls">
-          <SearchInput
-            value={this.props.initialValue}
-            onChange={this.handleChange}
-          />
-
-          <SearchButton />
-        </div>
-      </form>
-    );
-  }
+  return (
+    <form
+      className="search-section"
+      onSubmit={handleSubmit}
+      onClick={(event) => event.stopPropagation()}
+    >
+      <div className="top-controls">
+        <SearchInput value={initialValue} onChange={handleChange} />
+        <SearchButton />
+      </div>
+    </form>
+  );
 }

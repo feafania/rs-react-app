@@ -1,5 +1,6 @@
+import { MemoryRouter } from 'react-router';
 import { render, screen, waitFor } from '@testing-library/react';
-import App from '../../../App.tsx';
+import MainPage from '../../../routes/main-page/MainPage.tsx';
 import { createMockResponse, mockFetch } from '../../mocks/fetch.ts';
 import userEvent from '@testing-library/user-event';
 import { mockCharacters } from '../../mocks/characters.ts';
@@ -10,7 +11,11 @@ describe('App - edge cases', () => {
 
     mockFetch.mockResolvedValueOnce(createMockResponse([]));
 
-    render(<App />);
+    render(
+      <MemoryRouter initialEntries={['/']}>
+        <MainPage />
+      </MemoryRouter>
+    );
 
     const input = screen.getByRole('textbox');
     const button = screen.getByRole('button', { name: /search/i });
@@ -24,13 +29,18 @@ describe('App - edge cases', () => {
       );
     });
   });
+
   it('does not send search param when input is cleared', async () => {
     const user = userEvent.setup();
 
     mockFetch.mockResolvedValueOnce(createMockResponse(mockCharacters));
     mockFetch.mockResolvedValueOnce(createMockResponse([]));
 
-    render(<App />);
+    render(
+      <MemoryRouter initialEntries={['/']}>
+        <MainPage />
+      </MemoryRouter>
+    );
 
     const input = screen.getByRole('textbox');
     const button = screen.getByRole('button', { name: /search/i });

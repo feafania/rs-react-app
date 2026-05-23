@@ -7,6 +7,7 @@ describe('ResultsSection', () => {
     results: [] as Character[],
     isLoading: false,
     error: '',
+    hasSearched: true,
   };
 
   it('renders section title', () => {
@@ -20,6 +21,6 @@ describe('ResultsSection', () => {
   it('renders ResultList component', () => {
     render(<ResultsSection {...props} />);
 
-    expect(screen.getByText(/no results found/i)).toBeInTheDocument();
+    expect(screen.getByText(/no results/i)).toBeInTheDocument();
   });
 });

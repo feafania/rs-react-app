@@ -1,22 +1,27 @@
-import { Component } from 'react';
 import { type Character } from '../types/types.ts';
 import { getCharacterDescription } from '../util/getCharacterDescription.ts';
+import { Link, useSearchParams } from 'react-router';
 
 interface ResultRowProps {
   character: Character;
 }
 
-export class ResultRow extends Component<ResultRowProps> {
-  render() {
-    const { name } = this.props.character;
-    const description = getCharacterDescription(this.props.character);
+export function ResultRow({ character }: ResultRowProps) {
+  const { name } = character;
+  const description = getCharacterDescription(character);
+  const [searchParams] = useSearchParams();
 
-    return (
-      <div className="result-row">
-        <span className="result-name">{name}</span>
+  const id = character.url.match(/people\/(\d+)\//)?.[1];
+  if (!id) return null;
 
-        <span className="result-description">{description}</span>
-      </div>
-    );
-  }
+  return (
+    <Link
+      to={`/details/${id}?${searchParams.toString()}`}
+      className="result-row"
+      onClick={(event) => event.stopPropagation()}
+    >
+      <span className="result-name">{name}</span>
+      <span className="result-description">{description}</span>
+    </Link>
+  );
 }
