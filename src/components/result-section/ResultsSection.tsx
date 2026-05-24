@@ -1,5 +1,6 @@
-import type { ResultsDataProps } from '../types/types.ts';
-import { ResultList } from './ResultList';
+import type { ResultsDataProps } from '../../types/types.ts';
+import { ResultList } from './ResultList.tsx';
+import './result-section.css';
 
 export function ResultsSection({
   results,

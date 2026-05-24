@@ -1,6 +1,6 @@
 import { MemoryRouter } from 'react-router';
 import { render, screen } from '@testing-library/react';
-import { ResultRow } from '../../components/ResultRow.tsx';
+import { ResultRow } from '../../components/result-section/ResultRow.tsx';
 import { emptyCharacter, lukeCharacter } from '../mocks/characters.ts';
 
 describe('ResultRow', () => {

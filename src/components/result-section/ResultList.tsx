@@ -1,5 +1,5 @@
-import type { ResultsDataProps } from '../types/types.ts';
-import { ResultRow } from './ResultRow';
+import type { ResultsDataProps } from '../../types/types.ts';
+import { ResultRow } from './ResultRow.tsx';
 
 export function ResultList({ results, isLoading, error }: ResultsDataProps) {
   if (error) {
@@ -23,7 +23,10 @@ export function ResultList({ results, isLoading, error }: ResultsDataProps) {
 
       <div className="results-table">
         <div className="results-header">
+          <span />
+
           <span>Item Name</span>
+
           <span>Item Description</span>
         </div>
 

@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import { ResultsSection } from '../../components/ResultsSection';
+import { ResultsSection } from '../../components/result-section/ResultsSection.tsx';
 import type { Character } from '../../types/types';
 
 describe('ResultsSection', () => {
