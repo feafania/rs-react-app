@@ -1,24 +1,61 @@
 .details-panel {
   width: 360px;
   max-width: 100%;
+
   flex-shrink: 0;
+  align-self: flex-start;
 
   background: white;
+
   border: 1px solid #e5e5e5;
   border-radius: 12px;
-  padding: 20px;
 
-  position: relative;
+  position: sticky;
+  top: 100px;
+
+  overflow: hidden;
+  overscroll-behavior: contain;
+
   z-index: 2;
+}
 
-  top: 20px;
-  align-self: flex-start;
+.details-header {
+  position: sticky;
+  top: 0;
+
+  display: flex;
+  justify-content: flex-end;
+
+  padding: 12px 16px;
+
+  background: white;
+
+  border-bottom: 1px solid #f0f0f0;
+
+  z-index: 10;
 }
 
 .details-content {
   display: flex;
   flex-direction: column;
   gap: 12px;
+
+  padding: 20px;
+}
+
+.details-drag-indicator {
+  position: absolute;
+  left: 50%;
+  top: 8px;
+
+  transform: translateX(-50%);
+
+  width: 48px;
+  height: 5px;
+
+  border-radius: 999px;
+
+  background: #d6d6d6;
 }
 
 .details-loading {
@@ -36,10 +73,40 @@
   display: block;
 }
 
-@media (max-width: 768px) {
-  .details-panel {
-    width: 100%;
+@keyframes details-slide-up {
+  from {
+    transform: translateY(40px);
+    opacity: 0;
+  }
 
-    position: static;
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@media (max-width: 768px) {
+  @media (max-width: 768px) {
+    .details-panel {
+      position: fixed;
+
+      inset: 0;
+
+      width: 100%;
+      height: 100dvh;
+
+      display: flex;
+      flex-direction: column;
+
+      overflow-y: auto;
+      background: white;
+      border-radius: 0;
+      z-index: 1000;
+
+      animation: details-slide-up 0.25s ease;
+      touch-action: pan-y;
+
+      -webkit-overflow-scrolling: touch;
+    }
   }
 }
