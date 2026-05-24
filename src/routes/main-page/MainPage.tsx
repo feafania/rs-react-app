@@ -3,7 +3,7 @@ import { Outlet, useNavigate, useSearchParams } from 'react-router';
 import { useLocation } from 'react-router';
 
 import { SearchSection } from '../../components/SearchSection.tsx';
-import { ResultsSection } from '../../components/ResultsSection.tsx';
+import { ResultsSection } from '../../components/result-section/ResultsSection.tsx';
 import { Pagination } from '../../components/Pagination.tsx';
 import { TriggerErrorButton } from '../../components/TriggerErrorButton.tsx';
 import { useCharacterSearch } from '../../hooks/useCharacterSearch.ts';
@@ -13,6 +13,7 @@ import './main-page.css';
 import './pagination.css';
 import { updateSearchParams } from '../../util/updateSearchParams.ts';
 import { useLocalStorage } from '../../hooks/useLocalStorage.ts';
+import { SelectedFlyout } from '../../components/result-flyout/SelectedFlyout.tsx';
 
 function MainPage() {
   const { results, totalCount, isLoading, error, handleSearch } =
@@ -36,6 +37,10 @@ function MainPage() {
 
   const hasBootstrapped = useRef(false);
   const navigate = useNavigate();
+
+  if (shouldThrow) {
+    throw new Error('Test error triggered!');
+  }
 
   useEffect(() => {
     if (hasBootstrapped.current) return;
@@ -70,10 +75,6 @@ function MainPage() {
       );
     }
   }, [currentPage, totalPages, searchParams, setSearchParams]);
-
-  if (shouldThrow) {
-    throw new Error('Test error triggered!');
-  }
 
   const handlePageChange = (page: number): void => {
     setSearchParams(
@@ -127,6 +128,7 @@ function MainPage() {
       )}
 
       <Outlet />
+      <SelectedFlyout results={results} />
     </main>
   );
 }

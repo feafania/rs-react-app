@@ -2,7 +2,7 @@
   max-width: 1280px;
 
   margin: 0 auto;
-  padding: 24px;
+  padding: 24px 24px 120px 24px;
 
   min-height: 100vh;
 
@@ -20,8 +20,7 @@
   min-width: 0;
 }
 
-.search-section,
-.results-section {
+.search-section {
   background: white;
   border: 1px solid #ddd;
   border-radius: 10px;
@@ -36,102 +35,6 @@
 .search-input {
   flex: 1;
   padding: 12px;
-}
-
-/*RESULT SECTION*/
-
-.results-section {
-  flex: 1;
-}
-
-.results-table {
-  margin-top: 20px;
-}
-
-.results-header {
-  display: grid;
-  grid-template-columns: 220px 1fr;
-
-  padding: 0 8px 12px;
-
-  color: #666;
-  font-size: 14px;
-  font-weight: 700;
-}
-
-.results-body {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-/* CARD ROW */
-
-.result-row {
-  display: grid;
-  grid-template-columns: 220px 1fr;
-  gap: 16px;
-
-  align-items: center;
-
-  padding: 18px 20px;
-
-  background: white;
-
-  border: 1px solid #e7e7e7;
-  border-radius: 14px;
-
-  text-decoration: none;
-  color: inherit;
-
-  cursor: pointer;
-
-  will-change: transform;
-
-  transition:
-    transform 0.18s ease,
-    box-shadow 0.18s ease,
-    border-color 0.18s ease,
-    background 0.18s ease;
-}
-
-.result-row:hover {
-  transform: translateY(-2px);
-
-  border-color: #cfcfcf;
-
-  box-shadow:
-    0 10px 24px rgba(0, 0, 0, 0.08),
-    0 2px 6px rgba(0, 0, 0, 0.04);
-
-  background: #fcfcfc;
-}
-
-.result-row:active {
-  transform: scale(0.995);
-}
-
-.result-row:visited {
-  color: inherit;
-}
-
-.result-row:focus-visible {
-  outline: 3px solid #111;
-  outline-offset: 2px;
-}
-
-/* TEXT */
-
-.result-name {
-  font-size: 16px;
-  font-weight: 700;
-
-  color: #111;
-}
-
-.result-description {
-  color: #555;
-  line-height: 1.5;
 }
 
 .loading-state,
@@ -228,14 +131,6 @@
   background: #c0392b;
 }
 
-/* RESULTS WRAPPER */
-
-.results-wrapper {
-  position: relative;
-
-  min-height: 400px;
-}
-
 /* LOADING OVERLAY */
 
 .loading-overlay {
@@ -247,9 +142,7 @@
   justify-content: center;
 
   background: rgba(255, 255, 255, 0.7);
-
   backdrop-filter: blur(2px);
-
   z-index: 10;
 }
 
@@ -263,19 +156,15 @@
   border-top-color: #111;
 
   border-radius: 50%;
-
   animation: spin 0.8s linear infinite;
 }
 
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
 .details-overlay {
   position: fixed;
   inset: 0;
+
   background: transparent;
+
   z-index: 1;
 }
 
@@ -286,25 +175,21 @@
     flex-direction: column;
   }
 
-  .results-header,
-  .result-row {
-    grid-template-columns: 1fr;
-  }
-
-  .result-row {
-    gap: 10px;
-    padding: 16px;
-  }
-
-  .results-header {
-    display: none;
-  }
-
-  .result-description {
-    font-size: 14px;
-  }
-
   .layout-split {
-    flex-direction: column;
+    display: block;
+  }
+
+  .details-overlay {
+    background: rgba(0, 0, 0, 0.35);
+
+    backdrop-filter: blur(2px);
+
+    z-index: 999;
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
   }
 }
