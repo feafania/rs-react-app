@@ -22,13 +22,13 @@ function MainPage() {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const urlSearch = searchParams.get('search')?.trim() || '';
-  const [storedSearch] = useLocalStorage('searchTerm');
+  const [storedSearch, setStoredSearch] = useLocalStorage('searchTerm');
 
   const [shouldThrow, setShouldThrow] = useState(false);
-
   const [inputValue, setInputValue] = useState(() => urlSearch || storedSearch);
 
   const rawPage = Number(searchParams.get('page'));
+  const rawSearch = searchParams.get('search')?.trim() || '';
   const currentPage = Number.isFinite(rawPage) && rawPage > 0 ? rawPage : 1;
   const totalPages = Math.ceil(totalCount / ITEMS_PER_PAGE);
 
@@ -46,24 +46,27 @@ function MainPage() {
     if (hasBootstrapped.current) return;
     hasBootstrapped.current = true;
 
-    const urlHasSearch = searchParams.get('search');
-    const stored = storedSearch;
+    const updates: Record<string, string> = {};
 
-    if (!urlHasSearch && stored) {
-      setSearchParams(
-        updateSearchParams(searchParams, {
-          search: stored,
-          page: '1',
-        }),
-        { replace: true }
-      );
+    if (!rawSearch && storedSearch) {
+      updates.search = storedSearch;
+      updates.page = '1';
+    }
+
+    if (!rawPage) {
+      updates.page = '1';
+    }
+
+    if (Object.keys(updates).length > 0) {
+      setSearchParams(updateSearchParams(searchParams, updates), {
+        replace: true,
+      });
     }
   }, []);
 
   useEffect(() => {
-    const search = searchParams.get('search')?.trim() || '';
-    handleSearch(search, currentPage);
-  }, [searchParams.get('search'), currentPage, handleSearch]);
+    handleSearch(rawSearch, currentPage);
+  }, [rawSearch, currentPage, handleSearch]);
 
   useEffect(() => {
     if (totalPages > 0 && currentPage > totalPages) {
@@ -83,8 +86,6 @@ function MainPage() {
       })
     );
   };
-
-  const [, setStoredSearch] = useLocalStorage('searchTerm');
 
   const handleSearchSubmit = (term: string) => {
     const trimmed = term.trim();
