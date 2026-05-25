@@ -13,18 +13,17 @@
   border: none;
   border-radius: 8px;
 
-  background: #111;
-  color: white;
+  background: var(--button-bg);
+  color: var(--button-text);
 
   cursor: pointer;
-
   font-weight: 600;
 
   transition: 0.2s ease;
 }
 
 .pagination button:hover:not(:disabled) {
-  background: #333;
+  background: var(--button-hover);
 }
 
 .pagination button:disabled {
@@ -34,5 +33,5 @@
 
 .pagination-info {
   font-weight: 600;
-  color: #444;
+  color: var(--text-secondary);
 }
