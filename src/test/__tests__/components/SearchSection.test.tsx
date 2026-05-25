@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { vi } from 'vitest';
 
-import { SearchSection } from '../../components/SearchSection.tsx';
+import { SearchSection } from '../../../components/SearchSection.tsx';
 import userEvent from '@testing-library/user-event';
 
 describe('SearchSection', () => {

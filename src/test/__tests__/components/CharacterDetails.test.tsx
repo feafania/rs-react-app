@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { MemoryRouter, Route, Routes } from 'react-router';
 import { vi } from 'vitest';
-import { CharacterDetails } from '../../routes/character-details/CharacterDetails.tsx';
+import { CharacterDetails } from '../../../routes/character-details/CharacterDetails.tsx';
 
 const mockUseCharacterDetails = vi.hoisted(() =>
   vi.fn().mockReturnValue({
@@ -12,7 +12,7 @@ const mockUseCharacterDetails = vi.hoisted(() =>
   })
 );
 
-vi.mock('../../hooks/useCharacterDetails.ts', () => ({
+vi.mock('../../../hooks/useCharacterDetails.ts', () => ({
   useCharacterDetails: mockUseCharacterDetails,
 }));
 

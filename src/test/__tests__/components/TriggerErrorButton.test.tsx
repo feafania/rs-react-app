@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { vi } from 'vitest';
 
-import { TriggerErrorButton } from '../../components/TriggerErrorButton';
+import { TriggerErrorButton } from '../../../components/TriggerErrorButton.tsx';
 
 describe('TriggerErrorButton', () => {
   it('renders button', () => {

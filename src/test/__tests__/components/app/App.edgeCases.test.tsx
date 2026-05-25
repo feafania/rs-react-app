@@ -1,9 +1,9 @@
 import { MemoryRouter } from 'react-router';
 import { render, screen, waitFor } from '@testing-library/react';
-import MainPage from '../../../routes/main-page/MainPage.tsx';
-import { createMockResponse, mockFetch } from '../../mocks/fetch.ts';
+import MainPage from '../../../../routes/main-page/MainPage.tsx';
+import { createMockResponse, mockFetch } from '../../../mocks/fetch.ts';
 import userEvent from '@testing-library/user-event';
-import { mockCharacters } from '../../mocks/characters.ts';
+import { mockCharacters } from '../../../mocks/characters.ts';
 
 describe('App - edge cases', () => {
   it('trims whitespace-only search and does not send search= param', async () => {

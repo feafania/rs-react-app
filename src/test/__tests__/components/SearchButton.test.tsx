@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import { SearchButton } from '../../components/SearchButton.tsx';
+import { SearchButton } from '../../../components/SearchButton.tsx';
 
 describe('SearchButton', () => {
   it('renders without crashing', () => {

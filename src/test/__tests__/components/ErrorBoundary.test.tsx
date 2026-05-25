@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { vi } from 'vitest';
-import { ErrorBoundary } from '../../components/ErrorBoundary';
-import MainPage from '../../routes/main-page/MainPage.tsx';
+import { ErrorBoundary } from '../../../components/ErrorBoundary.tsx';
+import MainPage from '../../../routes/main-page/MainPage.tsx';
 import userEvent from '@testing-library/user-event';
 import { MemoryRouter } from 'react-router';
 

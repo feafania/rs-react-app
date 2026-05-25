@@ -24,4 +24,16 @@ export const emptyCharacter: Character = {
   url: 'https://swapi.dev/api/people/999/',
 };
 
-export const mockCharacters = [lukeCharacter];
+export const invalidCharacter: Character = {
+  name: 'Invalid',
+  gender: '',
+  height: '',
+  birth_year: '',
+  url: 'invalid-url',
+};
+
+export const mockCharacters: Character[] = [
+  lukeCharacter,
+  leiaCharacter,
+  invalidCharacter,
+];

@@ -1,10 +1,10 @@
 import { MemoryRouter } from 'react-router';
 import { render, screen } from '@testing-library/react';
 import { vi } from 'vitest';
-import MainPage from '../../../routes/main-page/MainPage.tsx';
-import { useCharacterSearch } from '../../../hooks/useCharacterSearch.ts';
+import MainPage from '../../../../routes/main-page/MainPage.tsx';
+import { useCharacterSearch } from '../../../../hooks/useCharacterSearch.ts';
 
-vi.mock('../../../hooks/useCharacterSearch.ts', () => ({
+vi.mock('../../../../hooks/useCharacterSearch.ts', () => ({
   useCharacterSearch: vi.fn(),
 }));
 

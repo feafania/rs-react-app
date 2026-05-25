@@ -1,7 +1,7 @@
 import { MemoryRouter } from 'react-router';
 import { render, screen } from '@testing-library/react';
-import MainPage from '../../../routes/main-page/MainPage.tsx';
-import { mockFetch } from '../../mocks/fetch.ts';
+import MainPage from '../../../../routes/main-page/MainPage.tsx';
+import { mockFetch } from '../../../mocks/fetch.ts';
 
 describe('App - error handling', () => {
   it('shows fallback UI on network failure', async () => {

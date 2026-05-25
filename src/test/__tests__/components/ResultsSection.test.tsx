@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
-import { ResultsSection } from '../../components/result-section/ResultsSection.tsx';
-import type { Character } from '../../types/types';
+import { ResultsSection } from '../../../components/result-section/ResultsSection.tsx';
+import type { Character } from '../../../types/types.ts';
 
 describe('ResultsSection', () => {
   const props = {

@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
-import { leiaCharacter, lukeCharacter } from '../mocks/characters.ts';
-import { ResultList } from '../../components/result-section/ResultList.tsx';
+import { leiaCharacter, lukeCharacter } from '../../mocks/characters.ts';
+import { ResultList } from '../../../components/result-section/ResultList.tsx';
 import { MemoryRouter } from 'react-router';
 
 describe('ResultList', () => {

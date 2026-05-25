@@ -1,8 +1,8 @@
 import { MemoryRouter } from 'react-router';
 import { render, screen, waitFor } from '@testing-library/react';
-import MainPage from '../../../routes/main-page/MainPage.tsx';
-import { createMockResponse, mockFetch } from '../../mocks/fetch.ts';
-import { mockCharacters } from '../../mocks/characters.ts';
+import MainPage from '../../../../routes/main-page/MainPage.tsx';
+import { createMockResponse, mockFetch } from '../../../mocks/fetch.ts';
+import { mockCharacters } from '../../../mocks/characters.ts';
 import userEvent from '@testing-library/user-event';
 
 describe('App - loading behavior', () => {

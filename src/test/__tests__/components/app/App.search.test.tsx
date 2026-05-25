@@ -1,9 +1,9 @@
 import { MemoryRouter, Routes, Route } from 'react-router';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import MainPage from '../../../routes/main-page/MainPage.tsx';
-import { createMockResponse, mockFetch } from '../../mocks/fetch.ts';
-import { mockCharacters } from '../../mocks/characters.ts';
+import MainPage from '../../../../routes/main-page/MainPage.tsx';
+import { createMockResponse, mockFetch } from '../../../mocks/fetch.ts';
+import { mockCharacters } from '../../../mocks/characters.ts';
 
 function renderWithRouter(initial = '/') {
   return render(

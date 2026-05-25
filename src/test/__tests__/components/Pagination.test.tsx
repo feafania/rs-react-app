@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { Pagination } from '../../components/Pagination.tsx';
+import { Pagination } from '../../../components/Pagination.tsx';
 
 describe('Pagination', () => {
   it('renders nothing when totalPages <= 1', () => {

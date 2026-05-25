@@ -1,7 +1,7 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import { vi } from 'vitest';
 
-import { SearchInput } from '../../components/SearchInput.tsx';
+import { SearchInput } from '../../../components/SearchInput.tsx';
 
 describe('SearchInput', () => {
   it('renders input element', () => {
