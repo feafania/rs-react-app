@@ -13,7 +13,7 @@ import './main-page.css';
 import './pagination.css';
 import { updateSearchParams } from '../../util/updateSearchParams.ts';
 import { useLocalStorage } from '../../hooks/useLocalStorage.ts';
-import { SelectedFlyout } from '../../components/result-flyout/SelectedFlyout.tsx';
+import { SelectedFlyout } from '../../components/selected-flyout/SelectedFlyout.tsx';
 
 function MainPage() {
   const { results, totalCount, isLoading, error, handleSearch } =
