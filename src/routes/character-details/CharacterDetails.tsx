@@ -22,9 +22,12 @@ export function CharacterDetails() {
       className="details-panel"
       onClick={(event) => event.stopPropagation()}
     >
-      <button className="close-button" onClick={handleClose}>
-        ×
-      </button>
+      <div className="details-header">
+        <div className="details-drag-indicator" />
+        <button className="close-button" onClick={handleClose}>
+          ×
+        </button>
+      </div>
 
       {isLoading && <div className="details-loading">Loading...</div>}
 

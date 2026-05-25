@@ -1,0 +1,194 @@
+.selected-flyout {
+  position: fixed;
+  left: 50%;
+  bottom: 20px;
+  transform: translateX(-50%);
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+
+  width: min(900px, calc(100% - 24px));
+
+  padding: 14px 16px;
+
+  background: var(--flyout-bg);
+  backdrop-filter: blur(10px);
+
+  border: 1px solid var(--flyout-border);
+  border-radius: 14px;
+
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+
+  color: var(--text);
+
+  z-index: 2000;
+  animation: flyout-in 0.2s ease-out;
+}
+
+.selected-flyout__info {
+  flex: 1;
+  min-width: 0;
+
+  color: var(--text);
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.selection-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+}
+
+/* CLEAR BUTTON */
+
+.clear-button {
+  padding: 10px 16px;
+
+  border: none;
+  border-radius: 8px;
+
+  background: var(--button-bg);
+  color: var(--button-text);
+
+  font-size: 14px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    transform 0.15s ease,
+    box-shadow 0.2s ease;
+}
+
+.clear-button:hover {
+  background: var(--button-hover);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+}
+
+.clear-button:active {
+  transform: scale(0.97);
+}
+
+.clear-button:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* TOGGLE BUTTON */
+
+.toggle-button {
+  padding: 10px 16px;
+
+  border: 1px solid var(--border);
+  border-radius: 8px;
+
+  background: var(--surface);
+  color: var(--text);
+
+  font-size: 14px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    transform 0.15s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.toggle-button:hover {
+  background: var(--hover);
+  border-color: var(--border);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
+}
+
+.toggle-button:active {
+  transform: scale(0.97);
+}
+
+.toggle-button:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.download-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+
+  padding: 10px 16px;
+
+  border: 1px solid var(--download-border);
+  border-radius: 8px;
+
+  background: var(--download-bg);
+  color: var(--text);
+
+  font-size: 14px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.15s ease,
+    box-shadow 0.2s ease;
+}
+
+.download-button svg {
+  flex-shrink: 0;
+}
+
+.download-button:hover {
+  background: var(--download-bg-hover);
+  border-color: var(--download-border-hover);
+
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+}
+
+.download-button:active {
+  transform: scale(0.97);
+}
+
+.download-button:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 2px;
+}
+
+@media (max-width: 768px) {
+  .selected-flyout {
+    flex-direction: column;
+    align-items: stretch;
+    bottom: 12px;
+  }
+
+  .selection-actions {
+    justify-content: space-between;
+  }
+}
+
+@media (max-width: 500px) {
+  .selection-actions {
+    overflow-x: auto;
+    flex-wrap: nowrap;
+  }
+}
+
+@keyframes flyout-in {
+  from {
+    transform: translateX(-50%) translateY(20px);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+  }
+}
