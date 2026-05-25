@@ -5,9 +5,10 @@ export function useLocalStorage(key: string, initialValue: string = '') {
     return localStorage.getItem(key) ?? initialValue;
   });
 
-  const setValue = (value: string): void => {
-    setStoredValue(value);
-    localStorage.setItem(key, value);
+  const setValue = (value: string | ((prev: string) => string)): void => {
+    const newValue = typeof value === 'function' ? value(storedValue) : value;
+    setStoredValue(newValue);
+    localStorage.setItem(key, newValue);
   };
 
   return [storedValue, setValue] as const;

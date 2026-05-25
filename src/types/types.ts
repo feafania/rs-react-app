@@ -22,3 +22,10 @@ export interface ResultsDataProps {
 export type ExportCharacter =
   | { status: 'fulfilled'; data: CharacterDetailsData }
   | { status: 'rejected'; id: string };
+
+export type Theme = 'light' | 'dark';
+
+export type ThemeContextType = {
+  theme: Theme;
+  toggleTheme: () => void;
+};

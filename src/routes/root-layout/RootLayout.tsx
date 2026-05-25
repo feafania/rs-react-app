@@ -3,9 +3,11 @@ import { Outlet, NavLink, useLocation } from 'react-router';
 import { ErrorBoundary } from '../../components/ErrorBoundary.tsx';
 
 import './root-layout.css';
+import { useTheme } from '../../hooks/useTheme.ts';
 
 export function RootLayout() {
   const { pathname } = useLocation();
+  const { theme, toggleTheme } = useTheme();
 
   const isHomeActive = pathname === '/' || pathname.startsWith('/details/');
   return (
@@ -31,6 +33,9 @@ export function RootLayout() {
                 About
               </NavLink>
             </nav>
+            <button className="theme-button" onClick={toggleTheme}>
+              {theme === 'light' ? '🌙 Dark' : '☀️ Light'}
+            </button>
           </div>
         </header>
 
