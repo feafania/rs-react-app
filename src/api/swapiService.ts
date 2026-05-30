@@ -1,4 +1,5 @@
-import type { Character, CharacterDetailsData } from '../types/types.ts';
+import type { Character, CharacterDetailsData } from '../types/types';
+
 import { API_URL } from '../constants';
 
 interface CharacterResults {

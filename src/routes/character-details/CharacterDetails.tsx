@@ -1,8 +1,8 @@
 import { useNavigate, useParams, useSearchParams } from 'react-router';
 
-import { useCharacterDetails } from '../../hooks/useCharacterDetails.ts';
-
 import './character-details.css';
+import { useCharacterDetailsQuery } from '../../hooks/useCharacterDetailsQuery.ts';
+import { CharacterDetailsSkeleton } from '../../components/skeletons/CharacterDetailsSkeleton.tsx';
 
 export function CharacterDetails() {
   const { id } = useParams();
@@ -11,7 +11,7 @@ export function CharacterDetails() {
 
   const [searchParams] = useSearchParams();
 
-  const { character, isLoading, error } = useCharacterDetails(id);
+  const { data: character, isLoading, error } = useCharacterDetailsQuery(id);
 
   const handleClose = () => {
     navigate(`/?${searchParams.toString()}`);
@@ -29,9 +29,11 @@ export function CharacterDetails() {
         </button>
       </div>
 
-      {isLoading && <div className="details-loading">Loading...</div>}
+      {isLoading && <CharacterDetailsSkeleton />}
 
-      {error && <div className="details-error">{error}</div>}
+      {error instanceof Error && (
+        <div className="details-error">{error.message}</div>
+      )}
 
       {!isLoading && character && (
         <div className="details-content">
