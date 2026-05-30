@@ -1,0 +1,70 @@
+.details-skeleton {
+  padding: 20px;
+  animation: fade-in 0.3s ease;
+}
+
+.skeleton-header {
+  position: relative;
+  height: 40px;
+  margin-bottom: 16px;
+}
+
+.skeleton-drag-indicator {
+  width: 48px;
+  height: 5px;
+  background: var(--border);
+  opacity: 0.5;
+  border-radius: 999px;
+  margin: 0 auto;
+}
+
+.skeleton-close-btn {
+  position: absolute;
+  right: 16px;
+  top: 0;
+  width: 24px;
+  height: 24px;
+  background: var(--border);
+  opacity: 0.5;
+  border-radius: 4px;
+}
+
+.skeleton-content {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.skeleton-line {
+  height: 14px;
+  background: var(--border);
+  opacity: 0.5;
+  border-radius: 4px;
+  animation: pulse 1.5s infinite ease-in-out;
+}
+
+.skeleton-line.title {
+  width: 60%;
+  height: 20px;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 0.4;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.4;
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
