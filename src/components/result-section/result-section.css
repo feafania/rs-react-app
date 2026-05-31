@@ -8,6 +8,12 @@
   padding: 20px;
 }
 
+.results-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
 .results-wrapper {
   position: relative;
   min-height: 400px;
@@ -54,17 +60,6 @@
 
   color: var(--muted-text);
   font-size: 14px;
-}
-
-.small-spinner {
-  width: 14px;
-  height: 14px;
-
-  border: 2px solid var(--border);
-  border-top-color: var(--text);
-
-  border-radius: 50%;
-  animation: spin 0.8s linear infinite;
 }
 
 /*RESPONSIVE*/

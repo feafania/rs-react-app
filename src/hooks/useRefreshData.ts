@@ -1,6 +1,6 @@
 import { useQueryClient } from '@tanstack/react-query';
 
-export function useRefreshCharacters() {
+export function useRefreshData() {
   const queryClient = useQueryClient();
 
   const refreshAll = () => {

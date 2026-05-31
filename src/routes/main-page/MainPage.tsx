@@ -14,6 +14,7 @@ import { updateSearchParams } from '../../util/updateSearchParams.ts';
 import { useLocalStorage } from '../../hooks/useLocalStorage.ts';
 import { SelectedFlyout } from '../../components/selected-flyout/SelectedFlyout.tsx';
 import { useCharactersQuery } from '../../hooks/useCharactersQuery.ts';
+import { useRefreshData } from '../../hooks/useRefreshData.ts';
 
 function MainPage() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -103,6 +104,7 @@ function MainPage() {
   };
 
   const errorMessage = error instanceof Error ? error.message : '';
+  const { refreshAll } = useRefreshData();
 
   return (
     <main
@@ -120,6 +122,7 @@ function MainPage() {
           isLoading={isLoading}
           isFetching={isFetching}
           error={errorMessage}
+          onRefresh={refreshAll}
         />
 
         {!isLoading && results.length > 0 && (

@@ -2,24 +2,33 @@ import type { ResultsDataProps } from '../../types/types.ts';
 import { ResultList } from './ResultList.tsx';
 import './result-section.css';
 import { ResultsListSkeleton } from '../skeletons/ResultsListSkeleton.tsx';
+import { RefreshButton } from '../RefreshButton.tsx';
+
+type ResultsSectionProps = ResultsDataProps & {
+  onRefresh: () => void;
+};
 
 export function ResultsSection({
   results,
   isLoading,
   isFetching,
   error,
-}: ResultsDataProps) {
+  onRefresh,
+}: ResultsSectionProps) {
   return (
     <section className="results-section">
       <div className="results-header-bar">
         <h2>Results</h2>
 
-        {isFetching && !isLoading && (
-          <div className="small-loading-indicator">
-            <div className="small-spinner" />
-            <span>Updating…</span>
-          </div>
-        )}
+        <div className="results-actions">
+          <RefreshButton onRefresh={onRefresh} isFetching={isFetching} />
+
+          {isFetching && !isLoading && (
+            <div className="small-loading-indicator">
+              <span>Updating…</span>
+            </div>
+          )}
+        </div>
       </div>
 
       {isLoading ? (

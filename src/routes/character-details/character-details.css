@@ -41,6 +41,15 @@
 
   padding: 20px;
 }
+.details-content h2 {
+  margin-top: 4px;
+}
+
+.details-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 0;
+}
 
 .details-drag-indicator {
   position: absolute;
