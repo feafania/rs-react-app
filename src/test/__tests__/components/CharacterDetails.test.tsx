@@ -1,20 +1,21 @@
-import { render, screen } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { MemoryRouter, Route, Routes } from 'react-router';
+import { Routes, Route } from 'react-router';
 import { vi } from 'vitest';
+
 import { CharacterDetails } from '../../../routes/character-details/CharacterDetails.tsx';
+import { renderWithProviders } from '../test-utils/renderWithProviders.tsx';
+import { useCharacterDetailsQuery } from '../../../hooks/useCharacterDetailsQuery.ts';
 
-const mockUseCharacterDetails = vi.hoisted(() =>
-  vi.fn().mockReturnValue({
-    character: null,
-    isLoading: false,
-    error: '',
-  })
-);
-
-vi.mock('../../../hooks/useCharacterDetails.ts', () => ({
-  useCharacterDetails: mockUseCharacterDetails,
+vi.mock('../../../hooks/useCharacterDetailsQuery.ts', () => ({
+  useCharacterDetailsQuery: vi.fn(),
 }));
+
+vi.mock('../../../hooks/useRefreshCharacterDetails.ts', () => ({
+  useRefreshCharacterDetails: () => vi.fn(),
+}));
+
+const mockedUseCharacterDetailsQuery = vi.mocked(useCharacterDetailsQuery);
 
 const mockCharacter = {
   name: 'Luke Skywalker',
@@ -27,55 +28,68 @@ const mockCharacter = {
   skin_color: 'fair',
 };
 
-function renderWithRouter(path = '/details/1') {
-  return render(
-    <MemoryRouter initialEntries={[path]}>
-      <Routes>
-        <Route path="/" element={<div>Home</div>} />
-        <Route path="/details/:id" element={<CharacterDetails />} />
-      </Routes>
-    </MemoryRouter>
+function renderDetails(path = '/details/1') {
+  return renderWithProviders(
+    <Routes>
+      <Route path="/" element={<div>Home</div>} />
+      <Route path="/details/:id" element={<CharacterDetails />} />
+    </Routes>,
+    {
+      initialPath: path,
+    }
   );
 }
 
 describe('CharacterDetails', () => {
   beforeEach(() => {
-    mockUseCharacterDetails.mockReturnValue({
-      character: null,
+    mockedUseCharacterDetailsQuery.mockReturnValue({
+      data: undefined,
       isLoading: false,
-      error: '',
-    });
+      isFetching: false,
+      error: null,
+    } as ReturnType<typeof useCharacterDetailsQuery>);
   });
 
   it('shows loading state', () => {
-    mockUseCharacterDetails.mockReturnValue({
-      character: null,
+    mockedUseCharacterDetailsQuery.mockReturnValue({
+      data: undefined,
       isLoading: true,
-      error: '',
-    });
-    renderWithRouter();
-    expect(screen.getByText(/loading/i)).toBeInTheDocument();
+      isFetching: false,
+      error: null,
+    } as ReturnType<typeof useCharacterDetailsQuery>);
+
+    renderDetails();
+
+    expect(
+      screen.getByTestId('character-details-skeleton')
+    ).toBeInTheDocument();
   });
 
   it('shows error state', () => {
-    mockUseCharacterDetails.mockReturnValue({
-      character: null,
+    mockedUseCharacterDetailsQuery.mockReturnValue({
+      data: undefined,
       isLoading: false,
-      error: 'Failed to load character details.',
-    });
-    renderWithRouter();
+      isFetching: false,
+      error: new Error('Failed to load character details.'),
+    } as ReturnType<typeof useCharacterDetailsQuery>);
+
+    renderDetails();
+
     expect(
       screen.getByText(/failed to load character details/i)
     ).toBeInTheDocument();
   });
 
   it('renders character details', () => {
-    mockUseCharacterDetails.mockReturnValue({
-      character: mockCharacter,
+    mockedUseCharacterDetailsQuery.mockReturnValue({
+      data: mockCharacter,
       isLoading: false,
-      error: '',
-    });
-    renderWithRouter();
+      isFetching: false,
+      error: null,
+    } as ReturnType<typeof useCharacterDetailsQuery>);
+
+    renderDetails();
+
     expect(screen.getByText('Luke Skywalker')).toBeInTheDocument();
     expect(screen.getByText('19BBY')).toBeInTheDocument();
     expect(screen.getByText('male')).toBeInTheDocument();
@@ -87,13 +101,17 @@ describe('CharacterDetails', () => {
   });
 
   it('navigates back on close button click', async () => {
-    mockUseCharacterDetails.mockReturnValue({
-      character: mockCharacter,
+    mockedUseCharacterDetailsQuery.mockReturnValue({
+      data: mockCharacter,
       isLoading: false,
-      error: '',
-    });
-    renderWithRouter('/details/1?page=2');
-    await userEvent.click(screen.getByText('×'));
+      isFetching: false,
+      error: null,
+    } as ReturnType<typeof useCharacterDetailsQuery>);
+
+    renderDetails('/details/1?page=2');
+
+    await userEvent.click(screen.getByRole('button', { name: '×' }));
+
     expect(screen.getByText('Home')).toBeInTheDocument();
   });
 });

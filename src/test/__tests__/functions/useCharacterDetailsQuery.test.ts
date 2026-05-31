@@ -1,22 +1,25 @@
 import { renderHook, waitFor } from '@testing-library/react';
 import { describe, expect, it, vi, beforeEach } from 'vitest';
 
-import { useCharacterDetails } from '../../../hooks/useCharacterDetails.ts';
 import { fetchCharacterDetails } from '../../../api/swapiService.ts';
+import { useCharacterDetailsQuery } from '../../../hooks/useCharacterDetailsQuery.ts';
+import { createWrapper } from '../test-utils/createWrapper.tsx';
 
 vi.mock('../../../api/swapiService.ts');
 
-describe('useCharacterDetails', () => {
+describe('useCharacterDetailsQuery', () => {
   beforeEach(() => {
     vi.clearAllMocks();
   });
 
-  it('returns initial state', () => {
-    const { result } = renderHook(() => useCharacterDetails(undefined));
+  it('returns idle state when id is undefined', () => {
+    const { result } = renderHook(() => useCharacterDetailsQuery(undefined), {
+      wrapper: createWrapper(),
+    });
 
-    expect(result.current.character).toBeNull();
+    expect(result.current.data).toBeUndefined();
     expect(result.current.isLoading).toBe(false);
-    expect(result.current.error).toBe('');
+    expect(fetchCharacterDetails).not.toHaveBeenCalled();
   });
 
   it('loads character successfully', async () => {
@@ -32,17 +35,17 @@ describe('useCharacterDetails', () => {
       eye_color: 'blue',
     });
 
-    const { result } = renderHook(() => useCharacterDetails('1'));
-
-    expect(result.current.isLoading).toBe(true);
+    const { result } = renderHook(() => useCharacterDetailsQuery('1'), {
+      wrapper: createWrapper(),
+    });
 
     await waitFor(() => {
-      expect(result.current.isLoading).toBe(false);
+      expect(result.current.isSuccess).toBe(true);
     });
 
     expect(fetchCharacterDetails).toHaveBeenCalledWith('1');
 
-    expect(result.current.character).toEqual({
+    expect(result.current.data).toEqual({
       name: 'Luke Skywalker',
       gender: 'male',
       height: '172',
@@ -53,26 +56,28 @@ describe('useCharacterDetails', () => {
       skin_color: 'fair',
       eye_color: 'blue',
     });
-
-    expect(result.current.error).toBe('');
   });
 
   it('handles fetch error', async () => {
     vi.mocked(fetchCharacterDetails).mockRejectedValue(new Error('fail'));
 
-    const { result } = renderHook(() => useCharacterDetails('1'));
-
-    await waitFor(() => {
-      expect(result.current.isLoading).toBe(false);
+    const { result } = renderHook(() => useCharacterDetailsQuery('1'), {
+      wrapper: createWrapper(),
     });
 
-    expect(result.current.error).toBe('Failed to load character details.');
+    await waitFor(() => {
+      expect(result.current.isError).toBe(true);
+    });
 
-    expect(result.current.character).toBeNull();
+    expect(result.current.error).toBeInstanceOf(Error);
+    expect(result.current.error?.message).toBe('fail');
+    expect(result.current.data).toBeUndefined();
   });
 
   it('does not fetch if id is undefined', () => {
-    renderHook(() => useCharacterDetails(undefined));
+    renderHook(() => useCharacterDetailsQuery(undefined), {
+      wrapper: createWrapper(),
+    });
 
     expect(fetchCharacterDetails).not.toHaveBeenCalled();
   });

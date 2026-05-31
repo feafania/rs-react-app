@@ -6,8 +6,9 @@ describe('ResultsSection', () => {
   const props = {
     results: [] as Character[],
     isLoading: false,
+    isFetching: false,
     error: '',
-    hasSearched: true,
+    onRefresh: vi.fn(),
   };
 
   it('renders section title', () => {

@@ -12,7 +12,9 @@ describe('RootLayout', () => {
           <Route path="/about" element={<div>About Page</div>} />
         </Route>
       </Routes>,
-      path
+      {
+        initialPath: path,
+      }
     );
   }
 

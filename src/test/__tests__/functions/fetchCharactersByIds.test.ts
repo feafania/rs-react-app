@@ -1,8 +1,28 @@
 import { describe, expect, it, vi, beforeEach } from 'vitest';
-import { fetchCharacterDetails } from '../../../api/swapiService.ts';
 import { fetchCharactersByIds } from '../../../util/fetchCharactersByIds.ts';
+import { queryClient } from '../../../lib/queryClient.ts';
+
+vi.mock('../../../lib/queryClient', () => ({
+  queryClient: {
+    fetchQuery: vi.fn(),
+  },
+}));
+
+const mockedFetchQuery = vi.mocked(queryClient.fetchQuery);
 
 vi.mock('../../../api/swapiService.ts');
+
+const luke = {
+  name: 'Luke',
+  gender: 'male',
+  height: '172',
+  birth_year: '19BBY',
+  url: 'https://swapi.dev/api/people/1/',
+  mass: '77',
+  hair_color: 'blond',
+  skin_color: 'fair',
+  eye_color: 'blue',
+};
 
 describe('fetchCharactersByIds', () => {
   beforeEach(() => {
@@ -10,40 +30,24 @@ describe('fetchCharactersByIds', () => {
   });
 
   it('returns fulfilled results', async () => {
-    vi.mocked(fetchCharacterDetails).mockResolvedValue({
-      name: 'Luke',
-      gender: 'male',
-      height: '172',
-      birth_year: '19BBY',
-      url: 'https://swapi.dev/api/people/1/',
-      mass: '77',
-      hair_color: 'blond',
-      skin_color: 'fair',
-      eye_color: 'blue',
-    });
+    mockedFetchQuery.mockResolvedValue(luke);
 
     const result = await fetchCharactersByIds(['1']);
 
     expect(result).toEqual([
       {
         status: 'fulfilled',
-        data: {
-          name: 'Luke',
-          gender: 'male',
-          height: '172',
-          birth_year: '19BBY',
-          url: 'https://swapi.dev/api/people/1/',
-          mass: '77',
-          hair_color: 'blond',
-          skin_color: 'fair',
-          eye_color: 'blue',
-        },
+        data: luke,
       },
     ]);
   });
 
   it('returns rejected results', async () => {
-    vi.mocked(fetchCharacterDetails).mockRejectedValue(new Error('fail'));
+    mockedFetchQuery.mockRejectedValue(
+      new Error(
+        'Unable to load character details. Requested data was not found.'
+      )
+    );
 
     const result = await fetchCharactersByIds(['999']);
 
@@ -56,36 +60,20 @@ describe('fetchCharactersByIds', () => {
   });
 
   it('handles mixed results', async () => {
-    vi.mocked(fetchCharacterDetails)
-      .mockResolvedValueOnce({
-        name: 'Luke',
-        gender: 'male',
-        height: '172',
-        birth_year: '19BBY',
-        url: 'https://swapi.dev/api/people/1/',
-        mass: '77',
-        hair_color: 'blond',
-        skin_color: 'fair',
-        eye_color: 'blue',
-      })
-      .mockRejectedValueOnce(new Error('fail'));
+    mockedFetchQuery
+      .mockResolvedValueOnce(luke)
+      .mockRejectedValueOnce(
+        new Error(
+          'Unable to load character details. Requested data was not found.'
+        )
+      );
 
     const result = await fetchCharactersByIds(['1', '2']);
 
     expect(result).toEqual([
       {
         status: 'fulfilled',
-        data: {
-          name: 'Luke',
-          gender: 'male',
-          height: '172',
-          birth_year: '19BBY',
-          url: 'https://swapi.dev/api/people/1/',
-          mass: '77',
-          hair_color: 'blond',
-          skin_color: 'fair',
-          eye_color: 'blue',
-        },
+        data: luke,
       },
       {
         status: 'rejected',

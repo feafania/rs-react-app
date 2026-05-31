@@ -11,7 +11,7 @@ interface SwapiResponse extends CharacterResults {
   count: number;
 }
 
-interface FetchCharactersResponse extends CharacterResults {
+export interface FetchCharactersResponse extends CharacterResults {
   totalCount: number;
 }
 

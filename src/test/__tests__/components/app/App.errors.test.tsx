@@ -1,54 +1,40 @@
-import { MemoryRouter } from 'react-router';
-import { render, screen } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import MainPage from '../../../../routes/main-page/MainPage.tsx';
 import { mockFetch } from '../../../mocks/fetch.ts';
+import { renderWithProviders } from '../../test-utils/renderWithProviders.tsx';
 
 describe('App - error handling', () => {
-  it('shows fallback UI on network failure', async () => {
+  it('shows network error', async () => {
     mockFetch.mockRejectedValueOnce(new Error('Network error'));
 
-    render(
-      <MemoryRouter initialEntries={['/']}>
-        <MainPage />
-      </MemoryRouter>
-    );
+    renderWithProviders(<MainPage />);
 
-    expect(
-      await screen.findByText(/something went wrong/i)
-    ).toBeInTheDocument();
+    expect(await screen.findByRole('alert')).toHaveTextContent('Network error');
   });
 
-  it('handles 500+ server response', async () => {
+  it('shows 500 error message', async () => {
     mockFetch.mockResolvedValueOnce({
       ok: false,
       status: 500,
     });
 
-    render(
-      <MemoryRouter initialEntries={['/']}>
-        <MainPage />
-      </MemoryRouter>
-    );
+    renderWithProviders(<MainPage />);
 
-    expect(
-      await screen.findByText(/something went wrong/i)
-    ).toBeInTheDocument();
+    expect(await screen.findByRole('alert')).toHaveTextContent(
+      /please try again later/i
+    );
   });
 
-  it('handles 404 client response', async () => {
+  it('shows 404 error message', async () => {
     mockFetch.mockResolvedValueOnce({
       ok: false,
       status: 404,
     });
 
-    render(
-      <MemoryRouter initialEntries={['/']}>
-        <MainPage />
-      </MemoryRouter>
-    );
+    renderWithProviders(<MainPage />);
 
-    expect(
-      await screen.findByText(/something went wrong/i)
-    ).toBeInTheDocument();
+    expect(await screen.findByRole('alert')).toHaveTextContent(
+      /requested data was not found/i
+    );
   });
 });

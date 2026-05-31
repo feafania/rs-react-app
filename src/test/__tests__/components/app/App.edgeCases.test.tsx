@@ -1,9 +1,9 @@
-import { MemoryRouter } from 'react-router';
-import { render, screen, waitFor } from '@testing-library/react';
+import { screen, waitFor } from '@testing-library/react';
 import MainPage from '../../../../routes/main-page/MainPage.tsx';
 import { createMockResponse, mockFetch } from '../../../mocks/fetch.ts';
 import userEvent from '@testing-library/user-event';
 import { mockCharacters } from '../../../mocks/characters.ts';
+import { renderWithProviders } from '../../test-utils/renderWithProviders.tsx';
 
 describe('App - edge cases', () => {
   it('trims whitespace-only search and does not send search= param', async () => {
@@ -11,12 +11,7 @@ describe('App - edge cases', () => {
 
     mockFetch.mockResolvedValueOnce(createMockResponse([]));
 
-    render(
-      <MemoryRouter initialEntries={['/']}>
-        <MainPage />
-      </MemoryRouter>
-    );
-
+    renderWithProviders(<MainPage />);
     const input = screen.getByRole('textbox');
     const button = screen.getByRole('button', { name: /search/i });
 
@@ -36,11 +31,7 @@ describe('App - edge cases', () => {
     mockFetch.mockResolvedValueOnce(createMockResponse(mockCharacters));
     mockFetch.mockResolvedValueOnce(createMockResponse([]));
 
-    render(
-      <MemoryRouter initialEntries={['/']}>
-        <MainPage />
-      </MemoryRouter>
-    );
+    renderWithProviders(<MainPage />);
 
     const input = screen.getByRole('textbox');
     const button = screen.getByRole('button', { name: /search/i });
