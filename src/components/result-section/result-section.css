@@ -41,6 +41,32 @@
   gap: 12px;
 }
 
+.results-header-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.small-loading-indicator {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+
+  color: var(--muted-text);
+  font-size: 14px;
+}
+
+.small-spinner {
+  width: 14px;
+  height: 14px;
+
+  border: 2px solid var(--border);
+  border-top-color: var(--text);
+
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
 /*RESPONSIVE*/
 
 @media (max-width: 1100px) {

@@ -24,8 +24,10 @@ function MainPage() {
   const urlSearch = searchParams.get('search')?.trim() || '';
   const [storedSearch, setStoredSearch] = useLocalStorage('searchTerm');
 
-  const { data, isLoading, error } = useCharactersQuery(rawSearch, currentPage);
-
+  const { data, isLoading, isFetching, error } = useCharactersQuery(
+    rawSearch,
+    currentPage
+  );
   const results = data?.results ?? [];
 
   const totalCount = data?.totalCount ?? 0;
@@ -116,6 +118,7 @@ function MainPage() {
         <ResultsSection
           results={results}
           isLoading={isLoading}
+          isFetching={isFetching}
           error={errorMessage}
         />
 

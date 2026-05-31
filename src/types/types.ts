@@ -16,6 +16,7 @@ export interface CharacterDetailsData extends Character {
 export interface ResultsDataProps {
   results: Character[];
   isLoading: boolean;
+  isFetching: boolean;
   error: string;
 }
 

@@ -22,14 +22,13 @@ export function CharacterDetails() {
       className="details-panel"
       onClick={(event) => event.stopPropagation()}
     >
+      {isLoading && <CharacterDetailsSkeleton />}
       <div className="details-header">
         <div className="details-drag-indicator" />
         <button className="close-button" onClick={handleClose}>
           ×
         </button>
       </div>
-
-      {isLoading && <CharacterDetailsSkeleton />}
 
       {error instanceof Error && (
         <div className="details-error">{error.message}</div>
