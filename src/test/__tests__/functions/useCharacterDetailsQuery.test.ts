@@ -81,4 +81,13 @@ describe('useCharacterDetailsQuery', () => {
 
     expect(fetchCharacterDetails).not.toHaveBeenCalled();
   });
+
+  it('creates empty query key when id is undefined', () => {
+    const { result } = renderHook(() => useCharacterDetailsQuery(undefined), {
+      wrapper: createWrapper(),
+    });
+
+    expect(result.current.fetchStatus).toBe('idle');
+    expect(fetchCharacterDetails).not.toHaveBeenCalled();
+  });
 });
