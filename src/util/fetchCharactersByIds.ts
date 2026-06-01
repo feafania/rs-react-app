@@ -1,11 +1,22 @@
-import { fetchCharacterDetails } from '../api/swapiService';
-import type { ExportCharacter } from '../types/types.ts';
+import { queryClient } from '../lib/queryClient';
+
+import type { ExportCharacter } from '../types/types';
+import { queryKeys } from '../api/queryKeys.ts';
+import { fetchCharacterDetails } from '../api/swapiService.ts';
 
 export async function fetchCharactersByIds(
   ids: string[]
 ): Promise<ExportCharacter[]> {
   const results = await Promise.allSettled(
-    ids.map((id) => fetchCharacterDetails(id).then((data) => ({ id, data })))
+    ids.map(async (id) => {
+      const data = await queryClient.fetchQuery({
+        queryKey: queryKeys.character(id),
+
+        queryFn: () => fetchCharacterDetails(id),
+      });
+
+      return { id, data };
+    })
   );
 
   return results.map((result, index) => {

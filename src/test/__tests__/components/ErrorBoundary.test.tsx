@@ -3,7 +3,7 @@ import { vi } from 'vitest';
 import { ErrorBoundary } from '../../../components/ErrorBoundary.tsx';
 import MainPage from '../../../routes/main-page/MainPage.tsx';
 import userEvent from '@testing-library/user-event';
-import { MemoryRouter } from 'react-router';
+import { renderWithProviders } from '../test-utils/renderWithProviders.tsx';
 
 const ProblemChild = () => {
   throw new Error('Test error');
@@ -79,12 +79,10 @@ describe('ErrorBoundary', () => {
     const spy = vi.spyOn(console, 'error').mockImplementation(() => {});
     const user = userEvent.setup();
 
-    render(
-      <MemoryRouter initialEntries={['/']}>
-        <ErrorBoundary>
-          <MainPage />
-        </ErrorBoundary>
-      </MemoryRouter>
+    renderWithProviders(
+      <ErrorBoundary>
+        <MainPage />
+      </ErrorBoundary>
     );
 
     const triggerButton = screen.getByRole('button', {

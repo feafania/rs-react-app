@@ -1,21 +1,9 @@
-import { render, screen, waitFor } from '@testing-library/react';
+import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { MemoryRouter, Routes, Route } from 'react-router';
 import MainPage from '../../../../routes/main-page/MainPage.tsx';
 import { createMockResponse, mockFetch } from '../../../mocks/fetch.ts';
 import { mockCharacters } from '../../../mocks/characters.ts';
-
-function renderWithRouter(initial = '/') {
-  return render(
-    <MemoryRouter initialEntries={[initial]}>
-      <Routes>
-        <Route path="/" element={<MainPage />}>
-          <Route path="details/:id" element={<div>details</div>} />
-        </Route>
-      </Routes>
-    </MemoryRouter>
-  );
-}
+import { renderWithProviders } from '../../test-utils/renderWithProviders.tsx';
 
 describe('App - localStorage', () => {
   it('reads search term from localStorage on mount', async () => {
@@ -23,7 +11,9 @@ describe('App - localStorage', () => {
 
     mockFetch.mockResolvedValueOnce(createMockResponse(mockCharacters));
 
-    renderWithRouter('/?search=Luke&page=1');
+    renderWithProviders(<MainPage />, {
+      initialPath: '/?search=Luke&page=1',
+    });
 
     await waitFor(() => {
       expect(mockFetch).toHaveBeenCalledWith(
@@ -39,7 +29,7 @@ describe('App - localStorage', () => {
 
     mockFetch.mockResolvedValueOnce(createMockResponse(mockCharacters));
 
-    renderWithRouter('/');
+    renderWithProviders(<MainPage />);
 
     const input = screen.getByRole('textbox');
     const button = screen.getByRole('button', { name: /search/i });
@@ -58,7 +48,7 @@ describe('App - localStorage', () => {
 
     mockFetch.mockResolvedValueOnce(createMockResponse([]));
 
-    renderWithRouter('/');
+    renderWithProviders(<MainPage />);
 
     expect(await screen.findByText(/no results found/i)).toBeInTheDocument();
 
@@ -70,7 +60,7 @@ describe('App - localStorage', () => {
 
     mockFetch.mockResolvedValue(createMockResponse(mockCharacters));
 
-    const { unmount } = renderWithRouter('/');
+    const { unmount } = renderWithProviders(<MainPage />);
 
     const input = screen.getByRole('textbox');
     const button = screen.getByRole('button', { name: /search/i });
@@ -84,7 +74,9 @@ describe('App - localStorage', () => {
 
     unmount();
 
-    renderWithRouter('/?search=Luke&page=1');
+    renderWithProviders(<MainPage />, {
+      initialPath: '/?search=Luke&page=1',
+    });
 
     await waitFor(() => {
       expect(mockFetch).toHaveBeenCalledWith(

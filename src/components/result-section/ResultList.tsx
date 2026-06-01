@@ -1,7 +1,7 @@
-import type { ResultsDataProps } from '../../types/types.ts';
 import { ResultRow } from './ResultRow.tsx';
+import type { ResultsDataProps } from '../../types/types.ts';
 
-export function ResultList({ results, isLoading, error }: ResultsDataProps) {
+export function ResultList({ results, error }: ResultsDataProps) {
   if (error) {
     return (
       <div className="error-state" role="alert">
@@ -10,23 +10,16 @@ export function ResultList({ results, isLoading, error }: ResultsDataProps) {
     );
   }
 
-  if (!isLoading && results.length === 0) {
+  if (results.length === 0) {
     return <div className="empty-state">No results found</div>;
   }
+
   return (
     <div className="results-wrapper">
-      {isLoading && (
-        <div className="loading-overlay">
-          <div className="loader" aria-label="loading" />
-        </div>
-      )}
-
       <div className="results-table">
         <div className="results-header">
           <span />
-
           <span>Item Name</span>
-
           <span>Item Description</span>
         </div>
 

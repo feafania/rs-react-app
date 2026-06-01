@@ -1,8 +1,10 @@
 import { useNavigate, useParams, useSearchParams } from 'react-router';
 
-import { useCharacterDetails } from '../../hooks/useCharacterDetails.ts';
-
 import './character-details.css';
+import { useCharacterDetailsQuery } from '../../hooks/useCharacterDetailsQuery.ts';
+import { CharacterDetailsSkeleton } from '../../components/skeletons/CharacterDetailsSkeleton.tsx';
+import { useRefreshCharacterDetails } from '../../hooks/useRefreshCharacterDetails.ts';
+import { RefreshButton } from '../../components/RefreshButton.tsx';
 
 export function CharacterDetails() {
   const { id } = useParams();
@@ -11,7 +13,13 @@ export function CharacterDetails() {
 
   const [searchParams] = useSearchParams();
 
-  const { character, isLoading, error } = useCharacterDetails(id);
+  const {
+    data: character,
+    isLoading,
+    isFetching,
+    error,
+  } = useCharacterDetailsQuery(id);
+  const refresh = useRefreshCharacterDetails(id!);
 
   const handleClose = () => {
     navigate(`/?${searchParams.toString()}`);
@@ -22,6 +30,7 @@ export function CharacterDetails() {
       className="details-panel"
       onClick={(event) => event.stopPropagation()}
     >
+      {isLoading && <CharacterDetailsSkeleton />}
       <div className="details-header">
         <div className="details-drag-indicator" />
         <button className="close-button" onClick={handleClose}>
@@ -29,12 +38,16 @@ export function CharacterDetails() {
         </button>
       </div>
 
-      {isLoading && <div className="details-loading">Loading...</div>}
-
-      {error && <div className="details-error">{error}</div>}
+      {error instanceof Error && (
+        <div className="details-error">{error.message}</div>
+      )}
 
       {!isLoading && character && (
         <div className="details-content">
+          <div className="details-actions">
+            <RefreshButton onRefresh={refresh} isFetching={isFetching} />
+          </div>
+
           <h2>{character.name}</h2>
 
           <p>

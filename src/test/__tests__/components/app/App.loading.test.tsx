@@ -1,9 +1,9 @@
-import { MemoryRouter } from 'react-router';
-import { render, screen, waitFor } from '@testing-library/react';
+import { screen, waitFor } from '@testing-library/react';
 import MainPage from '../../../../routes/main-page/MainPage.tsx';
 import { createMockResponse, mockFetch } from '../../../mocks/fetch.ts';
 import { mockCharacters } from '../../../mocks/characters.ts';
 import userEvent from '@testing-library/user-event';
+import { renderWithProviders } from '../../test-utils/renderWithProviders.tsx';
 
 describe('App - loading behavior', () => {
   it('renders results after successful request', async () => {
@@ -11,13 +11,10 @@ describe('App - loading behavior', () => {
 
     mockFetch
       .mockResolvedValueOnce(createMockResponse(mockCharacters)) // fetch after navigate
-      .mockResolvedValueOnce(createMockResponse(mockCharacters)); // fetch triggered by useEffect
+      .mockResolvedValueOnce(createMockResponse(mockCharacters)) // fetch triggered by useEffect
+      .mockResolvedValueOnce(createMockResponse(mockCharacters)); // invalidateQueries
 
-    render(
-      <MemoryRouter initialEntries={['/']}>
-        <MainPage />
-      </MemoryRouter>
-    );
+    renderWithProviders(<MainPage />);
 
     await user.type(screen.getByRole('textbox'), 'Luke');
     await user.click(screen.getByRole('button', { name: /search/i }));
@@ -27,19 +24,16 @@ describe('App - loading behavior', () => {
 
   it('shows error message on failed request', async () => {
     const user = userEvent.setup();
-    mockFetch.mockRejectedValueOnce(new Error('Network error'));
 
-    render(
-      <MemoryRouter initialEntries={['/']}>
-        <MainPage />
-      </MemoryRouter>
-    );
+    mockFetch.mockRejectedValue(new Error('Network error'));
+
+    renderWithProviders(<MainPage />);
 
     await user.type(screen.getByRole('textbox'), 'Luke');
     await user.click(screen.getByRole('button', { name: /search/i }));
 
     await waitFor(() => {
-      expect(screen.getByText(/something went wrong/i)).toBeInTheDocument();
+      expect(screen.getByText(/network error/i)).toBeInTheDocument();
     });
   });
 });

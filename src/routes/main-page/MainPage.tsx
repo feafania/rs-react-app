@@ -6,7 +6,6 @@ import { SearchSection } from '../../components/SearchSection.tsx';
 import { ResultsSection } from '../../components/result-section/ResultsSection.tsx';
 import { Pagination } from '../../components/Pagination.tsx';
 import { TriggerErrorButton } from '../../components/TriggerErrorButton.tsx';
-import { useCharacterSearch } from '../../hooks/useCharacterSearch.ts';
 import { ITEMS_PER_PAGE } from '../../constants';
 
 import './main-page.css';
@@ -14,23 +13,30 @@ import './pagination.css';
 import { updateSearchParams } from '../../util/updateSearchParams.ts';
 import { useLocalStorage } from '../../hooks/useLocalStorage.ts';
 import { SelectedFlyout } from '../../components/selected-flyout/SelectedFlyout.tsx';
+import { useCharactersQuery } from '../../hooks/useCharactersQuery.ts';
+import { useRefreshData } from '../../hooks/useRefreshData.ts';
 
 function MainPage() {
-  const { results, totalCount, isLoading, error, handleSearch } =
-    useCharacterSearch();
-
   const [searchParams, setSearchParams] = useSearchParams();
-
-  const urlSearch = searchParams.get('search')?.trim() || '';
-  const [storedSearch, setStoredSearch] = useLocalStorage('searchTerm');
-
-  const [shouldThrow, setShouldThrow] = useState(false);
-  const [inputValue, setInputValue] = useState(() => urlSearch || storedSearch);
 
   const rawPage = Number(searchParams.get('page'));
   const rawSearch = searchParams.get('search')?.trim() || '';
   const currentPage = Number.isFinite(rawPage) && rawPage > 0 ? rawPage : 1;
+  const urlSearch = searchParams.get('search')?.trim() || '';
+  const [storedSearch, setStoredSearch] = useLocalStorage('searchTerm');
+
+  const { data, isLoading, isFetching, error } = useCharactersQuery(
+    rawSearch,
+    currentPage
+  );
+  const results = data?.results ?? [];
+
+  const totalCount = data?.totalCount ?? 0;
+
   const totalPages = Math.ceil(totalCount / ITEMS_PER_PAGE);
+
+  const [shouldThrow, setShouldThrow] = useState(false);
+  const [inputValue, setInputValue] = useState(() => urlSearch || storedSearch);
 
   const { pathname } = useLocation();
   const isDetailsOpen = pathname.includes('/details/');
@@ -65,10 +71,6 @@ function MainPage() {
   }, []);
 
   useEffect(() => {
-    handleSearch(rawSearch, currentPage);
-  }, [rawSearch, currentPage, handleSearch]);
-
-  useEffect(() => {
     if (totalPages > 0 && currentPage > totalPages) {
       setSearchParams(
         updateSearchParams(searchParams, {
@@ -101,6 +103,9 @@ function MainPage() {
     );
   };
 
+  const errorMessage = error instanceof Error ? error.message : '';
+  const { refreshAll } = useRefreshData();
+
   return (
     <main
       className={`layout ${pathname.includes('/details/') ? 'layout-split' : ''}`}
@@ -112,7 +117,13 @@ function MainPage() {
           initialValue={inputValue}
         />
 
-        <ResultsSection results={results} isLoading={isLoading} error={error} />
+        <ResultsSection
+          results={results}
+          isLoading={isLoading}
+          isFetching={isFetching}
+          error={errorMessage}
+          onRefresh={refreshAll}
+        />
 
         {!isLoading && results.length > 0 && (
           <Pagination

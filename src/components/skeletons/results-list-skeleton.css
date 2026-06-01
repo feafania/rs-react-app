@@ -1,0 +1,48 @@
+.results-skeleton {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-top: 20px;
+}
+
+.skeleton-row {
+  display: grid;
+  grid-template-columns: 42px minmax(0, 220px) 1fr;
+  gap: 16px;
+  align-items: center;
+}
+
+.skeleton-checkbox {
+  width: 20px;
+  height: 20px;
+  background: var(--border);
+  border-radius: 4px;
+  animation: pulse 1.5s infinite ease-in-out;
+}
+
+.skeleton-line {
+  height: 14px;
+  background: var(--border);
+  border-radius: 4px;
+  animation: pulse 1.5s infinite ease-in-out;
+}
+
+.skeleton-line.short {
+  width: 60%;
+}
+
+.skeleton-line.long {
+  width: 90%;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 0.4;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.4;
+  }
+}
