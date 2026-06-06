@@ -30,3 +30,18 @@ export type ThemeContextType = {
   theme: Theme;
   toggleTheme: () => void;
 };
+
+export type BaseFormFields = {
+  name: string;
+  age: number;
+  gender: 'female' | 'male' | 'other';
+  email: string;
+  termsAccepted: boolean;
+};
+
+export const FormTypes = {
+  uncontrolled: 'uncontrolled',
+  rhf: 'rhf',
+} as const;
+
+export type FormType = (typeof FormTypes)[keyof typeof FormTypes];
