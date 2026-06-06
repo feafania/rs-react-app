@@ -4,10 +4,14 @@ import { ErrorBoundary } from '../../components/ErrorBoundary.tsx';
 
 import './root-layout.css';
 import { useTheme } from '../../hooks/useTheme.ts';
+import { Modal } from '../../components/modal/Modal.tsx';
+import { useState } from 'react';
+import { UncontrolledForm } from '../../components/forms/UncontrolledForm.tsx';
 
 export function RootLayout() {
   const { pathname } = useLocation();
   const { theme, toggleTheme } = useTheme();
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const isHomeActive = pathname === '/' || pathname.startsWith('/details/');
   return (
@@ -32,6 +36,12 @@ export function RootLayout() {
               >
                 About
               </NavLink>
+              <button
+                className="header-action"
+                onClick={() => setIsModalOpen(true)}
+              >
+                Add Profile
+              </button>
             </nav>
             <button className="theme-button" onClick={toggleTheme}>
               {theme === 'light' ? '🌙 Dark' : '☀️ Light'}
@@ -42,6 +52,13 @@ export function RootLayout() {
         <div className="page-content">
           <Outlet />
         </div>
+        <Modal
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          title="Uncontrolled Form"
+        >
+          <UncontrolledForm />
+        </Modal>
       </div>
     </ErrorBoundary>
   );

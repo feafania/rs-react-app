@@ -81,6 +81,41 @@
   cursor: default;
 }
 
+.header-action {
+  padding: 8px 14px;
+  border-radius: 8px;
+
+  background: transparent;
+  border: 1px solid var(--border);
+
+  color: var(--text-secondary);
+  font-weight: 600;
+
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.header-action:hover {
+  background: var(--hover);
+  color: var(--text);
+  border-color: var(--text-secondary);
+}
+
+body[data-theme='dark'] .header-action {
+  background: transparent;
+  border-color: var(--border);
+  color: var(--text-secondary);
+}
+
+body[data-theme='dark'] .header-action:hover {
+  background: var(--hover);
+  color: var(--text);
+  border-color: var(--text);
+}
+
 /* CONTENT */
 
 .page-content {
