@@ -9,14 +9,17 @@ export type FormSubmission = BaseFormFields & {
 
 type FormsStore = {
   submissions: FormSubmission[];
+  lastAddedId: string | null;
   addSubmission: (submission: FormSubmission) => void;
 };
 
 export const useFormsStore = create<FormsStore>((set) => ({
   submissions: [],
+  lastAddedId: null,
 
   addSubmission: (submission) =>
     set((state) => ({
       submissions: [submission, ...state.submissions],
+      lastAddedId: submission.id,
     })),
 }));

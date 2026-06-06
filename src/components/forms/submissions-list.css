@@ -18,7 +18,9 @@
 
   transition:
     transform 0.15s ease,
-    box-shadow 0.2s ease;
+    box-shadow 0.2s ease,
+    border-color 0.3s ease,
+    background 0.3s ease;
 }
 
 .submission-card:hover {
@@ -36,4 +38,36 @@
   margin-top: 24px;
   color: var(--muted-text);
   text-align: center;
+}
+
+.new-card {
+  animation:
+    slideFadeGlow 0.6s ease,
+    highlightNew 3s ease;
+}
+
+/* Glow + background highlight */
+@keyframes highlightNew {
+  0% {
+    background: rgba(76, 175, 80, 0.25);
+    box-shadow: 0 0 12px rgba(76, 175, 80, 0.4);
+    border-color: #4caf50;
+  }
+  100% {
+    background: var(--surface);
+    box-shadow: none;
+    border-color: var(--border);
+  }
+}
+
+/* Slide-in + fade-in */
+@keyframes slideFadeGlow {
+  0% {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

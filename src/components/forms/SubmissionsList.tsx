@@ -3,6 +3,7 @@ import './submissions-list.css';
 
 export function SubmissionsList() {
   const submissions = useFormsStore((state) => state.submissions);
+  const lastAddedId = useFormsStore((state) => state.lastAddedId);
 
   if (submissions.length === 0) {
     return <div className="empty-submissions">No submissions yet</div>;
@@ -11,7 +12,12 @@ export function SubmissionsList() {
   return (
     <div className="submissions-grid">
       {submissions.map((s) => (
-        <article key={s.id} className="submission-card">
+        <article
+          key={s.id}
+          className={`submission-card ${
+            s.id === lastAddedId ? 'new-card' : ''
+          }`}
+        >
           <h3>{s.name}</h3>
 
           <p>Email: {s.email}</p>
