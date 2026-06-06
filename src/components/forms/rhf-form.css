@@ -4,6 +4,12 @@
   gap: 16px;
 }
 
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
 .form-label {
   display: flex;
   flex-direction: column;

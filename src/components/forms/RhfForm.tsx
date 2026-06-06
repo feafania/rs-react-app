@@ -22,7 +22,7 @@ export function RhfForm({ onSuccess }: Props) {
     mode: 'onChange',
     defaultValues: {
       name: '',
-      age: 0,
+      age: undefined,
       email: '',
       gender: 'female',
       termsAccepted: false,
@@ -39,8 +39,10 @@ export function RhfForm({ onSuccess }: Props) {
 
   return (
     <form className="form" onSubmit={handleSubmit(onSubmit)}>
-      <label className="form-label" htmlFor="name">
-        Name
+      <div className="form-field">
+        <label className="form-label" htmlFor="name">
+          Name
+        </label>
         <input
           {...register('name', { required: 'Name is required' })}
           className="form-input"
@@ -48,13 +50,15 @@ export function RhfForm({ onSuccess }: Props) {
           id="name"
         />
         {errors.name && <p className="form-error">{errors.name.message}</p>}
-      </label>
-
-      <label className="form-label" htmlFor="age">
-        Age
+      </div>
+      <div className="form-field">
+        <label className="form-label" htmlFor="age">
+          Age
+        </label>
         <input
           type="number"
           {...register('age', {
+            valueAsNumber: true,
             required: 'Age is required',
             min: { value: 1, message: 'Age must be positive' },
           })}
@@ -63,10 +67,12 @@ export function RhfForm({ onSuccess }: Props) {
           id="age"
         />
         {errors.age && <p className="form-error">{errors.age.message}</p>}
-      </label>
+      </div>
 
-      <label className="form-label" htmlFor="email">
-        Email
+      <div className="form-field">
+        <label className="form-label" htmlFor="email">
+          Email
+        </label>
         <input
           type="email"
           {...register('email', { required: 'Email is required' })}
@@ -75,16 +81,18 @@ export function RhfForm({ onSuccess }: Props) {
           id="email"
         />
         {errors.email && <p className="form-error">{errors.email.message}</p>}
-      </label>
+      </div>
 
-      <label className="form-label" htmlFor="gender">
-        Gender
+      <div className="form-field">
+        <label className="form-label" htmlFor="gender">
+          Gender
+        </label>
         <select {...register('gender')} className="form-input" id="gender">
           <option value="female">Female</option>
           <option value="male">Male</option>
           <option value="other">Other</option>
         </select>
-      </label>
+      </div>
 
       <CustomCheckbox
         name="termsAccepted"

@@ -33,7 +33,7 @@ export type ThemeContextType = {
 
 export type BaseFormFields = {
   name: string;
-  age: number;
+  age: number | undefined;
   gender: 'female' | 'male' | 'other';
   email: string;
   termsAccepted: boolean;

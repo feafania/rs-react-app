@@ -35,18 +35,22 @@ export function UncontrolledForm({ onSuccess }: Props) {
 
   return (
     <form className="form" onSubmit={handleSubmit}>
-      <label className="form-label" htmlFor="name">
-        Name
+      <div className="form-field">
+        <label className="form-label" htmlFor="name">
+          Name
+        </label>
         <input
           id="name"
           name="name"
           className="form-input"
           placeholder="Your name"
         />
-      </label>
+      </div>
 
-      <label className="form-label" htmlFor="age">
-        Age
+      <div className="form-field">
+        <label className="form-label" htmlFor="age">
+          Age
+        </label>
         <input
           id="age"
           name="age"
@@ -54,10 +58,13 @@ export function UncontrolledForm({ onSuccess }: Props) {
           className="form-input"
           placeholder="Age"
         />
-      </label>
+      </div>
 
-      <label className="form-label" htmlFor="email">
-        Email
+      <div className="form-field">
+        <label className="form-label" htmlFor="email">
+          Email
+        </label>
+
         <input
           id="email"
           name="email"
@@ -65,16 +72,17 @@ export function UncontrolledForm({ onSuccess }: Props) {
           className="form-input"
           placeholder="Email"
         />
-      </label>
-
-      <label className="form-label" htmlFor="gender">
-        Gender
+      </div>
+      <div className="form-field">
+        <label className="form-label" htmlFor="gender">
+          Gender
+        </label>
         <select id="gender" name="gender" className="form-input">
           <option value="female">Female</option>
           <option value="male">Male</option>
           <option value="other">Other</option>
         </select>
-      </label>
+      </div>
 
       <CustomCheckbox
         name="termsAccepted"
