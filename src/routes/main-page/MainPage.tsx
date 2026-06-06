@@ -15,6 +15,7 @@ import { useLocalStorage } from '../../hooks/useLocalStorage.ts';
 import { SelectedFlyout } from '../../components/selected-flyout/SelectedFlyout.tsx';
 import { useCharactersQuery } from '../../hooks/useCharactersQuery.ts';
 import { useRefreshData } from '../../hooks/useRefreshData.ts';
+import { SubmissionsList } from '../../components/forms/SubmissionsList.tsx';
 
 function MainPage() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -132,7 +133,7 @@ function MainPage() {
             onPageChange={handlePageChange}
           />
         )}
-
+        <SubmissionsList />
         <TriggerErrorButton onClick={() => setShouldThrow(true)} />
       </div>
       {isDetailsOpen && (

@@ -5,13 +5,29 @@ import { ErrorBoundary } from '../../components/ErrorBoundary.tsx';
 import './root-layout.css';
 import { useTheme } from '../../hooks/useTheme.ts';
 import { Modal } from '../../components/modal/Modal.tsx';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { UncontrolledForm } from '../../components/forms/UncontrolledForm.tsx';
+import { type FormType, FormTypes } from '../../types/types.ts';
+import { RhfForm } from '../../components/forms/RhfForm.tsx';
 
 export function RootLayout() {
   const { pathname } = useLocation();
   const { theme, toggleTheme } = useTheme();
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const [formType, setFormType] = useState<FormType>(FormTypes.uncontrolled);
+
+  const [menuOpen, setMenuOpen] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (!menuRef.current?.contains(e.target as Node)) {
+        setMenuOpen(false);
+      }
+    };
+    document.addEventListener('click', handler);
+    return () => document.removeEventListener('click', handler);
+  }, []);
 
   const isHomeActive = pathname === '/' || pathname.startsWith('/details/');
   return (
@@ -36,12 +52,40 @@ export function RootLayout() {
               >
                 About
               </NavLink>
-              <button
-                className="header-action"
-                onClick={() => setIsModalOpen(true)}
-              >
-                Add Profile
-              </button>
+              <div className="profile-menu-wrapper" ref={menuRef}>
+                <button
+                  className="header-action"
+                  onClick={() => setMenuOpen((prev) => !prev)}
+                >
+                  Add Profile ▾
+                </button>
+
+                {menuOpen && (
+                  <div className="profile-menu">
+                    <button
+                      className="profile-menu-item"
+                      onClick={() => {
+                        setFormType(FormTypes.uncontrolled);
+                        setIsModalOpen(true);
+                        setMenuOpen(false);
+                      }}
+                    >
+                      Uncontrolled Form
+                    </button>
+
+                    <button
+                      className="profile-menu-item"
+                      onClick={() => {
+                        setFormType(FormTypes.rhf);
+                        setIsModalOpen(true);
+                        setMenuOpen(false);
+                      }}
+                    >
+                      React Hook Form
+                    </button>
+                  </div>
+                )}
+              </div>
             </nav>
             <button className="theme-button" onClick={toggleTheme}>
               {theme === 'light' ? '🌙 Dark' : '☀️ Light'}
@@ -55,9 +99,17 @@ export function RootLayout() {
         <Modal
           isOpen={isModalOpen}
           onClose={() => setIsModalOpen(false)}
-          title="Uncontrolled Form"
+          title={
+            formType === 'uncontrolled'
+              ? 'Uncontrolled Form'
+              : 'React Hook Form'
+          }
         >
-          <UncontrolledForm />
+          {formType === FormTypes.uncontrolled ? (
+            <UncontrolledForm onSuccess={() => setIsModalOpen(false)} />
+          ) : (
+            <RhfForm onSuccess={() => setIsModalOpen(false)} />
+          )}
         </Modal>
       </div>
     </ErrorBoundary>

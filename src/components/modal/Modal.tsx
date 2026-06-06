@@ -20,55 +20,34 @@ export function Modal({ isOpen, onClose, title, children }: ModalProps) {
 
   useEffect(() => {
     if (!isOpen) {
+      document.body.style.overflow = '';
       return;
     }
 
     triggerRef.current = document.activeElement as HTMLElement;
 
-    return () => {
-      triggerRef.current?.focus();
-    };
-  }, [isOpen]);
-
-  useEffect(() => {
-    if (!isOpen) {
-      return;
-    }
+    document.body.style.overflow = 'hidden';
 
     const handleEsc = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
         onClose();
       }
     };
-
     document.addEventListener('keydown', handleEsc);
 
     return () => {
+      document.body.style.overflow = '';
+      triggerRef.current?.focus();
       document.removeEventListener('keydown', handleEsc);
     };
   }, [isOpen, onClose]);
-
-  useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = '';
-    }
-
-    return () => {
-      document.body.style.overflow = '';
-    };
-  }, [isOpen]);
-
-  if (!isOpen) {
-    return null;
-  }
 
   const modalRoot = document.getElementById('modal-root');
 
   if (!modalRoot) {
     return null;
   }
+  if (!isOpen) return null;
 
   return createPortal(
     <div className="modal-overlay" onClick={onClose}>
@@ -80,13 +59,20 @@ export function Modal({ isOpen, onClose, title, children }: ModalProps) {
         aria-labelledby="modal-title"
         onClick={(event) => event.stopPropagation()}
       >
-        <h2 id="modal-title">{title}</h2>
+        <button
+          type="button"
+          className="modal-close"
+          aria-label="Close modal"
+          onClick={onClose}
+        >
+          ✕
+        </button>
+
+        <h2 id="modal-title" className="modal-title">
+          {title}
+        </h2>
 
         {children}
-
-        <button type="button" onClick={onClose}>
-          Close
-        </button>
       </div>
     </div>,
     modalRoot
