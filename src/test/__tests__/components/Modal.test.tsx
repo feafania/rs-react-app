@@ -192,5 +192,47 @@ describe('Modal and useModalAccessibility', () => {
 
       expect(document.activeElement).toBe(closeBtn);
     });
+
+    it('should do nothing when there are no focusable elements', () => {
+      render(
+        <Modal isOpen={true} onClose={mockOnClose} title="Test Modal">
+          <div>No focusable content</div>
+        </Modal>
+      );
+
+      fireEvent.keyDown(window, { key: 'Tab', shiftKey: false });
+
+      expect(mockOnClose).not.toHaveBeenCalled();
+    });
+
+    it('should not move focus when Shift+Tab is pressed on non-first element', () => {
+      render(
+        <Modal isOpen={true} onClose={mockOnClose} title="Test Modal">
+          <input data-testid="middle" type="text" />
+        </Modal>
+      );
+
+      const middleInput = screen.getByTestId('middle');
+      middleInput.focus();
+
+      fireEvent.keyDown(window, { key: 'Tab', shiftKey: true });
+
+      expect(document.activeElement).toBe(middleInput);
+    });
+
+    it('should not move focus when Tab is pressed on non-last element', () => {
+      render(
+        <Modal isOpen={true} onClose={mockOnClose} title="Test Modal">
+          <input data-testid="middle" type="text" />
+        </Modal>
+      );
+
+      const closeBtn = screen.getByLabelText('Close modal');
+      closeBtn.focus();
+
+      fireEvent.keyDown(window, { key: 'Tab', shiftKey: false });
+
+      expect(document.activeElement).toBe(closeBtn);
+    });
   });
 });
