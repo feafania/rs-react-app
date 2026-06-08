@@ -30,6 +30,8 @@ export function RootLayout() {
   }, []);
 
   const isHomeActive = pathname === '/' || pathname.startsWith('/details/');
+  const addProfileButtonRef = useRef<HTMLButtonElement>(null);
+
   return (
     <ErrorBoundary>
       <div className="app-shell">
@@ -54,6 +56,7 @@ export function RootLayout() {
               </NavLink>
               <div className="profile-menu-wrapper" ref={menuRef}>
                 <button
+                  ref={addProfileButtonRef}
                   className="header-action"
                   onClick={() => setMenuOpen((prev) => !prev)}
                 >
@@ -99,6 +102,7 @@ export function RootLayout() {
         <Modal
           isOpen={isModalOpen}
           onClose={() => setIsModalOpen(false)}
+          triggerRef={addProfileButtonRef}
           title={
             formType === 'uncontrolled'
               ? 'Uncontrolled Form'

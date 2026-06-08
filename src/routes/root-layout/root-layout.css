@@ -116,6 +116,16 @@ body[data-theme='dark'] .header-action:hover {
   border-color: var(--text);
 }
 
+.header-action:focus,
+.header-action:focus-visible {
+  outline: 2px solid var(--text);
+  outline-offset: 2px;
+}
+
+.header-action:focus:not(:focus-visible) {
+  outline: 2px solid var(--text);
+}
+
 .profile-menu-wrapper {
   position: relative;
 }

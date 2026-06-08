@@ -1,69 +1,83 @@
 import { useEffect, useRef, type ReactNode } from 'react';
 import { createPortal } from 'react-dom';
 
-import { useFocusTrap } from './useFocusTrap';
-
 import './Modal.css';
+import { useModalAccessibility } from './useModalAccessibility.ts';
 
 type ModalProps = {
   isOpen: boolean;
   onClose: () => void;
   title: string;
   children: ReactNode;
+  triggerRef?: React.RefObject<HTMLButtonElement | null>;
 };
 
-export function Modal({ isOpen, onClose, title, children }: ModalProps) {
-  const modalRef = useRef<HTMLDivElement>(null);
-  const triggerRef = useRef<HTMLElement | null>(null);
+export function Modal({
+  isOpen,
+  onClose,
+  title,
+  children,
+  triggerRef,
+}: ModalProps) {
+  const dialogRef = useRef<HTMLDialogElement>(null);
+  const isClickOutsideRef = useRef(false);
 
-  useFocusTrap(modalRef, isOpen);
+  const isFileDialogOpen = () => {
+    const el = document.activeElement;
+    return el instanceof HTMLInputElement && el.type === 'file';
+  };
 
   useEffect(() => {
-    if (!isOpen) {
-      document.body.style.overflow = '';
-      return;
+    const dialog = dialogRef.current;
+    if (!dialog) return;
+
+    if (isOpen) {
+      dialog.showModal();
+    } else if (dialog.open) {
+      dialog.close();
     }
+  }, [isOpen]);
 
-    triggerRef.current = document.activeElement as HTMLElement;
+  useModalAccessibility({ isOpen, dialogRef });
 
-    document.body.style.overflow = 'hidden';
-
-    const handleEsc = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') {
-        onClose();
+  const handleCloseActions = () => {
+    onClose();
+    setTimeout(() => {
+      if (triggerRef && triggerRef.current) {
+        triggerRef.current.focus();
       }
-    };
-    document.addEventListener('keydown', handleEsc);
+    }, 50);
+  };
 
-    return () => {
-      document.body.style.overflow = '';
-      triggerRef.current?.focus();
-      document.removeEventListener('keydown', handleEsc);
-    };
-  }, [isOpen, onClose]);
-
-  const modalRoot = document.getElementById('modal-root');
-
-  if (!modalRoot) {
-    return null;
-  }
   if (!isOpen) return null;
 
   return createPortal(
-    <div className="modal-overlay" onClick={onClose}>
-      <div
-        ref={modalRef}
-        className="modal-content"
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="modal-title"
-        onClick={(event) => event.stopPropagation()}
-      >
+    <dialog
+      ref={dialogRef}
+      className="modal-content"
+      aria-labelledby="modal-title"
+      onCancel={(event) => {
+        if (isFileDialogOpen()) return;
+        event.preventDefault();
+        handleCloseActions();
+      }}
+      onClose={handleCloseActions}
+      onMouseDown={(event) => {
+        isClickOutsideRef.current = event.target === dialogRef.current;
+      }}
+      onMouseUp={(event) => {
+        if (event.target === dialogRef.current && isClickOutsideRef.current) {
+          handleCloseActions();
+        }
+        isClickOutsideRef.current = false;
+      }}
+    >
+      <div className="modal-scroll">
         <button
           type="button"
           className="modal-close"
           aria-label="Close modal"
-          onClick={onClose}
+          onClick={handleCloseActions}
         >
           ✕
         </button>
@@ -74,7 +88,7 @@ export function Modal({ isOpen, onClose, title, children }: ModalProps) {
 
         {children}
       </div>
-    </div>,
-    modalRoot
+    </dialog>,
+    document.body
   );
 }
