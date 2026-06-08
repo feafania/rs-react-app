@@ -1,0 +1,232 @@
+.form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px 24px;
+  width: 100%;
+
+  padding: 24px 28px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+
+  max-width: none;
+  margin: 0;
+
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+  transition:
+    background var(--transition),
+    border-color var(--transition);
+
+  animation: fadeInForm 0.25s ease;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  letter-spacing: 0.2px;
+}
+
+.form-input {
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+
+  background: var(--surface);
+  color: var(--text);
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
+}
+
+.form-input:hover {
+  background: var(--hover);
+}
+
+.form-input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-light);
+  outline: none;
+}
+
+.form-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.form-error {
+  min-height: 18px;
+
+  color: var(--error-text);
+  font-size: 13px;
+  margin-top: 2px;
+  margin-left: 2px;
+
+  animation: fadeIn 0.2s ease;
+}
+
+.form-submit {
+  padding: 12px 16px;
+
+  background: var(--accent);
+  color: var(--accent-text);
+
+  border: none;
+  border-radius: 8px;
+
+  cursor: pointer;
+  font-weight: 600;
+
+  transition:
+    background var(--transition),
+    transform 0.15s ease,
+    box-shadow 0.2s ease;
+}
+
+.form-submit:hover:not(:disabled) {
+  background: var(--accent-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px var(--accent-light);
+}
+
+.form-submit:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+input[type='file'] {
+  width: 100%;
+
+  box-sizing: border-box;
+  padding: 10px 12px;
+  background: var(--input-bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  cursor: pointer;
+  transition:
+    background var(--transition),
+    border-color var(--transition);
+}
+
+input[type='file']:hover {
+  background: var(--input-hover);
+  border-color: var(--accent-light);
+}
+
+.pw-strength {
+  margin-top: -4px;
+  padding: 6px 8px;
+  border-radius: 6px;
+  background: var(--hover);
+}
+
+.password-wrapper {
+  position: relative;
+  width: 100%;
+  display: block;
+}
+
+.password-input {
+  width: 100%;
+  box-sizing: border-box;
+  padding-right: 42px;
+}
+
+.form-field-full {
+  grid-column: 1 / -1;
+}
+
+.form-input select {
+  appearance: none;
+}
+
+select.form-input {
+  appearance: none;
+  background-image: url("data:image/svg+xml;utf8,<svg fill='%23555' height='20' viewBox='0 0 20 20' width='20' xmlns='http://www.w3.org/2000/svg'><path d='M5.516 7.548l4.484 4.484 4.484-4.484L16 8.548l-6 6-6-6z'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 14px;
+  padding-right: 36px;
+}
+
+.form-input-error {
+  border-color: var(--error-text);
+}
+
+.form-input-error:focus {
+  box-shadow: 0 0 0 3px rgba(255, 0, 0, 0.15);
+}
+
+.form-summary-error {
+  grid-column: 1 / -1;
+
+  color: var(--error-text);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.form-hint {
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin-left: 2px;
+}
+
+.custom-checkbox-error .checkbox-label {
+  color: var(--error-text);
+}
+
+.form-field .custom-checkbox {
+  width: fit-content;
+}
+
+.checkbox-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-2px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInForm {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 768px) {
+  .form {
+    grid-template-columns: 1fr;
+  }
+
+  .modal-content {
+    width: 95vw;
+    padding: 24px;
+  }
+}
