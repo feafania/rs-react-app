@@ -1,5 +1,5 @@
 import { type Character } from '../../types/types.ts';
-import { getCharacterDescription } from '../../util/getCharacterDescription.ts';
+import { getCharacterDescription } from '../../utils/getCharacterDescription.ts';
 import { Link, useSearchParams } from 'react-router';
 
 import { useSelectedItemsStore } from '../../store';

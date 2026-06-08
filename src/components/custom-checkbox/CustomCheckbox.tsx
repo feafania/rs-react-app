@@ -1,26 +1,33 @@
-import { type UseFormRegister } from 'react-hook-form';
-import type { BaseFormFields } from '../../types/types';
+import type { FieldValues, Path, UseFormRegister } from 'react-hook-form';
+
 import './custom-checkbox.css';
 
-type Props = {
+type Props<T extends FieldValues> = {
   label: string;
-  name: keyof BaseFormFields;
+  name: Path<T>;
+
   checked?: boolean;
   defaultChecked?: boolean;
   onChange?: React.ChangeEventHandler<HTMLInputElement>;
-  register?: UseFormRegister<BaseFormFields>;
+
+  register?: UseFormRegister<T>;
+  error?: boolean;
 };
 
-export function CustomCheckbox({
+export function CustomCheckbox<T extends FieldValues>({
   label,
   name,
   checked,
   defaultChecked,
   onChange,
   register,
-}: Props) {
+  error,
+}: Props<T>) {
   return (
-    <label className="custom-checkbox" htmlFor={String(name)}>
+    <label
+      className={`custom-checkbox ${error ? 'custom-checkbox-error' : ''}`}
+      htmlFor={String(name)}
+    >
       <input
         id={String(name)}
         type="checkbox"
@@ -30,7 +37,6 @@ export function CustomCheckbox({
       />
 
       <span className="checkbox-box" />
-
       <span className="checkbox-label">{label}</span>
     </label>
   );

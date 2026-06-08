@@ -59,7 +59,21 @@
   transform: rotate(45deg);
 }
 
+.custom-checkbox input:focus + .checkbox-box {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-light);
+}
+
 .checkbox-label {
   font-weight: 600;
   color: var(--text-secondary);
+}
+
+.custom-checkbox-error .checkbox-label {
+  color: var(--error-text);
+}
+
+.custom-checkbox-error .checkbox-box {
+  border-color: var(--error-text);
+  box-shadow: 0 0 0 3px rgba(255, 0, 0, 0.15);
 }
