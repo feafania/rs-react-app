@@ -35,7 +35,15 @@ export type BaseFormFields = {
   name: string;
   age: number | undefined;
   gender: 'female' | 'male' | 'other';
+  image: string; // base64
+
   email: string;
+
+  password: string;
+  confirmPassword: string;
+
+  country: string;
+
   termsAccepted: boolean;
 };
 
