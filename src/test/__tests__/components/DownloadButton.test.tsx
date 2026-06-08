@@ -7,9 +7,9 @@ import { fetchCharactersByIds } from '../../../utils/fetchCharactersByIds.ts';
 import { buildCSV } from '../../../utils/export/buildCsv.ts';
 import { downloadFile } from '../../../utils/export/downloadFile.ts';
 
-vi.mock('../../../util/fetchCharactersByIds.ts');
-vi.mock('../../../util/export/buildCsv.ts');
-vi.mock('../../../util/export/downloadFile.ts');
+vi.mock('../../../utils/fetchCharactersByIds.ts');
+vi.mock('../../../utils/export/buildCsv.ts');
+vi.mock('../../../utils/export/downloadFile.ts');
 
 describe('DownloadButton', () => {
   it('renders button', () => {
