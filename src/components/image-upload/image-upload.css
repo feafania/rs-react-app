@@ -1,0 +1,65 @@
+.image-upload-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.image-input {
+  flex: 1;
+  min-width: 0;
+}
+
+.image-preview-wrapper {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.image-upload-wrapper .form-error {
+  width: 100%;
+  margin-top: 0;
+}
+
+.image-preview {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--border);
+  display: block;
+}
+
+.image-clear {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  width: 18px;
+  height: 18px;
+  background: var(--error-text);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 10px;
+  line-height: 1;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.2s;
+}
+
+.image-clear:hover {
+  opacity: 0.8;
+}
+
+.image-upload-wrapper.form-input-error {
+  outline: 2px solid var(--error-text);
+  border-radius: 8px;
+}
+
+.image-hint {
+  width: 100%;
+  font-size: 12px;
+  color: var(--text-secondary);
+}

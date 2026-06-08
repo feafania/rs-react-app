@@ -1,0 +1,112 @@
+:root {
+  --bg: #f4f4f4;
+  --surface: #ffffff;
+  --border: #dddddd;
+
+  --text: #111111;
+  --text-secondary: #555555;
+
+  --hover: #f5f5f5;
+
+  --button-bg: #111111;
+  --button-text: #ffffff;
+
+  --accent: #111111;
+  --accent-text: #ffffff;
+  --accent-hover: #333333;
+  --accent-light: rgba(17, 17, 17, 0.15);
+  --accent-dark: rgba(17, 17, 17, 0.4);
+
+  --muted-text: #777777;
+
+  --error-bg: #fff3f3;
+  --error-border: #ffb4b4;
+  --error-text: #c62828;
+  --error-button: #e74c3c;
+  --error-button-hover: #c0392b;
+
+  --overlay-bg: rgba(255, 255, 255, 0.7);
+  --button-hover: #333333;
+  --drag-indicator: #d6d6d6;
+
+  --flyout-bg: rgba(248, 248, 248, 0.96);
+  --flyout-border: rgba(0, 0, 0, 0.08);
+
+  --download-bg: rgba(17, 17, 17, 0.06);
+  --download-bg-hover: rgba(17, 17, 17, 0.12);
+
+  --download-border: rgba(17, 17, 17, 0.2);
+  --download-border-hover: rgba(17, 17, 17, 0.3);
+
+  --nav-hover: #ececec;
+
+  --input-bg: var(--surface);
+  --input-hover: var(--hover);
+  --radius: 8px;
+  --transition: 0.2s ease;
+}
+
+body[data-theme='dark'] {
+  --bg: #121212;
+  --surface: #1e1e1e;
+  --border: #333333;
+
+  --text: #f5f5f5;
+  --text-secondary: #b3b3b3;
+
+  --hover: #2a2a2a;
+
+  --button-bg: #f5f5f5;
+  --button-text: #111111;
+
+  --accent: #f5f5f5;
+  --accent-text: #111111;
+  --accent-hover: #e0e0e0;
+  --accent-light: rgba(255, 255, 255, 0.2);
+  --accent-dark: rgba(255, 255, 255, 0.5);
+
+  --muted-text: #9a9a9a;
+
+  --error-bg: #3a1f1f;
+  --error-border: #7a2e2e;
+  --error-text: #ffb3b3;
+  --error-button: #ef5350;
+  --error-button-hover: #e53935;
+
+  --overlay-bg: rgba(0, 0, 0, 0.55);
+  --button-hover: #dcdcdc;
+  --drag-indicator: #5f5f5f;
+
+  --flyout-bg: rgba(42, 42, 42, 0.96);
+  --flyout-border: rgba(255, 255, 255, 0.08);
+
+  --download-bg: rgba(255, 255, 255, 0.08);
+  --download-bg-hover: rgba(255, 255, 255, 0.14);
+
+  --download-border: rgba(255, 255, 255, 0.18);
+  --download-border-hover: rgba(255, 255, 255, 0.28);
+
+  --nav-hover: #353535;
+
+  --input-bg: var(--surface);
+  --input-hover: var(--hover);
+  --radius: 8px;
+  --transition: 0.2s ease;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  margin: 0;
+  min-height: 100vh;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+}
