@@ -1,5 +1,5 @@
 import { describe, expect, it, vi, beforeEach } from 'vitest';
-import { downloadFile } from '../../../util/export/downloadFile.ts';
+import { downloadFile } from '../../../utils/export/downloadFile.ts';
 
 describe('downloadFile', () => {
   beforeEach(() => {

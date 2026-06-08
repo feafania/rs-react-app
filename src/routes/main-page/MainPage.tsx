@@ -10,12 +10,12 @@ import { ITEMS_PER_PAGE } from '../../constants';
 
 import './main-page.css';
 import './pagination.css';
-import { updateSearchParams } from '../../util/updateSearchParams.ts';
+import { updateSearchParams } from '../../utils/updateSearchParams.ts';
 import { useLocalStorage } from '../../hooks/useLocalStorage.ts';
 import { SelectedFlyout } from '../../components/selected-flyout/SelectedFlyout.tsx';
 import { useCharactersQuery } from '../../hooks/useCharactersQuery.ts';
 import { useRefreshData } from '../../hooks/useRefreshData.ts';
-import { SubmissionsList } from '../../components/forms/SubmissionsList.tsx';
+import { SubmissionsList } from '../../components/forms/submissions-list/SubmissionsList.tsx';
 
 function MainPage() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -69,6 +69,7 @@ function MainPage() {
         replace: true,
       });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {

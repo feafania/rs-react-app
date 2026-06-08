@@ -1,5 +1,5 @@
 import { describe, expect, it, vi, beforeEach } from 'vitest';
-import { fetchCharactersByIds } from '../../../util/fetchCharactersByIds.ts';
+import { fetchCharactersByIds } from '../../../utils/fetchCharactersByIds.ts';
 import { queryClient } from '../../../lib/queryClient.ts';
 
 vi.mock('../../../lib/queryClient', () => ({

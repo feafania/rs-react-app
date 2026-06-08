@@ -3,9 +3,9 @@ import userEvent from '@testing-library/user-event';
 import { vi } from 'vitest';
 
 import { DownloadButton } from '../../../components/DownloadButton.tsx';
-import { fetchCharactersByIds } from '../../../util/fetchCharactersByIds.ts';
-import { buildCSV } from '../../../util/export/buildCsv.ts';
-import { downloadFile } from '../../../util/export/downloadFile.ts';
+import { fetchCharactersByIds } from '../../../utils/fetchCharactersByIds.ts';
+import { buildCSV } from '../../../utils/export/buildCsv.ts';
+import { downloadFile } from '../../../utils/export/downloadFile.ts';
 
 vi.mock('../../../util/fetchCharactersByIds.ts');
 vi.mock('../../../util/export/buildCsv.ts');

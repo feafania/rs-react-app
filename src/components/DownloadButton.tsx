@@ -1,6 +1,6 @@
-import { fetchCharactersByIds } from '../util/fetchCharactersByIds.ts';
-import { buildCSV } from '../util/export/buildCsv.ts';
-import { downloadFile } from '../util/export/downloadFile.ts';
+import { fetchCharactersByIds } from '../utils/fetchCharactersByIds.ts';
+import { buildCSV } from '../utils/export/buildCsv.ts';
+import { downloadFile } from '../utils/export/downloadFile.ts';
 
 type DownloadButtonProps = {
   selectedItems: string[];

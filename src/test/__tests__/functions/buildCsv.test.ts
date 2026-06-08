@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { buildCSV } from '../../../util/export/buildCsv.ts';
+import { buildCSV } from '../../../utils/export/buildCsv.ts';
 
 describe('buildCSV', () => {
   it('builds csv with headers and rows', () => {

@@ -4,7 +4,7 @@ import {
   leiaCharacter,
   lukeCharacter,
 } from '../../mocks/characters.ts';
-import { buildSelectedCharactersExport } from '../../../util/export/buildSelectedCharactersExport.ts';
+import { buildSelectedCharactersExport } from '../../../utils/export/buildSelectedCharactersExport.ts';
 
 describe('buildSelectedCharactersExport', () => {
   const characters = [lukeCharacter, leiaCharacter, invalidCharacter];

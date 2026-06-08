@@ -1,4 +1,4 @@
-import { getCharacterDescription } from '../../../util/getCharacterDescription.ts';
+import { getCharacterDescription } from '../../../utils/getCharacterDescription.ts';
 import { lukeCharacter } from '../../mocks/characters.ts';
 
 describe('getCharacterDescription', () => {

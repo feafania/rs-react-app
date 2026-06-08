@@ -25,8 +25,11 @@ export default defineConfig([
     },
     settings: {
       react: {
-        version: 'detect',
+        version: '19.0',
       },
+    },
+    rules: {
+      'react-hooks/incompatible-library': 'off',
     },
   },
 ]);
