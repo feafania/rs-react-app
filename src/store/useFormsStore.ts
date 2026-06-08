@@ -10,12 +10,24 @@ export type FormSubmission = BaseFormFields & {
 type FormsStore = {
   submissions: FormSubmission[];
   lastAddedId: string | null;
+  countries: string[];
+
   addSubmission: (submission: FormSubmission) => void;
 };
 
 export const useFormsStore = create<FormsStore>((set) => ({
   submissions: [],
   lastAddedId: null,
+  countries: [
+    'Belarus',
+    'Poland',
+    'Germany',
+    'France',
+    'Spain',
+    'Italy',
+    'United Kingdom',
+    'Ukraine',
+  ],
 
   addSubmission: (submission) =>
     set((state) => ({
