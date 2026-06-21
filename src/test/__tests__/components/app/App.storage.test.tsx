@@ -1,6 +1,6 @@
 import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import MainPage from '../../../../routes/main-page/MainPage.tsx';
+import Page from '../../../../pages/main-page/MainPage.tsx';
 import { createMockResponse, mockFetch } from '../../../mocks/fetch.ts';
 import { mockCharacters } from '../../../mocks/characters.ts';
 import { renderWithProviders } from '../../test-utils/renderWithProviders.tsx';
@@ -11,7 +11,7 @@ describe('App - localStorage', () => {
 
     mockFetch.mockResolvedValueOnce(createMockResponse(mockCharacters));
 
-    renderWithProviders(<MainPage />, {
+    renderWithProviders(<Page />, {
       initialPath: '/?search=Luke&page=1',
     });
 
@@ -29,7 +29,7 @@ describe('App - localStorage', () => {
 
     mockFetch.mockResolvedValueOnce(createMockResponse(mockCharacters));
 
-    renderWithProviders(<MainPage />);
+    renderWithProviders(<Page />);
 
     const input = screen.getByRole('textbox');
     const button = screen.getByRole('button', { name: /search/i });
@@ -48,7 +48,7 @@ describe('App - localStorage', () => {
 
     mockFetch.mockResolvedValueOnce(createMockResponse([]));
 
-    renderWithProviders(<MainPage />);
+    renderWithProviders(<Page />);
 
     expect(await screen.findByText(/no results found/i)).toBeInTheDocument();
 
@@ -60,7 +60,7 @@ describe('App - localStorage', () => {
 
     mockFetch.mockResolvedValue(createMockResponse(mockCharacters));
 
-    const { unmount } = renderWithProviders(<MainPage />);
+    const { unmount } = renderWithProviders(<Page />);
 
     const input = screen.getByRole('textbox');
     const button = screen.getByRole('button', { name: /search/i });
@@ -74,7 +74,7 @@ describe('App - localStorage', () => {
 
     unmount();
 
-    renderWithProviders(<MainPage />, {
+    renderWithProviders(<Page />, {
       initialPath: '/?search=Luke&page=1',
     });
 

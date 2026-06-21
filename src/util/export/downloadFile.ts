@@ -1,3 +1,5 @@
+'use client';
+
 export function downloadFile(
   content: string,
   filename: string,

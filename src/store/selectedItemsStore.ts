@@ -1,3 +1,5 @@
+'use client';
+
 import { create } from 'zustand';
 
 type SelectedItemsStore = {
@@ -42,18 +44,13 @@ export const useSelectedItemsStore = create<SelectedItemsStore>((set, get) => ({
       ids.forEach((id) => {
         if (selectedSet.has(id)) {
           const index = nextSelected.indexOf(id);
-
-          if (index !== -1) {
-            nextSelected.splice(index, 1);
-          }
+          if (index !== -1) nextSelected.splice(index, 1);
         } else {
           nextSelected.push(id);
         }
       });
 
-      return {
-        selectedItems: nextSelected,
-      };
+      return { selectedItems: nextSelected };
     });
   },
 

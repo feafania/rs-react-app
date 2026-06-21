@@ -1,29 +1,26 @@
-import { useNavigate, useParams, useSearchParams } from 'react-router';
+'use client';
 
 import './character-details.css';
-import { useCharacterDetailsQuery } from '../../hooks/useCharacterDetailsQuery.ts';
-import { CharacterDetailsSkeleton } from '../../components/skeletons/CharacterDetailsSkeleton.tsx';
-import { useRefreshCharacterDetails } from '../../hooks/useRefreshCharacterDetails.ts';
-import { RefreshButton } from '../../components/RefreshButton.tsx';
+import { useCharacterDetailsQuery } from '../../hooks/useCharacterDetailsQuery';
+import { useRefreshCharacterDetails } from '../../hooks/useRefreshCharacterDetails';
+import { CharacterDetailsSkeleton } from '../../components/skeletons/CharacterDetailsSkeleton';
+import { RefreshButton } from '../../components/RefreshButton';
 
-export function CharacterDetails() {
-  const { id } = useParams();
-
-  const navigate = useNavigate();
-
-  const [searchParams] = useSearchParams();
-
+export function CharacterDetails({
+  id,
+  onClose,
+}: {
+  id: string;
+  onClose: () => void;
+}) {
   const {
     data: character,
     isLoading,
     isFetching,
     error,
   } = useCharacterDetailsQuery(id);
-  const refresh = useRefreshCharacterDetails(id!);
 
-  const handleClose = () => {
-    navigate(`/?${searchParams.toString()}`);
-  };
+  const refresh = useRefreshCharacterDetails(id);
 
   return (
     <aside
@@ -31,9 +28,10 @@ export function CharacterDetails() {
       onClick={(event) => event.stopPropagation()}
     >
       {isLoading && <CharacterDetailsSkeleton />}
+
       <div className="details-header">
         <div className="details-drag-indicator" />
-        <button className="close-button" onClick={handleClose}>
+        <button className="close-button" onClick={onClose}>
           ×
         </button>
       </div>
@@ -53,27 +51,21 @@ export function CharacterDetails() {
           <p>
             <strong>Birth year:</strong> {character.birth_year}
           </p>
-
           <p>
             <strong>Gender:</strong> {character.gender}
           </p>
-
           <p>
             <strong>Height:</strong> {character.height}
           </p>
-
           <p>
             <strong>Mass:</strong> {character.mass}
           </p>
-
           <p>
             <strong>Hair color:</strong> {character.hair_color}
           </p>
-
           <p>
             <strong>Eye color:</strong> {character.eye_color}
           </p>
-
           <p>
             <strong>Skin color:</strong> {character.skin_color}
           </p>

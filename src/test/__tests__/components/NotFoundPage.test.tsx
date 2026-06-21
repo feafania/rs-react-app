@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
-import { NotFoundPage } from '../../../routes/not-found-page/NotFoundPage.tsx';
+import { NotFoundPage } from '../../../pages/not-found/NotFoundPage.tsx';
 
 describe('NotFoundPage', () => {
   it('renders 404 heading', () => {

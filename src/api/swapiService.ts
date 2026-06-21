@@ -1,7 +1,7 @@
-import type { Character, CharacterDetailsData } from '../types/types';
+import type { Character, CharacterDetailsData } from '../types/types.ts';
 
 import { API_URL } from '../constants';
-import { getErrorMessage } from './errors.ts';
+import { getErrorMessage } from './errors';
 
 interface CharacterResults {
   results: Character[];

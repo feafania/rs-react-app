@@ -1,4 +1,4 @@
-import RsLogo from '../../assets/svg/rs-school-logo.inline.svg';
+import Image from 'next/image';
 import './about-page.css';
 
 export function AboutPage() {
@@ -26,7 +26,13 @@ export function AboutPage() {
             target="_blank"
             rel="noreferrer"
           >
-            <img className="course-logo" src={RsLogo} alt="RS School" />
+            <Image
+              className="course-logo"
+              src="/rs-school-logo.svg"
+              alt="RS School"
+              width={42}
+              height={42}
+            />
 
             <span>RS School React Course</span>
           </a>

@@ -1,3 +1,5 @@
+'use client';
+
 type RefreshButtonProps = {
   onRefresh: () => void;
   isFetching?: boolean;

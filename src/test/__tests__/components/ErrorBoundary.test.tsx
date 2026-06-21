@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { vi } from 'vitest';
 import { ErrorBoundary } from '../../../components/ErrorBoundary.tsx';
-import MainPage from '../../../routes/main-page/MainPage.tsx';
+import Page from '../../../pages/main-page/MainPage.tsx';
 import userEvent from '@testing-library/user-event';
 import { renderWithProviders } from '../test-utils/renderWithProviders.tsx';
 
@@ -81,7 +81,7 @@ describe('ErrorBoundary', () => {
 
     renderWithProviders(
       <ErrorBoundary>
-        <MainPage />
+        <Page />
       </ErrorBoundary>
     );
 

@@ -1,6 +1,6 @@
 import { screen } from '@testing-library/react';
 
-import MainPage from '../../../../routes/main-page/MainPage.tsx';
+import Page from '../../../../pages/main-page/MainPage.tsx';
 import { renderWithProviders } from '../../test-utils/renderWithProviders.tsx';
 import { mockQueryEmpty } from '../../../mocks/mockQuery.ts';
 
@@ -24,7 +24,7 @@ describe('App - render & initial load', () => {
       error: null,
     } as ReturnType<typeof useCharactersQuery>);
 
-    renderWithProviders(<MainPage />);
+    renderWithProviders(<Page />);
 
     expect(screen.getByText('Luke Skywalker')).toBeInTheDocument();
   });
@@ -34,7 +34,7 @@ describe('App - render & initial load', () => {
       mockQueryEmpty() as ReturnType<typeof useCharactersQuery>
     );
 
-    renderWithProviders(<MainPage />);
+    renderWithProviders(<Page />);
 
     expect(screen.getByText(/no results found/i)).toBeInTheDocument();
   });

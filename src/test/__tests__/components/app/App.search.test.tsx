@@ -1,7 +1,7 @@
 import { Routes, Route } from 'react-router';
 import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import MainPage from '../../../../routes/main-page/MainPage.tsx';
+import Page from '../../../../pages/main-page/MainPage.tsx';
 import { createMockResponse, mockFetch } from '../../../mocks/fetch.ts';
 import { mockCharacters } from '../../../mocks/characters.ts';
 import { renderWithProviders } from '../../test-utils/renderWithProviders.tsx';
@@ -17,7 +17,7 @@ describe('App - search flow', () => {
 
     renderWithProviders(
       <Routes>
-        <Route path="/" element={<MainPage />}>
+        <Route path="/" element={<Page />}>
           <Route path="details/:id" element={<div>details</div>} />
         </Route>
       </Routes>,
@@ -42,7 +42,7 @@ describe('App - search flow', () => {
 
     renderWithProviders(
       <Routes>
-        <Route path="/" element={<MainPage />}>
+        <Route path="/" element={<Page />}>
           <Route path="details/:id" element={<div>details</div>} />
         </Route>
       </Routes>,
@@ -72,7 +72,7 @@ describe('App - search flow', () => {
 
     renderWithProviders(
       <Routes>
-        <Route path="/" element={<MainPage />}>
+        <Route path="/" element={<Page />}>
           <Route path="details/:id" element={<div>details</div>} />
         </Route>
       </Routes>,

@@ -1,8 +1,10 @@
+'use client';
+
 import { useSelectedItemsStore } from '../../store';
 import type { Character } from '../../types/types.ts';
 
 import './selected-flyout.css';
-import { DownloadButton } from '../DownloadButton.tsx';
+import { DownloadButton } from '../DownloadButton';
 
 type SelectedFlyoutProps = {
   results: Character[];
@@ -33,6 +35,7 @@ export function SelectedFlyout({ results }: SelectedFlyoutProps) {
         <button className="toggle-button" onClick={() => toggleItems(ids)}>
           Toggle page
         </button>
+
         <DownloadButton selectedItems={selectedItems} />
       </div>
     </div>

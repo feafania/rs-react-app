@@ -3,7 +3,7 @@ import userEvent from '@testing-library/user-event';
 import { Routes, Route } from 'react-router';
 import { vi } from 'vitest';
 
-import { CharacterDetails } from '../../../routes/character-details/CharacterDetails.tsx';
+import { CharacterDetails } from '../../../pages/character-details/CharacterDetails.tsx';
 import { renderWithProviders } from '../test-utils/renderWithProviders.tsx';
 import { useCharacterDetailsQuery } from '../../../hooks/useCharacterDetailsQuery.ts';
 

@@ -1,5 +1,5 @@
-import { ResultRow } from './ResultRow.tsx';
 import type { ResultsDataProps } from '../../types/types.ts';
+import { ResultRow } from './ResultRow';
 
 export function ResultList({ results, error }: ResultsDataProps) {
   if (error) {

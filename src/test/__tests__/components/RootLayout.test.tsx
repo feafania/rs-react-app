@@ -1,13 +1,13 @@
 import { screen } from '@testing-library/react';
 import { Routes, Route } from 'react-router';
-import { RootLayout } from '../../../routes/root-layout/RootLayout.tsx';
+import { PageLayout } from '../../../pages/page-layout/PageLayout.tsx';
 import { renderWithProviders } from '../test-utils/renderWithProviders.tsx';
 
 describe('RootLayout', () => {
   function setup(path = '/') {
     return renderWithProviders(
       <Routes>
-        <Route element={<RootLayout />}>
+        <Route element={<PageLayout />}>
           <Route path="/" element={<div>Home Page</div>} />
           <Route path="/about" element={<div>About Page</div>} />
         </Route>

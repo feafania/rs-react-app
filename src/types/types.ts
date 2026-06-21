@@ -30,3 +30,7 @@ export type ThemeContextType = {
   theme: Theme;
   toggleTheme: () => void;
 };
+
+export interface RootLayoutProps {
+  children: React.ReactNode;
+}

@@ -1,5 +1,5 @@
 import { screen, waitFor } from '@testing-library/react';
-import MainPage from '../../../../routes/main-page/MainPage.tsx';
+import Page from '../../../../pages/main-page/MainPage.tsx';
 import { createMockResponse, mockFetch } from '../../../mocks/fetch.ts';
 import { mockCharacters } from '../../../mocks/characters.ts';
 import userEvent from '@testing-library/user-event';
@@ -14,7 +14,7 @@ describe('App - loading behavior', () => {
       .mockResolvedValueOnce(createMockResponse(mockCharacters)) // fetch triggered by useEffect
       .mockResolvedValueOnce(createMockResponse(mockCharacters)); // invalidateQueries
 
-    renderWithProviders(<MainPage />);
+    renderWithProviders(<Page />);
 
     await user.type(screen.getByRole('textbox'), 'Luke');
     await user.click(screen.getByRole('button', { name: /search/i }));
@@ -27,7 +27,7 @@ describe('App - loading behavior', () => {
 
     mockFetch.mockRejectedValue(new Error('Network error'));
 
-    renderWithProviders(<MainPage />);
+    renderWithProviders(<Page />);
 
     await user.type(screen.getByRole('textbox'), 'Luke');
     await user.click(screen.getByRole('button', { name: /search/i }));

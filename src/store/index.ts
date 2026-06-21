@@ -1,1 +1,1 @@
-export * from './selectedItemsStore.ts';
+export * from './selectedItemsStore';

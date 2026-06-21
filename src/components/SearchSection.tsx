@@ -1,5 +1,6 @@
-import { type ChangeEvent, type SyntheticEvent } from 'react';
+'use client';
 
+import { type ChangeEvent, type SyntheticEvent } from 'react';
 import { SearchInput } from './SearchInput';
 import { SearchButton } from './SearchButton';
 

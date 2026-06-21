@@ -1,5 +1,5 @@
 import { screen, waitFor } from '@testing-library/react';
-import MainPage from '../../../../routes/main-page/MainPage.tsx';
+import Page from '../../../../pages/main-page/MainPage.tsx';
 import { createMockResponse, mockFetch } from '../../../mocks/fetch.ts';
 import userEvent from '@testing-library/user-event';
 import { mockCharacters } from '../../../mocks/characters.ts';
@@ -11,7 +11,7 @@ describe('App - edge cases', () => {
 
     mockFetch.mockResolvedValueOnce(createMockResponse([]));
 
-    renderWithProviders(<MainPage />);
+    renderWithProviders(<Page />);
     const input = screen.getByRole('textbox');
     const button = screen.getByRole('button', { name: /search/i });
 
@@ -31,7 +31,7 @@ describe('App - edge cases', () => {
     mockFetch.mockResolvedValueOnce(createMockResponse(mockCharacters));
     mockFetch.mockResolvedValueOnce(createMockResponse([]));
 
-    renderWithProviders(<MainPage />);
+    renderWithProviders(<Page />);
 
     const input = screen.getByRole('textbox');
     const button = screen.getByRole('button', { name: /search/i });

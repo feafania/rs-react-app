@@ -1,5 +1,5 @@
 import { screen } from '@testing-library/react';
-import MainPage from '../../../../routes/main-page/MainPage.tsx';
+import Page from '../../../../pages/main-page/MainPage.tsx';
 import { mockFetch } from '../../../mocks/fetch.ts';
 import { renderWithProviders } from '../../test-utils/renderWithProviders.tsx';
 
@@ -7,7 +7,7 @@ describe('App - error handling', () => {
   it('shows network error', async () => {
     mockFetch.mockRejectedValueOnce(new Error('Network error'));
 
-    renderWithProviders(<MainPage />);
+    renderWithProviders(<Page />);
 
     expect(await screen.findByRole('alert')).toHaveTextContent('Network error');
   });
@@ -18,7 +18,7 @@ describe('App - error handling', () => {
       status: 500,
     });
 
-    renderWithProviders(<MainPage />);
+    renderWithProviders(<Page />);
 
     expect(await screen.findByRole('alert')).toHaveTextContent(
       /please try again later/i
@@ -31,7 +31,7 @@ describe('App - error handling', () => {
       status: 404,
     });
 
-    renderWithProviders(<MainPage />);
+    renderWithProviders(<Page />);
 
     expect(await screen.findByRole('alert')).toHaveTextContent(
       /requested data was not found/i

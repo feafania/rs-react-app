@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import { AboutPage } from '../../../routes/about-page/AboutPage.tsx';
+import { AboutPage } from '../../../pages/about/AboutPage.tsx';
 
 vi.mock('../../assets/svg/rs-school-logo.inline.svg', () => ({
   default: 'rs-logo.svg',

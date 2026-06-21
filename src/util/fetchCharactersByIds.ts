@@ -1,8 +1,9 @@
-import { queryClient } from '../lib/queryClient';
+'use client';
 
+import { queryClient } from '../lib/queryClient';
 import type { ExportCharacter } from '../types/types';
-import { queryKeys } from '../api/queryKeys.ts';
-import { fetchCharacterDetails } from '../api/swapiService.ts';
+import { fetchCharacterDetails } from '../api/swapiService';
+import { queryKeys } from '../api/queryKeys';
 
 export async function fetchCharactersByIds(
   ids: string[]
@@ -11,7 +12,6 @@ export async function fetchCharactersByIds(
     ids.map(async (id) => {
       const data = await queryClient.fetchQuery({
         queryKey: queryKeys.character(id),
-
         queryFn: () => fetchCharacterDetails(id),
       });
 

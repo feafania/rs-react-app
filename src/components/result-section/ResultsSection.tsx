@@ -1,8 +1,8 @@
-import type { ResultsDataProps } from '../../types/types.ts';
-import { ResultList } from './ResultList.tsx';
 import './result-section.css';
-import { ResultsListSkeleton } from '../skeletons/ResultsListSkeleton.tsx';
-import { RefreshButton } from '../RefreshButton.tsx';
+import { ResultsDataProps } from '../../types/types';
+import { RefreshButton } from '../RefreshButton';
+import { ResultsListSkeleton } from '../skeletons/ResultsListSkeleton';
+import { ResultList } from './ResultList';
 
 type ResultsSectionProps = ResultsDataProps & {
   onRefresh: () => void;

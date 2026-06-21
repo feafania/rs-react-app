@@ -1,5 +1,7 @@
+'use client';
+
 import { useState } from 'react';
-import { Link } from 'react-router';
+import Link from 'next/link';
 import './not-found-page.css';
 
 const quotes = [
@@ -27,7 +29,9 @@ export function NotFoundPage() {
 
         <p className="quote">{quote}</p>
 
-        <Link className="home-link" to="/">
+        <Link className="home-link" href="/">
+          {' '}
+          {/* 👈 to → href */}
           Return to Home
         </Link>
       </div>
