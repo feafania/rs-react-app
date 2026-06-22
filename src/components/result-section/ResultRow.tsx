@@ -1,6 +1,6 @@
 'use client';
 
-import { Link } from '../../i18n/navigation';
+import { useRouter } from '../../i18n/navigation';
 import { useTranslations } from 'next-intl';
 import { useSearchParams } from 'next/navigation';
 import { useSelectedItemsStore } from '../../store';
@@ -13,6 +13,7 @@ interface ResultRowProps {
 }
 
 export function ResultRow({ character }: ResultRowProps) {
+  const router = useRouter();
   const { name } = character;
 
   const t = useTranslations('Details');
@@ -28,14 +29,14 @@ export function ResultRow({ character }: ResultRowProps) {
 
   if (!id) return null;
 
-  const href = `/details/${id}?${searchParams?.toString() ?? ''}`;
+  const handleRowClick = () => {
+    const params = new URLSearchParams(searchParams?.toString() ?? '');
+    params.set('detailsId', id);
+    router.push(`/?${params.toString()}`);
+  };
 
   return (
-    <Link
-      href={href}
-      className="result-row"
-      onClick={(event) => event.stopPropagation()}
-    >
+    <div className="result-row" onClick={handleRowClick}>
       <label
         className="result-checkbox"
         onClick={(event) => {
@@ -50,6 +51,6 @@ export function ResultRow({ character }: ResultRowProps) {
 
       <span className="result-name">{name}</span>
       <span className="result-description">{description}</span>
-    </Link>
+    </div>
   );
 }

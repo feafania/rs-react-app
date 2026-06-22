@@ -19,18 +19,16 @@ import { SelectedFlyout } from '../../components/selected-flyout/SelectedFlyout'
 
 import { updateSearchParams } from '../../util/updateSearchParams';
 import { CharacterDetails } from '../character-details/CharacterDetails';
-import { usePathname, useRouter } from '../../i18n/navigation';
+import { useRouter } from '../../i18n/navigation';
 
 export default function MainPage() {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const pathname = usePathname();
 
   const params = useMemo(
     () => searchParams ?? new URLSearchParams(),
     [searchParams]
   );
-  const currentPath = pathname ?? '';
 
   const rawPage = Number(params.get('page'));
   const rawSearch = params.get('search')?.trim() || '';
@@ -115,10 +113,14 @@ export default function MainPage() {
   const queryError = error instanceof Error ? error : null;
   const { refreshAll } = useRefreshData();
 
-  const isDetailsOpen = currentPath.includes('/details/');
+  const detailsId = searchParams?.get('detailsId') ?? null;
+  const isDetailsOpen = !!detailsId;
 
-  const detailsMatch = currentPath.match(/\/details\/(\d+)/);
-  const detailsId = detailsMatch?.[1];
+  const handleCloseDetails = () => {
+    const params = new URLSearchParams(searchParams?.toString() ?? '');
+    params.delete('detailsId');
+    router.push(`/?${params.toString()}`);
+  };
 
   return (
     <main className={`layout ${isDetailsOpen ? 'layout-split' : ''}`}>
@@ -150,8 +152,8 @@ export default function MainPage() {
 
       {detailsId && (
         <>
-          <div className="details-overlay" onClick={() => router.back()} />
-          <CharacterDetails id={detailsId} onClose={() => router.back()} />
+          <div className="details-overlay" onClick={handleCloseDetails} />
+          <CharacterDetails id={detailsId} onCloseAction={handleCloseDetails} />
         </>
       )}
 

@@ -2,6 +2,7 @@
 
 import { Link, usePathname } from '../../i18n/navigation';
 import { useTranslations } from 'next-intl';
+import { useSearchParams } from 'next/navigation';
 
 import './page-layout.css';
 import { useTheme } from '../../hooks/useTheme';
@@ -9,15 +10,15 @@ import { LanguageSwitcher } from '../../components/language-switcher/LanguageSwi
 
 export function PageLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
+  const searchParams = useSearchParams();
   const { theme, toggleTheme } = useTheme();
   const t = useTranslations('Layout');
 
   const currentPath = pathname ?? '';
+  const detailsId = searchParams?.get('detailsId');
 
   const isHomeActive =
-    currentPath === '/' ||
-    /^\/[a-z]{2}$/.test(currentPath) ||
-    currentPath.includes('/details/');
+    currentPath === '/' || /^\/[a-z]{2}$/.test(currentPath) || !!detailsId;
 
   const isAboutActive = currentPath.endsWith('/about');
 

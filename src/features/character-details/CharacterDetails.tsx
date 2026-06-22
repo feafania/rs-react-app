@@ -10,10 +10,10 @@ import { getApiErrorKey } from '../../util/getApiErrorKey';
 
 export function CharacterDetails({
   id,
-  onClose,
+  onCloseAction,
 }: {
   id: string;
-  onClose: () => void;
+  onCloseAction: () => void;
 }) {
   const {
     data: character,
@@ -36,7 +36,7 @@ export function CharacterDetails({
 
       <div className="details-header">
         <div className="details-drag-indicator" />
-        <button className="close-button" onClick={onClose}>
+        <button className="close-button" onClick={onCloseAction}>
           ×
         </button>
       </div>
@@ -48,7 +48,7 @@ export function CharacterDetails({
       {!isLoading && character && (
         <div className="details-content">
           <div className="details-actions">
-            <RefreshButton onRefresh={refresh} isFetching={isFetching} />
+            <RefreshButton onRefreshAction={refresh} isFetching={isFetching} />
           </div>
 
           <h2>{character.name}</h2>

@@ -3,10 +3,9 @@ import { getMessages } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import '../globals.css';
 import { routing } from '../../i18n/routing';
-import { Providers } from '../providers'; // 👈 Імпарт
+import { Providers } from '../providers';
 import { PageLayout } from '../../features/page-layout/PageLayout';
-
-type Locale = (typeof routing.locales)[number];
+import { Locale } from '../../i18n/routing';
 
 export default async function RootLayout({
   children,
@@ -15,10 +14,12 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
   modal: React.ReactNode;
-  params: Promise<{ locale: Locale }>;
+  params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
-  if (!routing.locales.includes(locale as Locale)) {
+
+  const validLocale = locale as Locale;
+  if (!routing.locales.includes(validLocale)) {
     notFound();
   }
 

@@ -5,15 +5,21 @@ import './language-switcher.css';
 import { Locale, routing } from '../../i18n/routing';
 import { usePathname, useRouter } from '../../i18n/navigation';
 import { useState } from 'react';
+import { useSearchParams } from 'next/navigation';
 
 export function LanguageSwitcher() {
   const locale = useLocale() as Locale;
   const router = useRouter();
   const pathname = usePathname();
+  const searchParams = useSearchParams();
   const [open, setOpen] = useState(false);
 
   function changeLocale(nextLocale: Locale) {
-    router.push(pathname, { locale: nextLocale });
+    const params = new URLSearchParams(searchParams?.toString() ?? '');
+    const queryString = params.toString();
+    const fullPath = queryString ? `${pathname}?${queryString}` : pathname;
+
+    router.push(fullPath, { locale: nextLocale });
     setOpen(false);
   }
 

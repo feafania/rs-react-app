@@ -25,7 +25,7 @@ export function ResultsSection({
         <h2>{t('results')}</h2>
 
         <div className="results-actions">
-          <RefreshButton onRefresh={onRefresh} isFetching={isFetching} />
+          <RefreshButton onRefreshAction={onRefresh} isFetching={isFetching} />
 
           {isFetching && !isLoading && (
             <div className="small-loading-indicator">
