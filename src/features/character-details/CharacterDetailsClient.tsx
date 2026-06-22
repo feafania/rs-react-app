@@ -8,7 +8,7 @@ import { CharacterDetailsSkeleton } from '../../components/skeletons/CharacterDe
 import { RefreshButton } from '../../components/RefreshButton';
 import { getApiErrorKey } from '../../util/getApiErrorKey';
 
-export function CharacterDetails({
+export function CharacterDetailsClient({
   id,
   onCloseAction,
 }: {

@@ -7,7 +7,14 @@ import { Providers } from '../providers';
 import { PageLayout } from '../../features/page-layout/PageLayout';
 import { Locale } from '../../i18n/routing';
 
-export default async function RootLayout({
+import '../../features/main-page/main-page.css';
+import '../../features/main-page/pagination.css';
+import '../../features/character-details/character-details.css';
+import '../../components/result-section/result-section.css';
+import '../../components/result-section/result-row.css';
+import '../../components/selected-flyout/selected-flyout.css';
+
+export default async function LocaleLayout({
   children,
   modal,
   params,
@@ -26,17 +33,13 @@ export default async function RootLayout({
   const messages = await getMessages({ locale });
 
   return (
-    <html lang={locale} suppressHydrationWarning>
-      <body suppressHydrationWarning>
-        <NextIntlClientProvider messages={messages}>
-          <Providers>
-            <PageLayout>
-              {children}
-              {modal}
-            </PageLayout>
-          </Providers>
-        </NextIntlClientProvider>
-      </body>
-    </html>
+    <NextIntlClientProvider locale={locale} messages={messages}>
+      <Providers>
+        <PageLayout>
+          {children}
+          {modal}
+        </PageLayout>
+      </Providers>
+    </NextIntlClientProvider>
   );
 }

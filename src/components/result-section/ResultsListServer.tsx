@@ -1,13 +1,19 @@
-'use client';
-
-import { useTranslations } from 'next-intl';
-import type { ResultsDataProps } from '../../types/types.ts';
+import { getTranslations } from 'next-intl/server';
+import { Character } from '../../types/types';
 import { ResultRow } from './ResultRow';
 import { getApiErrorKey } from '../../util/getApiErrorKey';
 
-export function ResultList({ results, error }: ResultsDataProps) {
-  const t = useTranslations('Search');
-  const apiT = useTranslations('ApiErrors');
+type Props = {
+  results: Character[];
+  error: Error | null;
+  search: string;
+  page: number;
+};
+
+export async function ResultsListServer({ results, error }: Props) {
+  const t = await getTranslations('Search');
+  const apiT = await getTranslations('ApiErrors');
+
   if (error) {
     return (
       <div className="error-state" role="alert">

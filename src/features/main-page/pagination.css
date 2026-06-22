@@ -7,7 +7,8 @@
   gap: 16px;
 }
 
-.pagination button {
+.pagination button,
+.pagination-link {
   padding: 10px 16px;
 
   border: none;
@@ -18,17 +19,25 @@
 
   cursor: pointer;
   font-weight: 600;
+  text-decoration: none;
 
   transition: 0.2s ease;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.pagination button:hover:not(:disabled) {
+.pagination button:hover:not(:disabled),
+.pagination-link:hover:not(:disabled) {
   background: var(--button-hover);
 }
 
-.pagination button:disabled {
+.pagination button:disabled,
+.pagination-link:disabled {
   opacity: 0.5;
   cursor: not-allowed;
+  pointer-events: none;
 }
 
 .pagination-info {

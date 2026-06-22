@@ -4,9 +4,9 @@ import { useRouter } from '../../i18n/navigation';
 import { useTranslations } from 'next-intl';
 import { useSearchParams } from 'next/navigation';
 import { useSelectedItemsStore } from '../../store';
-import './result-row.css';
 import { Character } from '../../types/types';
 import { getCharacterDescription } from '../../util/getCharacterDescription';
+import './result-row.css';
 
 interface ResultRowProps {
   character: Character;

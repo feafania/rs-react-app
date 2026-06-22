@@ -15,22 +15,18 @@ export default async function NotFound() {
   const messages = await getMessages({ locale });
 
   return (
-    <html lang={locale}>
-      <body>
-        <NextIntlClientProvider locale={locale} messages={messages}>
-          <main className="not-found-page">
-            <div className="not-found-card">
-              <h1>404</h1>
-              <p>{t('title')}</p>
-              <p>{quote}</p>
+    <NextIntlClientProvider locale={locale} messages={messages}>
+      <main className="not-found-page">
+        <div className="not-found-card">
+          <h1>404</h1>
+          <p>{t('title')}</p>
+          <p>{quote}</p>
 
-              <Link className="home-link" href="/">
-                {t('back')}
-              </Link>
-            </div>
-          </main>
-        </NextIntlClientProvider>
-      </body>
-    </html>
+          <Link className="home-link" href="/">
+            {t('back')}
+          </Link>
+        </div>
+      </main>
+    </NextIntlClientProvider>
   );
 }

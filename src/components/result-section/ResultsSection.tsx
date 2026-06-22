@@ -3,7 +3,7 @@ import './result-section.css';
 import { ResultsDataProps } from '../../types/types';
 import { RefreshButton } from '../RefreshButton';
 import { ResultsListSkeleton } from '../skeletons/ResultsListSkeleton';
-import { ResultList } from './ResultList';
+import { ResultListClient } from './ResultListClient';
 import { useTranslations } from 'next-intl';
 import './result-section.css';
 
@@ -38,7 +38,7 @@ export function ResultsSection({
       {isLoading ? (
         <ResultsListSkeleton />
       ) : (
-        <ResultList
+        <ResultListClient
           results={results}
           isLoading={isLoading}
           isFetching={isFetching}

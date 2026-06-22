@@ -10,7 +10,7 @@ interface SearchSectionProps {
   initialValue: string;
 }
 
-export function SearchSection({
+export function SearchSectionClient({
   onSearch,
   onSearchInputChange,
   initialValue,

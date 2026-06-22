@@ -2,7 +2,7 @@
 
 import { Suspense, use } from 'react';
 import { useRouter } from 'next/navigation';
-import { CharacterDetails } from '../../../../../features/character-details/CharacterDetails';
+import { CharacterDetailsClient } from '../../../../../features/character-details/CharacterDetailsClient';
 
 type PageProps = {
   params: Promise<{ id: string }>;
@@ -14,7 +14,7 @@ export default function Page({ params }: PageProps) {
 
   return (
     <Suspense fallback={<div>Loading...</div>}>
-      <CharacterDetails id={id} onCloseAction={() => router.back()} />
+      <CharacterDetailsClient id={id} onCloseAction={() => router.back()} />
     </Suspense>
   );
 }
