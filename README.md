@@ -1,204 +1,46 @@
-# React Class Components & Unit Testing
-
-> RS School React Course — Task 2 | Branch: `unit-testing`
+# Next.js. Server Side Rendering
 
 ## Description
-
-A React application built with **class components** that allows users to search Star Wars characters via the [SWAPI](https://swapi.py4e.com/) API, displays results, persists search terms with localStorage, and handles errors gracefully with an Error Boundary.
-
-This branch adds comprehensive **unit tests** using Vitest and React Testing Library.
-
----
+A modern Star Wars Explorer application migrated from Vite to **Next.js App Router**. The application leverages Server-Side Rendering (SSR), Static Site Generation (SSG), and Server Components to achieve optimal performance, SEO, and user experience. It features full internationalization (i.e., multi-language support), a hand-crafted theme switcher via React Context, server-side dynamic routing, and server-driven actions for data updates and secure CSV compiling.
 
 ## Live Demo
-
-🔗 [https://feafania.github.io/rs-react-app/](https://feafania.github.io/rs-react-app/)
-
----
+🔗 [Vercel Deployment Shell](https://rs-react-app-nextjs.vercel.app) *(or your specific hosting URL)*
 
 ## Repository
-
-🐙 [https://github.com/feafania/rs-react-app/tree/unit-testing](https://github.com/feafania/rs-react-app/tree/unit-testing)
+🐙 https://github.com/feafania/rs-react-app/tree/nextjs-ssr
 
 ---
 
 ## Features
 
-- 🔍 **Search** — search for Star Wars characters with trimmed input and no duplicate requests
-- 💾 **Local Storage** — saves and restores the last search term between sessions
-- 📋 **Results Display** — shows character name and description (gender, height, birth year)
-- ⏳ **Loading State** — loader visible during API requests
-- ⚠️ **Error Handling** — human-readable error messages for 4xx/5xx responses and network failures
-- 🛡️ **Error Boundary** — catches render errors, logs them, and displays fallback UI with "Try again" button
-- 🔴 **Error Simulation Button** — triggers a test error to verify Error Boundary behavior
+* **Next.js App Router Integration** — Native file-based routing with robust layout synchronization (`[locale]` dynamic segments). No more heavy SPA client-side routers.
+* **Deep SSR & SSG Splitting** — Initial search payloads and data tables are pre-rendered on the server via React Server Components (RSC). The About page is generated as a pure static page (SSG) at build time.
+* **Internationalization (i21n)** — Complete interface translation engine powered by `next-intl`. Supports dynamic client-side locale selection switching and fully localized link navigation wrappers.
+* **Handcrafted Layouts & Theme Context** — Shared shell wrapper UI optimized for fluid view shifts. Contains a fully custom dark/light theme layer that maps to `body.dataset.theme` utilizing local storage persistence without extra heavy third-party bundles.
+* **Server Actions & Endpoints** — Fast data export mechanics. Selected character items compile direct database records into structural streams utilizing clean Node.js back-end endpoints to deliver ready-to-download `.csv` attachments instantly.
+* **Granular Progressive Hydration** — Wrapped in dynamic layouts (`loading.tsx`), the primary layout handles loading states gracefully via Streaming HTML elements while fetching Star Wars API (SWAPI) structures.
 
 ---
 
 ## Tech Stack
 
-- [React 19](https://react.dev/) — class components only (no hooks)
-- [TypeScript](https://www.typescriptlang.org/)
-- [Vite](https://vitejs.dev/)
-- [Vitest](https://vitest.dev/) — test runner
-- [React Testing Library](https://testing-library.com/docs/react-testing-library/intro/) — component testing
-- [SWAPI](https://swapi.py4e.com/) — Star Wars REST API
+* **React 19** & **Next.js 16 (App Router)**
+* **TypeScript** (Strict Type Definitions)
+* **next-intl** — Internationalization routing engine
+* **@tanstack/react-query** — Highly efficient client-side dynamic query state synchronization
+* **Zustand** — Ultra-lightweight reactive global slice storage for item selections
 
 ---
 
 ## Getting Started
 
 ### Prerequisites
-
-- Node.js `>= 18`
-- npm
+* Node.js >= 18.x
+* npm / pnpm / yarn
 
 ### Installation
-
 ```bash
-git clone https://github.com/feafania/rs-react-app.git
+git clone [https://github.com/feafania/rs-react-app.git](https://github.com/feafania/rs-react-app.git)
 cd rs-react-app
-git checkout unit-testing
+git checkout nextjs-ssr
 npm install
-```
-
-### Running the app
-
-```bash
-npm run dev
-```
-
-Open [http://localhost:5173/rs-react-app/](http://localhost:5173/rs-react-app/) in your browser.
-
-### Building for production
-
-```bash
-npm run build
-```
-
-### Deploy to GitHub Pages
-
-```bash
-npm run deploy
-```
-
----
-
-## Testing
-
-### Run tests in watch mode
-
-```bash
-npm run test
-```
-
-### Run tests once
-
-```bash
-npm run test:run
-```
-
-### Run tests with coverage report
-
-```bash
-npm run coverage
-```
-
-Coverage thresholds configured:
-
-| Metric     | Threshold |
-| ---------- | --------- |
-| Statements | ≥ 80%     |
-| Branches   | ≥ 50%     |
-| Functions  | ≥ 50%     |
-| Lines      | ≥ 50%     |
-
----
-
-## Project Structure
-
-```
-src/
-├── components/
-│   ├── ErrorBoundary.tsx
-│   ├── ResultList.tsx
-│   ├── ResultRow.tsx
-│   ├── ResultsSection.tsx
-│   ├── SearchButton.tsx
-│   ├── SearchInput.tsx
-│   ├── SearchSection.tsx
-│   └── TriggerErrorButton.tsx
-├── test/
-│   ├── __tests__/
-│   │   ├── app/
-│   │   │   ├── App.edgeCases.test.tsx
-│   │   │   ├── App.error.test.tsx
-│   │   │   ├── App.loading.test.tsx
-│   │   │   ├── App.localStorage.test.tsx
-│   │   │   ├── App.render.test.tsx
-│   │   │   └── App.search.test.tsx
-│   │   ├── ResultList.test.tsx
-│   │   ├── ResultRow.test.tsx
-│   │   ├── ResultsSection.test.tsx
-│   │   ├── SearchButton.test.tsx
-│   │   ├── SearchInput.test.tsx
-│   │   ├── SearchSection.test.tsx
-│   │   ├── TriggerErrorButton.test.tsx
-│   │   ├── ErrorBoundary.test.tsx
-│   │   └── getCharacterDescription.test.ts
-│   ├── mocks/
-│   │   ├── characters.ts
-│   │   ├── fetch.ts
-│   │   └── localStorage.ts
-│   └── setup.ts
-├── types/
-│   └── types.ts
-├── util/
-│   └── getCharacterDescription.ts
-├── App.css
-├── App.tsx
-├── index.css
-└── main.tsx
-```
-
----
-
-## Application Layout
-
-```
-+-------------------------------------------------------+
-|  +---------------- Search Section ----------------+   |
-|  | [Search Input Field]        | [Search Button]  |   |
-|  +--------------------------------------------------+  |
-|                                                       |
-|  +---------------- Results Section ---------------+  |
-|  | Character Name  | Description                  |  |
-|  | Luke Skywalker  | Gender: male | Height: 172.. |  |
-|  | Leia Organa     | Gender: female | Height: 150 |  |
-|  +--------------------------------------------------+  |
-|                              [Trigger Error Button]   |
-+-------------------------------------------------------+
-```
-
----
-
-## API
-
-This project uses **[SWAPI (Star Wars API)](https://swapi.py4e.com/)**.
-
-Example requests:
-
-```
-GET https://swapi.py4e.com/api/people/?page=1
-GET https://swapi.py4e.com/api/people/?search=luke&page=1
-```
-
----
-
-## Notes
-
-- Class components are used throughout — hooks are not used
-- Search input is trimmed before sending requests
-- No duplicate API requests are made if the search term hasn't changed
-- Error Boundary wraps the main app and displays fallback UI on failure
-- All API calls are mocked in tests — no real network requests during testing
-- Husky runs tests automatically on `pre-push`
