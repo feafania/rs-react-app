@@ -1,21 +1,13 @@
 'use client';
 
-import { use } from 'react';
-import { useRouter } from 'next/navigation';
 import { Suspense } from 'react';
-import { CharacterDetails } from '../../../../../pages/character-details/CharacterDetails';
+import { CharacterDetails } from '../../../../../features/character-details/CharacterDetails';
+import { router } from 'next/client';
 
-function ModalContent({ params }: { params: Promise<{ id: string }> }) {
-  const { id } = use(params);
-  const router = useRouter();
-
-  return <CharacterDetails id={id} onClose={() => router.back()} />;
-}
-
-export default function Page({ params }: { params: Promise<{ id: string }> }) {
+export default function Page({ params }: { params: { id: string } }) {
   return (
     <Suspense fallback={null}>
-      <ModalContent params={params} />
+      <CharacterDetails id={params.id} onClose={() => router.back()} />
     </Suspense>
   );
 }

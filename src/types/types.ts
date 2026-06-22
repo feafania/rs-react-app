@@ -17,7 +17,7 @@ export interface ResultsDataProps {
   results: Character[];
   isLoading: boolean;
   isFetching: boolean;
-  error: string;
+  error: Error | null;
 }
 
 export type ExportCharacter =
@@ -30,7 +30,3 @@ export type ThemeContextType = {
   theme: Theme;
   toggleTheme: () => void;
 };
-
-export interface RootLayoutProps {
-  children: React.ReactNode;
-}

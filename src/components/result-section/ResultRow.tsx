@@ -1,6 +1,7 @@
 'use client';
 
-import Link from 'next/link';
+import { Link } from '../../i18n/navigation';
+import { useTranslations } from 'next-intl';
 import { useSearchParams } from 'next/navigation';
 import { useSelectedItemsStore } from '../../store';
 import './result-row.css';
@@ -13,7 +14,9 @@ interface ResultRowProps {
 
 export function ResultRow({ character }: ResultRowProps) {
   const { name } = character;
-  const description = getCharacterDescription(character);
+
+  const t = useTranslations('Details');
+  const description = getCharacterDescription(character, t);
 
   const searchParams = useSearchParams();
   const id = character.url.match(/people\/(\d+)\//)?.[1];
@@ -25,7 +28,7 @@ export function ResultRow({ character }: ResultRowProps) {
 
   if (!id) return null;
 
-  const href = `/details/${id}?${searchParams.toString()}`;
+  const href = `/details/${id}?${searchParams?.toString() ?? ''}`;
 
   return (
     <Link

@@ -4,7 +4,7 @@ import './main-page.css';
 import './pagination.css';
 
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { useSearchParams, useRouter, usePathname } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 
 import { ITEMS_PER_PAGE } from '../../constants';
 import { useLocalStorage } from '../../hooks/useLocalStorage';
@@ -19,6 +19,7 @@ import { SelectedFlyout } from '../../components/selected-flyout/SelectedFlyout'
 
 import { updateSearchParams } from '../../util/updateSearchParams';
 import { CharacterDetails } from '../character-details/CharacterDetails';
+import { usePathname, useRouter } from '../../i18n/navigation';
 
 export default function MainPage() {
   const searchParams = useSearchParams();
@@ -53,7 +54,7 @@ export default function MainPage() {
   const hasBootstrapped = useRef(false);
 
   if (shouldThrow) {
-    throw new Error('Test error triggered!');
+    throw new Error('trigger');
   }
 
   useEffect(() => {
@@ -91,7 +92,10 @@ export default function MainPage() {
     const newParams = updateSearchParams(params, {
       page: String(page),
     });
-    router.push(`/?${newParams.toString()}`);
+    router.replace({
+      pathname: '/',
+      query: Object.fromEntries(newParams),
+    });
   };
 
   const handleSearchSubmit = (term: string) => {
@@ -108,7 +112,7 @@ export default function MainPage() {
     router.push(`/?${newParams.toString()}`);
   };
 
-  const errorMessage = error instanceof Error ? error.message : '';
+  const queryError = error instanceof Error ? error : null;
   const { refreshAll } = useRefreshData();
 
   const isDetailsOpen = currentPath.includes('/details/');
@@ -129,7 +133,7 @@ export default function MainPage() {
           results={results}
           isLoading={isLoading}
           isFetching={isFetching}
-          error={errorMessage}
+          error={queryError}
           onRefresh={refreshAll}
         />
 

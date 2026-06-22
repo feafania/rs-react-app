@@ -1,17 +1,23 @@
+'use client';
+
+import { useTranslations } from 'next-intl';
 import type { ResultsDataProps } from '../../types/types.ts';
 import { ResultRow } from './ResultRow';
+import { getApiErrorKey } from '../../util/getApiErrorKey';
 
 export function ResultList({ results, error }: ResultsDataProps) {
+  const t = useTranslations('Search');
+  const apiT = useTranslations('ApiErrors');
   if (error) {
     return (
       <div className="error-state" role="alert">
-        {error}
+        {apiT(getApiErrorKey(error))}
       </div>
     );
   }
 
   if (results.length === 0) {
-    return <div className="empty-state">No results found</div>;
+    return <div className="empty-state">{t('noResults')}</div>;
   }
 
   return (
@@ -19,8 +25,8 @@ export function ResultList({ results, error }: ResultsDataProps) {
       <div className="results-table">
         <div className="results-header">
           <span />
-          <span>Item Name</span>
-          <span>Item Description</span>
+          <span>{t('itemName')}</span>
+          <span>{t('itemDescription')}</span>
         </div>
 
         <div className="results-body">

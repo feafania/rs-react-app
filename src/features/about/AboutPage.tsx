@@ -1,24 +1,24 @@
-import Image from 'next/image';
 import './about-page.css';
 
-export function AboutPage() {
+import { getTranslations } from 'next-intl/server';
+import Image from 'next/image';
+
+export async function AboutPage() {
+  const t = await getTranslations('About');
   return (
     <main className="about-page">
       <div className="about-card">
-        <h1>About this app</h1>
+        <h1>{t('title')}</h1>
 
-        <p>
-          This application allows you to search Star Wars characters using SWAPI
-          with pagination and routing.
-        </p>
+        <p>{t('description')}</p>
 
         <div className="about-author">
-          <h2>Author</h2>
-          <p>Tatsiana Kashko</p>
+          <h2>{t('author')}</h2>
+          <p>{t('authorName')}</p>
         </div>
 
         <div className="about-course">
-          <h2>Course</h2>
+          <h2>{t('course')}</h2>
 
           <a
             className="course-link"
@@ -34,7 +34,7 @@ export function AboutPage() {
               height={42}
             />
 
-            <span>RS School React Course</span>
+            <span>{t('courseName')}</span>
           </a>
         </div>
       </div>

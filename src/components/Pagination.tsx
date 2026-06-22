@@ -1,5 +1,7 @@
 'use client';
 
+import { useTranslations } from 'next-intl';
+
 interface PaginationProps {
   currentPage: number;
   totalPages: number;
@@ -11,6 +13,8 @@ export function Pagination({
   totalPages,
   onPageChange,
 }: PaginationProps) {
+  const t = useTranslations('Search');
+
   if (totalPages <= 1) return null;
 
   return (
@@ -20,11 +24,11 @@ export function Pagination({
         disabled={currentPage <= 1}
         onClick={() => onPageChange(currentPage - 1)}
       >
-        Prev
+        {t('prev')}
       </button>
 
       <span className="pagination-info">
-        Page {currentPage} of {totalPages}
+        {t('page')} {currentPage} {t('of')} {totalPages}
       </span>
 
       <button
@@ -32,7 +36,7 @@ export function Pagination({
         disabled={currentPage >= totalPages}
         onClick={() => onPageChange(currentPage + 1)}
       >
-        Next
+        {t('next')}
       </button>
     </div>
   );

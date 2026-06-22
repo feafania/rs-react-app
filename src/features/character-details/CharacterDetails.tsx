@@ -1,10 +1,12 @@
 'use client';
 
 import './character-details.css';
+import { useTranslations } from 'next-intl';
 import { useCharacterDetailsQuery } from '../../hooks/useCharacterDetailsQuery';
 import { useRefreshCharacterDetails } from '../../hooks/useRefreshCharacterDetails';
 import { CharacterDetailsSkeleton } from '../../components/skeletons/CharacterDetailsSkeleton';
 import { RefreshButton } from '../../components/RefreshButton';
+import { getApiErrorKey } from '../../util/getApiErrorKey';
 
 export function CharacterDetails({
   id,
@@ -22,6 +24,9 @@ export function CharacterDetails({
 
   const refresh = useRefreshCharacterDetails(id);
 
+  const t = useTranslations('Details');
+  const apiT = useTranslations('ApiErrors');
+
   return (
     <aside
       className="details-panel"
@@ -37,7 +42,7 @@ export function CharacterDetails({
       </div>
 
       {error instanceof Error && (
-        <div className="details-error">{error.message}</div>
+        <div className="details-error">{apiT(getApiErrorKey(error))}</div>
       )}
 
       {!isLoading && character && (
@@ -49,25 +54,25 @@ export function CharacterDetails({
           <h2>{character.name}</h2>
 
           <p>
-            <strong>Birth year:</strong> {character.birth_year}
+            <strong>{t('birthYear')}:</strong> {character.birth_year}
           </p>
           <p>
-            <strong>Gender:</strong> {character.gender}
+            <strong>{t('gender')}:</strong> {character.gender}
           </p>
           <p>
-            <strong>Height:</strong> {character.height}
+            <strong>{t('height')}:</strong> {character.height}
           </p>
           <p>
-            <strong>Mass:</strong> {character.mass}
+            <strong>{t('mass')}:</strong> {character.mass}
           </p>
           <p>
-            <strong>Hair color:</strong> {character.hair_color}
+            <strong>{t('hair')}:</strong> {character.hair_color}
           </p>
           <p>
-            <strong>Eye color:</strong> {character.eye_color}
+            <strong>{t('eyes')}:</strong> {character.eye_color}
           </p>
           <p>
-            <strong>Skin color:</strong> {character.skin_color}
+            <strong>{t('skin')}:</strong> {character.skin_color}
           </p>
         </div>
       )}

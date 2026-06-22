@@ -4,7 +4,7 @@ import { notFound } from 'next/navigation';
 import '../globals.css';
 import { routing } from '../../i18n/routing';
 import { Providers } from '../providers'; // 👈 Імпарт
-import { PageLayout } from '../../pages/page-layout/PageLayout';
+import { PageLayout } from '../../features/page-layout/PageLayout';
 
 type Locale = (typeof routing.locales)[number];
 
@@ -15,7 +15,7 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
   modal: React.ReactNode;
-  params: Promise<{ locale: string }>;
+  params: Promise<{ locale: Locale }>;
 }) {
   const { locale } = await params;
   if (!routing.locales.includes(locale as Locale)) {
