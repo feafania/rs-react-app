@@ -139,7 +139,11 @@ export default function MainPageClient({
   const isDetailsOpen = !!detailsId;
 
   if (!isHydrated) {
-    return <>{children}</>;
+    return (
+      <main className={`layout ${isDetailsOpen ? 'layout-split' : ''}`}>
+        {children}
+      </main>
+    );
   }
 
   return (

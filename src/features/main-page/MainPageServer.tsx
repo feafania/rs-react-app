@@ -40,7 +40,7 @@ export async function MainPageServer({
       initialTotalPages={totalPages}
       detailsId={detailsId}
     >
-      <main className={`layout ${detailsId ? 'layout-split' : ''}`}>
+      <div className={`layout ${detailsId ? 'layout-split' : ''}`}>
         <div className="main-panel">
           <SearchSectionServer
             initialSearch={normalizedSearch}
@@ -76,7 +76,7 @@ export async function MainPageServer({
         )}
 
         <SelectedFlyout results={initialData?.results ?? []} />
-      </main>
+      </div>
     </MainPageClient>
   );
 }
