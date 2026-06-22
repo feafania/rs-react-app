@@ -1,19 +1,12 @@
-'use client';
-
-import { queryClient } from '../lib/queryClient';
-import type { ExportCharacter } from '../types/types';
 import { fetchCharacterDetails } from '../api/swapiService';
-import { queryKeys } from '../api/queryKeys';
+import { ExportCharacter } from '../types/types';
 
 export async function fetchCharactersByIds(
   ids: string[]
 ): Promise<ExportCharacter[]> {
   const results = await Promise.allSettled(
     ids.map(async (id) => {
-      const data = await queryClient.fetchQuery({
-        queryKey: queryKeys.character(id),
-        queryFn: () => fetchCharacterDetails(id),
-      });
+      const data = await fetchCharacterDetails(id);
 
       return { id, data };
     })
@@ -21,17 +14,16 @@ export async function fetchCharactersByIds(
 
   return results.map((result, index) => {
     const id = ids[index];
-
     if (result.status === 'fulfilled') {
       return {
         status: 'fulfilled',
         data: result.value.data,
-      };
+      } satisfies Extract<ExportCharacter, { status: 'fulfilled' }>;
     }
 
     return {
       status: 'rejected',
       id,
-    };
+    } satisfies Extract<ExportCharacter, { status: 'rejected' }>;
   });
 }

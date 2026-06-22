@@ -1,7 +1,6 @@
 import type { Character, CharacterDetailsData } from '../types/types.ts';
 
 import { API_URL } from '../constants';
-import { getErrorMessage } from './errors';
 
 interface CharacterResults {
   results: Character[];
@@ -27,12 +26,14 @@ export async function fetchCharacters(
 
   params.set('page', String(page));
 
-  const response = await fetch(`${API_URL}/people/?${params.toString()}`);
+  const response = await fetch(`${API_URL}/people/?${params.toString()}`, {
+    next: {
+      revalidate: 600,
+    },
+  });
 
   if (!response.ok) {
-    throw new Error(
-      'Unable to load characters. ' + getErrorMessage(response.status)
-    );
+    throw new Error(String(response.status));
   }
 
   const data: SwapiResponse = await response.json();
@@ -46,12 +47,14 @@ export async function fetchCharacters(
 export async function fetchCharacterDetails(
   id: string
 ): Promise<CharacterDetailsData> {
-  const response = await fetch(`${API_URL}/people/${id}/`);
+  const response = await fetch(`${API_URL}/people/${id}/`, {
+    next: {
+      revalidate: 600,
+    },
+  });
 
   if (!response.ok) {
-    throw new Error(
-      'Unable to load character details. ' + getErrorMessage(response.status)
-    );
+    throw new Error(String(response.status));
   }
 
   return response.json();

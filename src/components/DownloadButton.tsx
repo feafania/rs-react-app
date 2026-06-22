@@ -1,64 +1,54 @@
-import { fetchCharactersByIds } from '../util/fetchCharactersByIds';
-import { buildCSV } from '../util/export/buildCsv';
-import { downloadFile } from '../util/export/downloadFile';
+'use client';
 
-type DownloadButtonProps = {
+import { useTranslations } from 'next-intl';
+
+type Props = {
   selectedItems: string[];
 };
 
-export function DownloadButton({ selectedItems }: DownloadButtonProps) {
+export function DownloadButton({ selectedItems }: Props) {
+  const t = useTranslations('Download');
+
   const handleDownload = async () => {
-    const ids = selectedItems;
+    const ids = selectedItems.map((id) => id.toString());
 
-    const characters = await fetchCharactersByIds(ids);
+    const res = await fetch('/api/export-csv', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        ids,
+        t: {
+          name: t('name'),
+          gender: t('gender'),
+          height: t('height'),
+          birthYear: t('birthYear'),
+          mass: t('mass'),
+          hair: t('hair'),
+          skin: t('skin'),
+          eyes: t('eyes'),
+          url: t('url'),
+          unknown: t('unknown'),
+          na: t('na'),
+        },
+      }),
+    });
 
-    const csv = buildCSV(
-      characters,
+    const csvText = await res.text();
+    const blob = new Blob(['\uFEFF' + csvText], {
+      type: 'text/csv;charset=utf-8;',
+    });
 
-      [
-        'Name',
-        'Gender',
-        'Height',
-        'Birth year',
-        'Mass',
-        'Hair color',
-        'Skin color',
-        'Eye color',
-        'URL',
-      ],
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
 
-      (item) => {
-        if (item.status === 'fulfilled') {
-          const c = item.data;
+    a.href = url;
+    a.download = `${ids.length}_items.csv`;
 
-          return [
-            c.name,
-            c.gender,
-            c.height,
-            c.birth_year,
-            c.mass,
-            c.hair_color,
-            c.skin_color,
-            c.eye_color,
-            c.url,
-          ];
-        }
+    a.click();
 
-        return [
-          `UNKNOWN (${item.id})`,
-          'N/A',
-          'N/A',
-          'N/A',
-          `N/A`,
-          `N/A`,
-          `N/A`,
-          `N/A`,
-          `N/A`,
-        ];
-      }
-    );
-
-    downloadFile(csv, `${ids.length}_items.csv`);
+    URL.revokeObjectURL(url);
   };
 
   return (
@@ -78,7 +68,7 @@ export function DownloadButton({ selectedItems }: DownloadButtonProps) {
         <path d="M12 15V3" />
       </svg>
 
-      <span>Download</span>
+      <span>{t('download')}</span>
     </button>
   );
 }
