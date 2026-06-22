@@ -5,6 +5,7 @@ import './pagination.css';
 
 import { useEffect, useRef, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
+import { useLocale } from 'next-intl';
 
 import { useLocalStorage } from '../../hooks/useLocalStorage';
 import { useCharactersQuery } from '../../hooks/useCharactersQuery';
@@ -45,6 +46,7 @@ export default function MainPageClient({
 }: ClientProps) {
   const searchParams = useSearchParams();
   const router = useRouter();
+  const locale = useLocale();
 
   const rawPage = Number(searchParams.get('page'));
   const rawSearch = (searchParams.get('search') ?? '').trim();
@@ -81,6 +83,15 @@ export default function MainPageClient({
     }, 0);
     return () => clearTimeout(timer);
   }, []);
+
+  useEffect(() => {
+    if (isHydrated && !rawSearch && storedSearch.trim()) {
+      const current = new URLSearchParams(window.location.search);
+      current.set('search', storedSearch.trim());
+      current.set('page', '1');
+      router.replace(`/?${current.toString()}`);
+    }
+  }, [isHydrated, rawSearch, storedSearch, router]);
 
   useEffect(() => {
     if (!totalPages || currentPage <= totalPages) return;
@@ -138,6 +149,8 @@ export default function MainPageClient({
           onSearch={handleSearchSubmit}
           onSearchInputChange={setInputValue}
           initialValue={inputValue}
+          locale={locale}
+          currentSearch={rawSearch}
         />
 
         <ResultsSection

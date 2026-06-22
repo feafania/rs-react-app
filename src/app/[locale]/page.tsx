@@ -32,6 +32,7 @@ export default async function Page({ params, searchParams }: PageProps) {
       search={normalizedSearch}
       currentPage={Number(finalPage) || 1}
       detailsId={detailsId}
+      locale={locale}
     />
   );
 }

@@ -1,3 +1,5 @@
+'use client';
+
 import { useTranslations } from 'next-intl';
 import type { ResultsDataProps } from '../../types/types.ts';
 import { ResultRow } from './ResultRow';

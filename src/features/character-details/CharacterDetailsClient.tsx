@@ -7,13 +7,16 @@ import { useRefreshCharacterDetails } from '../../hooks/useRefreshCharacterDetai
 import { CharacterDetailsSkeleton } from '../../components/skeletons/CharacterDetailsSkeleton';
 import { RefreshButton } from '../../components/RefreshButton';
 import { getApiErrorKey } from '../../util/getApiErrorKey';
+import { CharacterDetailsData } from '../../types/types';
 
 export function CharacterDetailsClient({
   id,
   onCloseAction,
+  initialData,
 }: {
   id: string;
   onCloseAction: () => void;
+  initialData?: CharacterDetailsData | null;
 }) {
   const {
     data: character,
@@ -27,12 +30,14 @@ export function CharacterDetailsClient({
   const t = useTranslations('Details');
   const apiT = useTranslations('ApiErrors');
 
+  const currentCharacter = character ?? initialData;
+
   return (
     <aside
       className="details-panel"
       onClick={(event) => event.stopPropagation()}
     >
-      {isLoading && <CharacterDetailsSkeleton />}
+      {isLoading && !initialData && <CharacterDetailsSkeleton />}
 
       <div className="details-header">
         <div className="details-drag-indicator" />
@@ -45,34 +50,34 @@ export function CharacterDetailsClient({
         <div className="details-error">{apiT(getApiErrorKey(error))}</div>
       )}
 
-      {!isLoading && character && (
+      {currentCharacter && (
         <div className="details-content">
           <div className="details-actions">
             <RefreshButton onRefreshAction={refresh} isFetching={isFetching} />
           </div>
 
-          <h2>{character.name}</h2>
+          <h2>{currentCharacter.name}</h2>
 
           <p>
-            <strong>{t('birthYear')}:</strong> {character.birth_year}
+            <strong>{t('birthYear')}:</strong> {currentCharacter.birth_year}
           </p>
           <p>
-            <strong>{t('gender')}:</strong> {character.gender}
+            <strong>{t('gender')}:</strong> {currentCharacter.gender}
           </p>
           <p>
-            <strong>{t('height')}:</strong> {character.height}
+            <strong>{t('height')}:</strong> {currentCharacter.height}
           </p>
           <p>
-            <strong>{t('mass')}:</strong> {character.mass}
+            <strong>{t('mass')}:</strong> {currentCharacter.mass}
           </p>
           <p>
-            <strong>{t('hair')}:</strong> {character.hair_color}
+            <strong>{t('hair')}:</strong> {currentCharacter.hair_color}
           </p>
           <p>
-            <strong>{t('eyes')}:</strong> {character.eye_color}
+            <strong>{t('eyes')}:</strong> {currentCharacter.eye_color}
           </p>
           <p>
-            <strong>{t('skin')}:</strong> {character.skin_color}
+            <strong>{t('skin')}:</strong> {currentCharacter.skin_color}
           </p>
         </div>
       )}

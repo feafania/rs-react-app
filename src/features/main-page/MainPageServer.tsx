@@ -13,12 +13,14 @@ type Props = {
   search: string;
   currentPage: number;
   detailsId?: string;
+  locale: string;
 };
 
 export async function MainPageServer({
   search,
   currentPage,
   detailsId,
+  locale,
 }: Props) {
   const normalizedSearch = search.trim();
 
@@ -40,7 +42,10 @@ export async function MainPageServer({
     >
       <main className={`layout ${detailsId ? 'layout-split' : ''}`}>
         <div className="main-panel">
-          <SearchSectionServer initialSearch={normalizedSearch} />
+          <SearchSectionServer
+            initialSearch={normalizedSearch}
+            locale={locale}
+          />
 
           {initialData ? (
             <>

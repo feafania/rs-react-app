@@ -1,7 +1,22 @@
-import { getTranslations } from 'next-intl/server';
+import { ResultsListSkeleton } from '../../components/skeletons/ResultsListSkeleton';
+import { CharacterDetailsSkeleton } from '../../components/skeletons/CharacterDetailsSkeleton';
 
-export default async function Loading() {
-  const t = await getTranslations('Loading');
-
-  return <div>{t('text')}</div>;
+export default function Loading() {
+  return (
+    <main className="layout layout-split">
+      <div className="main-panel">
+        <div
+          className="search-section-skeleton"
+          style={{
+            height: '50px',
+            marginBottom: '20px',
+            background: '#eaeaea',
+            borderRadius: '4px',
+          }}
+        />
+        <ResultsListSkeleton />
+      </div>
+      <CharacterDetailsSkeleton />
+    </main>
+  );
 }
