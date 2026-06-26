@@ -1,5 +1,5 @@
 import { NextIntlClientProvider } from 'next-intl';
-import { getMessages } from 'next-intl/server';
+import {getMessages, setRequestLocale} from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import '../globals.css';
 import { routing } from '../../i18n/routing';
@@ -14,6 +14,10 @@ import '../../components/result-section/result-section.css';
 import '../../components/result-section/result-row.css';
 import '../../components/selected-flyout/selected-flyout.css';
 
+export function generateStaticParams() {
+  return routing.locales.map((locale) => ({ locale }));
+}
+
 export default async function LocaleLayout({
   children,
   modal,
@@ -24,6 +28,8 @@ export default async function LocaleLayout({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
+
+  setRequestLocale(locale);
 
   const validLocale = locale as Locale;
   if (!routing.locales.includes(validLocale)) {
