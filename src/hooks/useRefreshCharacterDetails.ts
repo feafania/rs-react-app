@@ -1,5 +1,4 @@
 import { useQueryClient } from '@tanstack/react-query';
-
 import { queryKeys } from '../api/queryKeys';
 
 export function useRefreshCharacterDetails(id: string) {

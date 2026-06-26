@@ -1,17 +1,25 @@
+'use client';
+
+import { useTranslations } from 'next-intl';
+
 type RefreshButtonProps = {
-  onRefresh: () => void;
+  onRefreshAction: () => void;
   isFetching?: boolean;
 };
 
-export function RefreshButton({ onRefresh, isFetching }: RefreshButtonProps) {
+export function RefreshButton({
+  onRefreshAction,
+  isFetching,
+}: RefreshButtonProps) {
+  const t = useTranslations('Search');
   return (
     <button
       type="button"
-      onClick={onRefresh}
+      onClick={onRefreshAction}
       className="refresh-button"
       disabled={isFetching}
     >
-      {isFetching ? <div className="refresh-spinner" /> : 'Refresh'}
+      {isFetching ? <div className="refresh-spinner" /> : t('refresh')}
     </button>
   );
 }

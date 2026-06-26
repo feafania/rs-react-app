@@ -17,7 +17,7 @@ export interface ResultsDataProps {
   results: Character[];
   isLoading: boolean;
   isFetching: boolean;
-  error: string;
+  error: Error | null;
 }
 
 export type ExportCharacter =

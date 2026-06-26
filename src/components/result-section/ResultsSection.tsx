@@ -1,8 +1,11 @@
-import type { ResultsDataProps } from '../../types/types.ts';
-import { ResultList } from './ResultList.tsx';
+'use client';
 import './result-section.css';
-import { ResultsListSkeleton } from '../skeletons/ResultsListSkeleton.tsx';
-import { RefreshButton } from '../RefreshButton.tsx';
+import { ResultsDataProps } from '../../types/types';
+import { RefreshButton } from '../RefreshButton';
+import { ResultsListSkeleton } from '../skeletons/ResultsListSkeleton';
+import { ResultListClient } from './ResultListClient';
+import { useTranslations } from 'next-intl';
+import './result-section.css';
 
 type ResultsSectionProps = ResultsDataProps & {
   onRefresh: () => void;
@@ -15,17 +18,18 @@ export function ResultsSection({
   error,
   onRefresh,
 }: ResultsSectionProps) {
+  const t = useTranslations('Search');
   return (
     <section className="results-section">
       <div className="results-header-bar">
-        <h2>Results</h2>
+        <h2>{t('results')}</h2>
 
         <div className="results-actions">
-          <RefreshButton onRefresh={onRefresh} isFetching={isFetching} />
+          <RefreshButton onRefreshAction={onRefresh} isFetching={isFetching} />
 
           {isFetching && !isLoading && (
             <div className="small-loading-indicator">
-              <span>Updating…</span>
+              <span>{t('updating')}</span>
             </div>
           )}
         </div>
@@ -34,7 +38,7 @@ export function ResultsSection({
       {isLoading ? (
         <ResultsListSkeleton />
       ) : (
-        <ResultList
+        <ResultListClient
           results={results}
           isLoading={isLoading}
           isFetching={isFetching}

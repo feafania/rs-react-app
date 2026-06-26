@@ -1,14 +1,18 @@
+'use client';
+
+import { useTranslations } from 'next-intl';
 import { useSelectedItemsStore } from '../../store';
 import type { Character } from '../../types/types.ts';
 
 import './selected-flyout.css';
-import { DownloadButton } from '../DownloadButton.tsx';
+import { DownloadButton } from '../DownloadButton';
 
 type SelectedFlyoutProps = {
   results: Character[];
 };
 
 export function SelectedFlyout({ results }: SelectedFlyoutProps) {
+  const t = useTranslations('Selection');
   const selectedItems = useSelectedItemsStore((state) => state.selectedItems);
   const clearItems = useSelectedItemsStore((state) => state.clearItems);
   const toggleItems = useSelectedItemsStore((state) => state.toggleItems);
@@ -22,17 +26,18 @@ export function SelectedFlyout({ results }: SelectedFlyoutProps) {
   return (
     <div className="selected-flyout">
       <div className="selected-flyout__info">
-        Selected: <b>{selectedItems.length}</b>
+        {t('selected')}: <b>{selectedItems.length}</b>
       </div>
 
       <div className="selection-actions">
         <button className="clear-button" onClick={clearItems}>
-          Unselect all
+          {t('clear')}
         </button>
 
         <button className="toggle-button" onClick={() => toggleItems(ids)}>
-          Toggle page
+          {t('toggle')}
         </button>
+
         <DownloadButton selectedItems={selectedItems} />
       </div>
     </div>

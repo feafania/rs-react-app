@@ -1,8 +1,11 @@
-import { type Character } from '../../types/types.ts';
-import { getCharacterDescription } from '../../util/getCharacterDescription.ts';
-import { Link, useSearchParams } from 'react-router';
+'use client';
 
+import { Link } from '../../i18n/navigation';
+import { useTranslations } from 'next-intl';
+import { useSearchParams } from 'next/navigation';
 import { useSelectedItemsStore } from '../../store';
+import { Character } from '../../types/types';
+import { getCharacterDescription } from '../../util/getCharacterDescription';
 import './result-row.css';
 
 interface ResultRowProps {
@@ -12,25 +15,28 @@ interface ResultRowProps {
 export function ResultRow({ character }: ResultRowProps) {
   const { name } = character;
 
-  const description = getCharacterDescription(character);
+  const t = useTranslations('Details');
+  const description = getCharacterDescription(character, t);
 
-  const [searchParams] = useSearchParams();
-
+  const searchParams = useSearchParams();
   const id = character.url.match(/people\/(\d+)\//)?.[1];
 
   const toggleItem = useSelectedItemsStore((state) => state.toggleItem);
-
   const isSelected = useSelectedItemsStore((state) =>
     id ? state.isSelected(id) : false
   );
 
   if (!id) return null;
 
+  const params = new URLSearchParams(searchParams?.toString() ?? '');
+  params.set('detailsId', id);
+  const rowHref = `/?${params.toString()}`;
+
   return (
     <Link
-      to={`/details/${id}?${searchParams.toString()}`}
+      href={rowHref}
       className="result-row"
-      onClick={(event) => event.stopPropagation()}
+      style={{ textDecoration: 'none', color: 'inherit', display: 'grid' }}
     >
       <label
         className="result-checkbox"
@@ -41,11 +47,10 @@ export function ResultRow({ character }: ResultRowProps) {
         }}
       >
         <input type="checkbox" checked={isSelected} readOnly />
-
         <span className="checkbox-custom" />
       </label>
-      <span className="result-name">{name}</span>
 
+      <span className="result-name">{name}</span>
       <span className="result-description">{description}</span>
     </Link>
   );

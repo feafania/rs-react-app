@@ -1,0 +1,97 @@
+{
+  "Layout": {
+    "title": "Star Wars Character Explorer",
+    "home": "Home",
+    "about": "About",
+    "dark": "🌙 Dark",
+    "light": "☀️ Light"
+  },
+
+  "Search": {
+    "placeholder": "Search...",
+    "ariaLabel": "Search characters",
+    "button": "Search",
+    "results": "Results",
+    "refresh": "Refresh",
+    "updating": "Updating…",
+    "noResults": "No results found",
+    "page": "Page",
+    "of": "of",
+    "prev": "Prev",
+    "next": "Next",
+    "itemName": "Item Name",
+    "itemDescription": "Item Description"
+  },
+
+  "Details": {
+    "birthYear": "Birth year",
+    "gender": "Gender",
+    "height": "Height",
+    "mass": "Mass",
+    "hair": "Hair color",
+    "eyes": "Eye color",
+    "skin": "Skin color"
+  },
+
+  "About": {
+    "title": "About this app",
+    "description": "This application allows you to search Star Wars characters using SWAPI with pagination and routing.",
+    "author": "Author",
+    "authorName": "Tatsiana Kashko",
+    "course": "Course",
+    "courseName": "RS School React Course"
+  },
+
+  "NotFound": {
+    "title": "Page Not Found",
+    "back": "Return to Home",
+    "quotes": [
+      "I've got a bad feeling about this.",
+      "These aren't the droids you're looking for.",
+      "Do. Or do not. There is no try.",
+      "In my experience there is no such thing as luck.",
+      "The Force will be with you. Always.",
+      "Fear is the path to the dark side.",
+      "I am one with the Force, and the Force is with me.",
+      "Help me, Obi-Wan Kenobi. You're my only hope."
+    ]
+  },
+
+  "Selection": {
+    "selected": "Selected",
+    "clear": "Unselect all",
+    "toggle": "Toggle page",
+    "download": "Download"
+  },
+
+  "Error": {
+    "trigger": "Trigger Error",
+    "somethingWrong": "Something went wrong",
+    "tryAgain": "Try again"
+  },
+
+  "ApiErrors": {
+    "404": "Requested data was not found.",
+    "500": "Please try again later.",
+    "default": "Something went wrong."
+  },
+
+  "Download": {
+    "download": "Download",
+    "name": "Name",
+    "gender": "Gender",
+    "height": "Height",
+    "birthYear": "Birth year",
+    "mass": "Mass",
+    "hair": "Hair color",
+    "skin": "Skin color",
+    "eyes": "Eye color",
+    "url": "URL",
+    "unknown": "UNKNOWN",
+    "na": "N/A"
+  },
+
+  "Loading": {
+    "text": "Loading..."
+  }
+}

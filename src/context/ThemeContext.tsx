@@ -1,6 +1,8 @@
+'use client';
+
 import { createContext, useEffect, type ReactNode } from 'react';
-import { useLocalStorage } from '../hooks/useLocalStorage.ts';
-import type { Theme, ThemeContextType } from '../types/types.ts';
+import type { Theme, ThemeContextType } from '../types/types';
+import { useLocalStorage } from '../hooks/useLocalStorage';
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
